@@ -3,20 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.webapi\\clientservice.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\clientservice.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dbmontantcredit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dbmontantcredit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dbparamcategsocioprof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dbparamcategsocioprof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dbparamcodepostal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dbparamcodepostal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dbparamdepartement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dbparamdepartement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dbparampays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dbparampays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dbparamregion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dbparamregion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dbparamtypevoie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dbparamtypevoie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.infrastructure\\clientservice.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|solutionrelative:clientservice.infrastructure\\clientservice.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|solutionrelative:clientservice.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dblanguageparamcategsocioprof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dblanguageparamcategsocioprof.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\entities\\dbfacturetypereglement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\entities\\dbfacturetypereglement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.webapi\\clientservice.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\clientservice.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,25 +54,103 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ClientService.WebAPI",
-              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
-              "RelativeDocumentMoniker": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
-              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
-              "RelativeToolTip": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-02-12T10:06:59.598Z",
+              "DocumentIndex": 2,
+              "Title": "DbParamCodePostal.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamCodePostal.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbParamCodePostal.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamCodePostal.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbParamCodePostal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:21:19.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DbParamDepartement.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamDepartement.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbParamDepartement.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamDepartement.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbParamDepartement.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAwBwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:21:57.629Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DbParamPays.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamPays.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbParamPays.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamPays.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbParamPays.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:22:19.844Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DbParamRegion.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamRegion.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbParamRegion.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamRegion.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbParamRegion.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAuwBYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:22:39.629Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DbParamTypeVoie.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamTypeVoie.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbParamTypeVoie.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamTypeVoie.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbParamTypeVoie.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:23:00.949Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ClientService.Infrastructure",
+              "Title": "DbParamCategSocioProf.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamCategSocioProf.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbParamCategSocioProf.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbParamCategSocioProf.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbParamCategSocioProf.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:20:48.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DbMontantCredit.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbMontantCredit.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbMontantCredit.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbMontantCredit.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbMontantCredit.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:20:14.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ClientService.Infrastructure.csproj",
               "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
               "RelativeDocumentMoniker": "ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
               "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
@@ -56,28 +162,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Infrastructure\\Class1.cs",
-              "RelativeDocumentMoniker": "ClientService.Infrastructure\\Class1.cs",
-              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Infrastructure\\Class1.cs",
-              "RelativeToolTip": "ClientService.Infrastructure\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "DbLanguageParamCategSocioProf.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbLanguageParamCategSocioProf.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbLanguageParamCategSocioProf.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbLanguageParamCategSocioProf.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbLanguageParamCategSocioProf.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-12T10:02:20.41Z",
+              "WhenOpened": "2025-02-12T10:19:27.914Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Class1.cs",
-              "RelativeDocumentMoniker": "ClientService.Core\\Class1.cs",
-              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Class1.cs",
-              "RelativeToolTip": "ClientService.Core\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "DbFactureTypeReglement.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbFactureTypeReglement.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbFactureTypeReglement.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbFactureTypeReglement.cs",
+              "RelativeToolTip": "ClientService.Core\\Entities\\DbFactureTypeReglement.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-12T10:01:45.756Z",
+              "WhenOpened": "2025-02-12T10:17:46.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ClientService.WebAPI.csproj",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "RelativeDocumentMoniker": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "RelativeToolTip": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-02-12T10:06:59.598Z",
               "EditorCaption": ""
             }
           ]
