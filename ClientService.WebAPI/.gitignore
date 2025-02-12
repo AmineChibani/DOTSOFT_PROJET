@@ -1,6 +1,6 @@
 ﻿# Ignore appsettings file
-ClientService.WebAPI/appsettings.json
-ClientService.WebAPI/appsettings.Development.json
+**/appsettings.json
+**/appsettings.Development.json
 
 # Ignore build output
 /bin
