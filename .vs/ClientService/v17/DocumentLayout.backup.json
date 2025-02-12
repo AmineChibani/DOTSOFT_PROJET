@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\controllers\\databasetestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\controllers\\databasetestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,6 +13,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\controllers\\databasetestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\controllers\\databasetestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\clientservice.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -97,29 +101,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\.gitignore",
+              "RelativeDocumentMoniker": "ClientService.WebAPI\\.gitignore",
+              "ToolTip": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\.gitignore",
+              "RelativeToolTip": "ClientService.WebAPI\\.gitignore",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-02-12T14:43:18.083Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "DatabaseTestController.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\Controllers\\DatabaseTestController.cs",
               "RelativeDocumentMoniker": "ClientService.WebAPI\\Controllers\\DatabaseTestController.cs",
               "ToolTip": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\Controllers\\DatabaseTestController.cs",
               "RelativeToolTip": "ClientService.WebAPI\\Controllers\\DatabaseTestController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-12T14:04:16.493Z",
               "EditorCaption": ""
@@ -127,19 +136,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ClientService.WebAPI",
-              "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
-              "RelativeDocumentMoniker": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
-              "ToolTip": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
-              "RelativeToolTip": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-02-12T13:51:23.975Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\appsettings.json",
               "RelativeDocumentMoniker": "ClientService.WebAPI\\appsettings.json",
@@ -152,20 +148,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\Program.cs",
               "RelativeDocumentMoniker": "ClientService.WebAPI\\Program.cs",
               "ToolTip": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\Program.cs",
               "RelativeToolTip": "ClientService.WebAPI\\Program.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-12T13:43:16.239Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "DroitsSpeciaux.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Business.Client\\DroitsSpeciaux.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Business.Client\\DroitsSpeciaux.cs",
@@ -173,12 +169,11 @@
               "RelativeToolTip": "ClientService.Core\\Business.Client\\DroitsSpeciaux.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-12T13:36:28.438Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T13:36:28.438Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "CA.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Business.Client\\CA.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Business.Client\\CA.cs",
@@ -190,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Avoirs.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Business.Client\\Avoirs.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Business.Client\\Avoirs.cs",
@@ -202,20 +197,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Infrastructure\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "ClientService.Infrastructure\\Data\\AppDbContext.cs",
               "ToolTip": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Infrastructure\\Data\\AppDbContext.cs",
               "RelativeToolTip": "ClientService.Infrastructure\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAJQAAAAAAAAAAADwvycAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-12T13:11:42.013Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
+              "Title": "ClientService.WebAPI.csproj",
+              "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "RelativeDocumentMoniker": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "ToolTip": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "RelativeToolTip": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-02-12T13:51:23.975Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "ClientService.Infrastructure.csproj",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
               "RelativeDocumentMoniker": "ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
@@ -223,12 +230,11 @@
               "RelativeToolTip": "ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-02-12T13:20:37.218Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T13:20:37.218Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "readme.txt",
               "DocumentMoniker": "C:\\Users\\Amine\\.nuget\\packages\\oracle.entityframeworkcore\\8.21.121\\readme.txt",
               "RelativeDocumentMoniker": "..\\..\\..\\.nuget\\packages\\oracle.entityframeworkcore\\8.21.121\\readme.txt",
@@ -240,7 +246,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "ClientService.Core.csproj",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\ClientService.Core.csproj",
               "RelativeDocumentMoniker": "ClientService.Core\\ClientService.Core.csproj",
@@ -248,12 +254,11 @@
               "RelativeToolTip": "ClientService.Core\\ClientService.Core.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-02-12T12:47:42.26Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T12:47:42.26Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "EnCours.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Business.Client\\EnCours.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Business.Client\\EnCours.cs",
@@ -265,7 +270,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "DbFactureTypeReglement.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbFactureTypeReglement.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbFactureTypeReglement.cs",
@@ -277,7 +282,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "DbEcommerceBa.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbEcommerceBa.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbEcommerceBa.cs",
@@ -289,7 +294,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "DbClientOptin.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbClientOptin.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbClientOptin.cs",
@@ -301,7 +306,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "DbClientOperation.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbClientOperation.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbClientOperation.cs",
@@ -313,7 +318,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "DbClientFactureLigne.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbClientFactureLigne.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbClientFactureLigne.cs",
@@ -325,7 +330,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "DbClientFacture.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbClientFacture.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbClientFacture.cs",
@@ -337,7 +342,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "DbClient.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbClient.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbClient.cs",
@@ -349,7 +354,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "DbLanguageParamCategSocioProf.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbLanguageParamCategSocioProf.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbLanguageParamCategSocioProf.cs",
@@ -361,7 +366,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "DbClientAdresseComplement.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbClientAdresseComplement.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbClientAdresseComplement.cs",
@@ -373,7 +378,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "DbClientAdresse.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Core\\Entities\\DbClientAdresse.cs",
               "RelativeDocumentMoniker": "ClientService.Core\\Entities\\DbClientAdresse.cs",
@@ -382,6 +387,14 @@
               "ViewState": "AgIAABAAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-12T10:32:30.394Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             }
           ]
         }
