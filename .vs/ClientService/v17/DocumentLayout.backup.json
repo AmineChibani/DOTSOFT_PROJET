@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|solutionrelative:clientservice.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|solutionrelative:clientservice.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\amine\\documents\\projects\\dotsoft_projet\\clientservice.webapi\\controllers\\databasetestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -115,7 +115,7 @@
               "RelativeDocumentMoniker": "ClientService.WebAPI\\.gitignore",
               "ToolTip": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\.gitignore",
               "RelativeToolTip": "ClientService.WebAPI\\.gitignore",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-02-12T14:43:18.083Z",
               "EditorCaption": ""
@@ -130,8 +130,7 @@
               "RelativeToolTip": "ClientService.WebAPI\\Controllers\\DatabaseTestController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-12T14:04:16.493Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T14:04:16.493Z"
             },
             {
               "$type": "Document",
@@ -143,12 +142,11 @@
               "RelativeToolTip": "ClientService.WebAPI\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-02-12T14:00:11.353Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T14:00:11.353Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.WebAPI\\Program.cs",
               "RelativeDocumentMoniker": "ClientService.WebAPI\\Program.cs",
@@ -197,7 +195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Amine\\Documents\\projects\\DOTSOFT_PROJET\\ClientService.Infrastructure\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "ClientService.Infrastructure\\Data\\AppDbContext.cs",
@@ -205,8 +203,7 @@
               "RelativeToolTip": "ClientService.Infrastructure\\Data\\AppDbContext.cs",
               "ViewState": "AgIAAJQAAAAAAAAAAADwvycAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-12T13:11:42.013Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T13:11:42.013Z"
             },
             {
               "$type": "Document",
