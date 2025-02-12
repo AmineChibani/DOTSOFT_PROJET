@@ -6,28 +6,39 @@ using System.Linq.Expressions;
 using Oracle.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using ClientService.Core.Business.Client;
+using Microsoft.Extensions.Configuration;
 
 
 namespace ClientService.Infrastructure.Data
 {
     public class AppDbContext : DbContext
     {
-        public static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create((Action<ILoggingBuilder>)(builder => ConsoleLoggerExtensions.AddConsole(builder)));
+        private readonly ILogger<AppDbContext> _logger;
+        private readonly IConfiguration _configuration;
 
-        public AppDbContext()
-        {
-        }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-          : base((DbContextOptions)options)
+        public AppDbContext(DbContextOptions<AppDbContext> options,
+                            ILogger<AppDbContext> logger,
+                            IConfiguration configuration)
+            : base(options)
         {
+            _logger = logger;
+            _configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLoggerFactory(AppDbContext._loggerFactory);
+            // Get the connection string from appsettings.json
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+            // Use the logger factory
+            optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
+
+            // Enable sensitive data logging (use cautiously in production)
             optionsBuilder.EnableSensitiveDataLogging();
-            OracleDbContextOptionsExtensions.UseOracle(optionsBuilder, "User Id=myuser;Password=mypassword;Data Source=mydb", (Action<OracleDbContextOptionsBuilder>)null);
+
+            // Use provider Oracle DbContext options extension with the connection string
+            optionsBuilder.UseOracle(connectionString);
         }
 
         public DbSet<DbClient> Clients { get; set; }

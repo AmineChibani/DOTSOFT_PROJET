@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Core", "ClientService.Core\ClientService.Core.csproj", "{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientService.Core", "ClientService.Core\ClientService.Core.csproj", "{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Infrastructure", "ClientService.Infrastructure\ClientService.Infrastructure.csproj", "{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientService.Infrastructure", "ClientService.Infrastructure\ClientService.Infrastructure.csproj", "{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.WebAPI", "ClientService.WebAPI\ClientService.WebAPI.csproj", "{597572E1-6592-4473-AF20-4DA133856F52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientService.WebAPI", "ClientService.WebAPI\ClientService.WebAPI.csproj", "{597572E1-6592-4473-AF20-4DA133856F52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
