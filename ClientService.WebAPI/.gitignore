@@ -1,0 +1,24 @@
+﻿# Ignore appsettings file
+**/appsettings.json
+**/appsettings.Development.json
+
+# Ignore build output
+/bin
+/obj
+
+# Ignore IDE-specific files (for Visual Studio)
+.vs
+.idea
+.vscode
+
+# Ignore user-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Ignore node_modules (if you use npm)
+node_modules/
+
+# Ignore logs
+logs/

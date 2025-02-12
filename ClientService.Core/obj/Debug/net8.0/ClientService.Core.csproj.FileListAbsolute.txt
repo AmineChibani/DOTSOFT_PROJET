@@ -1,0 +1,13 @@
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\bin\Debug\net8.0\ClientService.Core.deps.json
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\bin\Debug\net8.0\ClientService.Core.dll
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\bin\Debug\net8.0\ClientService.Core.pdb
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ClientService.Core.csproj.AssemblyReference.cache
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ClientService.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ClientService.Core.AssemblyInfoInputs.cache
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ClientService.Core.AssemblyInfo.cs
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ClientService.Core.csproj.CoreCompileInputs.cache
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ClientService.Core.sourcelink.json
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ClientService.Core.dll
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\refint\ClientService.Core.dll
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ClientService.Core.pdb
+C:\Users\Amine\Documents\projects\DOTSOFT_PROJET\ClientService.Core\obj\Debug\net8.0\ref\ClientService.Core.dll
