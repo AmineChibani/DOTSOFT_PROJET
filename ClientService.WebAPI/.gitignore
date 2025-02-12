@@ -1,6 +1,7 @@
-﻿# Ignore appsettings file
-**/appsettings.json
-**/appsettings.Development.json
+﻿# Ignore appsettings files
+appsettings.json
+appsettings.Development.json
+
 
 # Ignore build output
 /bin
