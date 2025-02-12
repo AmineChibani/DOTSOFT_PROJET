@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.webapi\\clientservice.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{597572E1-6592-4473-AF20-4DA133856F52}|ClientService.WebAPI\\ClientService.WebAPI.csproj|solutionrelative:clientservice.webapi\\clientservice.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.infrastructure\\clientservice.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|solutionrelative:clientservice.infrastructure\\clientservice.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EBABC01A-1C0D-43E9-B47F-3D716E8B36AB}|ClientService.Infrastructure\\ClientService.Infrastructure.csproj|solutionrelative:clientservice.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|c:\\users\\ali\\desktop\\dotsoft_projet\\clientservice.core\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8A32A72-8246-4E7D-A6F1-60C90AC0FEFA}|ClientService.Core\\ClientService.Core.csproj|solutionrelative:clientservice.core\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClientService.WebAPI",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "RelativeDocumentMoniker": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "RelativeToolTip": "ClientService.WebAPI\\ClientService.WebAPI.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-02-12T10:06:59.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClientService.Infrastructure",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
+              "RelativeToolTip": "ClientService.Infrastructure\\ClientService.Infrastructure.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-02-12T10:06:55.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Infrastructure\\Class1.cs",
+              "RelativeDocumentMoniker": "ClientService.Infrastructure\\Class1.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Infrastructure\\Class1.cs",
+              "RelativeToolTip": "ClientService.Infrastructure\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:02:20.41Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Class1.cs",
+              "RelativeDocumentMoniker": "ClientService.Core\\Class1.cs",
+              "ToolTip": "C:\\Users\\ali\\Desktop\\DOTSOFT_PROJET\\ClientService.Core\\Class1.cs",
+              "RelativeToolTip": "ClientService.Core\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T10:01:45.756Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
