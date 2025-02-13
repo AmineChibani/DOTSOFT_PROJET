@@ -1,4 +1,6 @@
+using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Data;
+using ClientService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
 //Register logger
 builder.Services.AddLogging();
-
+builder.Services.AddScoped<IClientService, ClientService.Core.Services.ClientService>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 var app = builder.Build();
 
