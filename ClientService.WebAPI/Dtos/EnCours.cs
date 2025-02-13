@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientService.Core.Entities
+namespace ClientService.WebAPI.Dtos
 {
     public class EnCours
     {
