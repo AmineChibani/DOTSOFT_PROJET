@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using System.Data;
 using System.Linq.Expressions;
-using Oracle.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
-using ClientService.Core.Business.Client;
 using Microsoft.Extensions.Configuration;
 
 
@@ -73,11 +71,11 @@ namespace ClientService.Infrastructure.Data
 
         public DbSet<EnCours> Encours { get; set; }
 
-        public DbSet<Core.Business.Client.Avoirs> Avoirs { get; set; }
+        public DbSet<Avoirs> Avoirs { get; set; }
 
-        public DbSet<Core.Business.Client.CA> CA { get; set; }
+        public DbSet<CA> CA { get; set; }
 
-        public DbSet<Core.Business.Client.DroitsSpeciaux> DroitsSpeciaux { get; set; }
+        public DbSet<DroitsSpeciaux> DroitsSpeciaux { get; set; }
 
         public DbSet<DbMontantCredit> MontantCredits { get; set; }
 
@@ -130,9 +128,9 @@ namespace ClientService.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<EnCours>().HasNoKey();
-            modelBuilder.Entity<Core.Business.Client.Avoirs>().HasNoKey();
-            modelBuilder.Entity<Core.Business.Client.CA>().HasNoKey();
-            modelBuilder.Entity<Core.Business.Client.DroitsSpeciaux>().HasNoKey();
+            modelBuilder.Entity<Avoirs>().HasNoKey();
+            modelBuilder.Entity<CA>().HasNoKey();
+            modelBuilder.Entity<DroitsSpeciaux>().HasNoKey();
             modelBuilder.Entity<DbClient>().HasMany<DbClientAdresse>((Expression<Func<DbClient, IEnumerable<DbClientAdresse>>>)(x => x.ClientAdresses)).WithOne((Expression<Func<DbClientAdresse, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresse, object>>)(x => (object)x.ClientId));
             modelBuilder.Entity<DbClientFacture>().HasMany<DbClientFactureLigne>((Expression<Func<DbClientFacture, IEnumerable<DbClientFactureLigne>>>)(x => x.ClientFactureLignes)).WithOne((Expression<Func<DbClientFactureLigne, DbClientFacture>>)(x => x.ClientFacture)).HasForeignKey((Expression<Func<DbClientFactureLigne, object>>)(x => (object)x.IdFactureC));
             modelBuilder.Entity<DbFactureTypeReglement>().HasMany<DbClientOperation>((Expression<Func<DbFactureTypeReglement, IEnumerable<DbClientOperation>>>)(x => x.ClientOperations)).WithOne((Expression<Func<DbClientOperation, DbFactureTypeReglement>>)(x => x.FactureTypeReglement)).HasForeignKey((Expression<Func<DbClientOperation, object>>)(x => (object)x.IdTypeReglement));
