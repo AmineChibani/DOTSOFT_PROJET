@@ -118,9 +118,9 @@ namespace ClientService.Core.Entities
         [Column("LIVR_RAISON_SOCIALE")]
         public string LivrRaisonSociale { get; set; }
 
-        public ICollection<DbClientAdresse> ClientAdresses { get; set; }
+        public List<DbClientAdresse> ClientAdresses { get; set; }
 
-        public ICollection<DbClientAdresseComplement> ClientAdresseComplement { get; set; }
+        public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; }
 
         public virtual DbClientOptin ClientOptin { get; set; }
     }   

@@ -21,6 +21,6 @@ namespace ClientService.Core.Entities
         [Column("NOM")]
         public string Nom { get; set; }
 
-        public ICollection<DbParamCategSocioProf> DbParamCategSocioProfs { get; set; }
+        public List<DbParamCategSocioProf> DbParamCategSocioProfs { get; set; }
     }
 }

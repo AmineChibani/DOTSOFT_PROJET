@@ -44,6 +44,6 @@ namespace ClientService.Core.Entities
         [Column("ID_STRUCTURE")]
         public int? IdStructure { get; set; }
 
-        public ICollection<DbClientFactureLigne> ClientFactureLignes { get; set; }
+        public List<DbClientFactureLigne> ClientFactureLignes { get; set; }
     }
 }

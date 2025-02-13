@@ -18,6 +18,6 @@ namespace ClientService.Core.Entities
         [Column("COMPTANT")]
         public int? Comptant { get; set; }
 
-        public ICollection<DbClientOperation> ClientOperations { get; set; }
+        public List<DbClientOperation> ClientOperations { get; set; }
     }
 }
