@@ -70,6 +70,7 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbLanguageParamCategSocioProf> LanguageParamCategSocioProfs { get; set; }
 
         public DbSet<DbMontantCredit> MontantCredits { get; set; }
+        public DbSet<DbDroitsSpeciaux> DroitSpeciaux { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
