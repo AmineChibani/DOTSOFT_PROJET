@@ -2,6 +2,6 @@
 {
     public class DbDroitsSpeciaux
     {
-        public string DroitsEmployes { get; set; }
+        public string Droit { get; set; }
     }
 }
