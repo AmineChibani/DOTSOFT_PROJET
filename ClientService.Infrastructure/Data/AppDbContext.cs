@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 
 
+
 namespace ClientService.Infrastructure.Data
 {
     public class AppDbContext : DbContext
@@ -36,7 +37,8 @@ namespace ClientService.Infrastructure.Data
             optionsBuilder.EnableSensitiveDataLogging();
 
             // Use provider Oracle DbContext options extension with the connection string
-            optionsBuilder.UseOracle(connectionString);
+            optionsBuilder.UseOracle(connectionString).LogTo(Console.WriteLine, LogLevel.Information);
+            ;
         }
 
         public DbSet<DbClient> Clients { get; set; }
@@ -71,6 +73,7 @@ namespace ClientService.Infrastructure.Data
 
         public DbSet<DbMontantCredit> MontantCredits { get; set; }
         public DbSet<DbDroitsSpeciaux> DroitSpeciaux { get; set; }
+
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
@@ -120,6 +123,11 @@ namespace ClientService.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<>.HasNoKey();
+            //modelBuilder.Entity<Avoirs>().HasNoKey();
+            //modelBuilder.Entity<ClientService.CA>().HasNoKey();
+            modelBuilder.Entity<DbClient>()
+        .ToTable("CLIENT", "DOTSOFT");
             modelBuilder.Entity<DbDroitsSpeciaux>().HasNoKey();
             modelBuilder.Entity<DbClient>().HasMany<DbClientAdresse>((Expression<Func<DbClient, IEnumerable<DbClientAdresse>>>)(x => x.ClientAdresses)).WithOne((Expression<Func<DbClientAdresse, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresse, object>>)(x => (object)x.ClientId));
             modelBuilder.Entity<DbClientFacture>().HasMany<DbClientFactureLigne>((Expression<Func<DbClientFacture, IEnumerable<DbClientFactureLigne>>>)(x => x.ClientFactureLignes)).WithOne((Expression<Func<DbClientFactureLigne, DbClientFacture>>)(x => x.ClientFacture)).HasForeignKey((Expression<Func<DbClientFactureLigne, object>>)(x => (object)x.IdFactureC));

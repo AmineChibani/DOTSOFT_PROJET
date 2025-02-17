@@ -16,17 +16,22 @@ namespace ClientService.WebAPI.Controllers
             _clientService = clientService;
         }
 
-
-        [HttpGet("{clientId:int}")]
-        public async Task<IActionResult> GetClientById([FromRoute]int clientId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetClientById(int id)
         {
-            var client = await _clientService.GetClientById(clientId);
-            if (!client.IsSuccess)
+            var client = await _clientService.GetClientById(id);
+            if (client == null)
             {
-                return NotFound(client.Error);
+                return NotFound();
             }
-            return Ok(client.Value);
+            return Ok(client);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetClients()
+        {
+            var clients = await _clientService.GetClients();
+            return Ok(clients);
+        }
     }
 }

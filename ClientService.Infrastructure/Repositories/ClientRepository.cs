@@ -1,32 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ClientService.Core.Common;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Oracle.ManagedDataAccess.Client;
 
 namespace ClientService.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private readonly AppDbContext _appcontext;
+        private readonly AppDbContext _context;
+        private readonly ILogger<ClientRepository> _logger;
 
-        public ClientRepository(AppDbContext appcontext)
+        public ClientRepository(AppDbContext context, ILogger<ClientRepository> logger)
         {
-            _appcontext = appcontext;
+            _context = context;
+            _logger = logger;
         }
 
-        public async Task<Result<DbClient>> GetClientById(int id)
+        public async Task<DbClient> GetClientById(int idClient)
         {
-            var client = await _appcontext.Clients.FindAsync(id);
-            if (client == null)
+            try
             {
-                return Result<DbClient>.Failure("Client not found");
+                // Using a raw SQL query formatted for Oracle
+                var Query = await _context.Clients.FindAsync(idClient);
+                return Query;
             }
-            return Result<DbClient>.Success(client);
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching client by ID", ex);
+            }
+        }
+
+
+        public async Task<List<DbClient>> GetClientsAsync()
+        {
+            try
+            {
+                var Allclients = await _context.Clients.AsNoTracking().ToListAsync();
+                return Allclients;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving all clients");
+                throw;
+            }
         }
     }
 }

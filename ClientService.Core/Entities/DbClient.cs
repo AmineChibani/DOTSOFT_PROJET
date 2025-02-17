@@ -17,13 +17,13 @@ namespace ClientService.Core.Entities
         public string Nom { get; set; } = string.Empty;
 
         [Column("NOM2")]
-        public string Nom2 { get; set; } = string.Empty;
+        public string? Nom2 { get; set; }
 
         [Column("PRENOM")]
         public string Prenom { get; set; } = string.Empty;
 
         [Column("NOMPRENOM")]
-        public string FirstLastName { get; set; } = string.Empty;
+        public string? FirstLastName { get; set; }
 
         [Column("ID_TITRE")]
         public int? TitreId { get; set; }
@@ -74,13 +74,13 @@ namespace ClientService.Core.Entities
         public DateTime? FDateModification { get; set; }
 
         [Column("COMMENTAIRE")]
-        public string Commentaire { get; set; } = string.Empty;
+        public string? Commentaire { get; set; }
 
         [Column("INTERETS")]
-        public string Interets { get; set; } = string.Empty;
+        public string? Interets { get; set; }
 
         [Column("CODE_EXTERNE")]
-        public string CodeExterne { get; set; } = string.Empty;
+        public string? CodeExterne { get; set; }
 
         [Column("NUM_CLIENT")]
         public int? NumClient { get; set; }
@@ -107,16 +107,16 @@ namespace ClientService.Core.Entities
         public int? WebType { get; set; }
 
         [Column("LIEU_NAISSANCE")]
-        public string LieuNaissance { get; set; } = string.Empty;
+        public string? LieuNaissance { get; set; }
 
         [Column("CARTE_FIDELITE1")]
-        public string CarteFidelite1 { get; set; } = string.Empty;
+        public string? CarteFidelite1 { get; set; }
 
         [Column("RAISON_SOCIALE")]
-        public string RaisonSociale { get; set; } = string.Empty;
+        public string? RaisonSociale { get; set; }
 
         [Column("LIVR_RAISON_SOCIALE")]
-        public string LivrRaisonSociale { get; set; } = string.Empty;
+        public string? LivrRaisonSociale { get; set; }
 
         public List<DbClientAdresse> ClientAdresses { get; set; } = new List<DbClientAdresse>();
 

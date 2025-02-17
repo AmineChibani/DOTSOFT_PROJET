@@ -1,4 +1,6 @@
-﻿namespace ClientService.Core.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ClientService.Core.Entities
 {
     public class DbDroitsSpeciaux
     {
