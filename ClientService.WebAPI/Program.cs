@@ -20,6 +20,11 @@ builder.Services.AddLogging();
 builder.Services.AddScoped<IClientService, ClientService.Core.Services.ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
+// Inject services 
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IClientService, ClientService.Core.Services.ClientService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

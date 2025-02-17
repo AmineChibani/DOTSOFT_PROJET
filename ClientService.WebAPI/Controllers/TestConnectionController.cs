@@ -1,4 +1,5 @@
 ﻿using ClientService.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,11 +7,11 @@ namespace ClientService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DatabaseTestController : ControllerBase
+    public class TestConnectionController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public DatabaseTestController(AppDbContext context)
+        public TestConnectionController(AppDbContext context)
         {
             _context = context;
         }
