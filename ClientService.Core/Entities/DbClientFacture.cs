@@ -29,6 +29,7 @@ namespace ClientService.Core.Entities
         [Column("MONTANT")]
         public Decimal? Montant { get; set; }
 
+        // ??
         [Column("MONTANT_TVA")]
         public double? MontantTva { get; set; }
 

@@ -14,13 +14,13 @@ namespace ClientService.Core.Entities
         public int? StructureOriginId { get; set; }
 
         [Column("NOM")]
-        public string Nom { get; set; }
+        public string Nom { get; set; } = string.Empty;
 
         [Column("NOM2")]
         public string? Nom2 { get; set; }
 
         [Column("PRENOM")]
-        public string Prenom { get; set; }
+        public string Prenom { get; set; } = string.Empty;
 
         [Column("NOMPRENOM")]
         public string? FirstLastName { get; set; }
@@ -38,7 +38,7 @@ namespace ClientService.Core.Entities
         public DateTime? Fdate { get; set; }
 
         [Column("MAIL")]
-        public string Mail { get; set; }
+        public string Mail { get; set; } = string.Empty;
 
         [Column("NBRE_POINTS")]
         public int? PointsNumber { get; set; }
@@ -118,10 +118,10 @@ namespace ClientService.Core.Entities
         [Column("LIVR_RAISON_SOCIALE")]
         public string? LivrRaisonSociale { get; set; }
 
-        public List<DbClientAdresse> ClientAdresses { get; set; }
+        public List<DbClientAdresse> ClientAdresses { get; set; } = new List<DbClientAdresse>();
 
-        public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; }
+        public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; } = new List<DbClientAdresseComplement>();
 
-        public virtual DbClientOptin ClientOptin { get; set; }
+        public virtual DbClientOptin? ClientOptin { get; set; }
     }   
 }

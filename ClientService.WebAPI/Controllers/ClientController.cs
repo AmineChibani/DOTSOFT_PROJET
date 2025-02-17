@@ -1,4 +1,5 @@
-﻿using ClientService.Core.Interfaces;
+﻿using ClientService.Core.Entities;
+using ClientService.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
