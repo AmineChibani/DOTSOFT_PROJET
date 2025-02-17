@@ -14,16 +14,16 @@ namespace ClientService.Core.Entities
         public int? StructureOriginId { get; set; }
 
         [Column("NOM")]
-        public string Nom { get; set; }
+        public string Nom { get; set; } = string.Empty;
 
         [Column("NOM2")]
-        public string Nom2 { get; set; }
+        public string Nom2 { get; set; } = string.Empty;
 
         [Column("PRENOM")]
-        public string Prenom { get; set; }
+        public string Prenom { get; set; } = string.Empty;
 
         [Column("NOMPRENOM")]
-        public string FirstLastName { get; set; }
+        public string FirstLastName { get; set; } = string.Empty;
 
         [Column("ID_TITRE")]
         public int? TitreId { get; set; }
@@ -38,7 +38,7 @@ namespace ClientService.Core.Entities
         public DateTime? Fdate { get; set; }
 
         [Column("MAIL")]
-        public string Mail { get; set; }
+        public string Mail { get; set; } = string.Empty;
 
         [Column("NBRE_POINTS")]
         public int? PointsNumber { get; set; }
@@ -74,13 +74,13 @@ namespace ClientService.Core.Entities
         public DateTime? FDateModification { get; set; }
 
         [Column("COMMENTAIRE")]
-        public string Commentaire { get; set; }
+        public string Commentaire { get; set; } = string.Empty;
 
         [Column("INTERETS")]
-        public string Interets { get; set; }
+        public string Interets { get; set; } = string.Empty;
 
         [Column("CODE_EXTERNE")]
-        public string CodeExterne { get; set; }
+        public string CodeExterne { get; set; } = string.Empty;
 
         [Column("NUM_CLIENT")]
         public int? NumClient { get; set; }
@@ -107,21 +107,21 @@ namespace ClientService.Core.Entities
         public int? WebType { get; set; }
 
         [Column("LIEU_NAISSANCE")]
-        public string LieuNaissance { get; set; }
+        public string LieuNaissance { get; set; } = string.Empty;
 
         [Column("CARTE_FIDELITE1")]
-        public string CarteFidelite1 { get; set; }
+        public string CarteFidelite1 { get; set; } = string.Empty;
 
         [Column("RAISON_SOCIALE")]
-        public string RaisonSociale { get; set; }
+        public string RaisonSociale { get; set; } = string.Empty;
 
         [Column("LIVR_RAISON_SOCIALE")]
-        public string LivrRaisonSociale { get; set; }
+        public string LivrRaisonSociale { get; set; } = string.Empty;
 
-        public List<DbClientAdresse> ClientAdresses { get; set; }
+        public List<DbClientAdresse> ClientAdresses { get; set; } = new List<DbClientAdresse>();
 
-        public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; }
+        public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; } = new List<DbClientAdresseComplement>();
 
-        public virtual DbClientOptin ClientOptin { get; set; }
+        public virtual DbClientOptin? ClientOptin { get; set; }
     }   
 }
