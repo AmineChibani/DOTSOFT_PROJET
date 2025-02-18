@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClientService.Core.Common;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Data;
@@ -22,18 +23,14 @@ namespace ClientService.Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<DbClient> GetClientById(int idClient)
+        public async Task<Result<DbClient>> GetClientById(int id)
         {
-            try
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null)
             {
-                // Using a raw SQL query formatted for Oracle
-                var Query = await _context.Clients.FindAsync(idClient);
-                return Query;
+                return Result<DbClient>.Failure("Client not found");
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error fetching client by ID", ex);
-            }
+            return Result<DbClient>.Success(client);
         }
 
 
