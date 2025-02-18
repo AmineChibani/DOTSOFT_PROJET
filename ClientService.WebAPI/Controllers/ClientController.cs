@@ -73,10 +73,7 @@ namespace ClientService.WebAPI.Controllers
                 Eticket = newClientDto.Eticket,
                 WebType = newClientDto.WebType,
                 RaisonSociale = newClientDto.RaisonSociale,
-                LivrRaisonSociale = newClientDto.LivrRaisonSociale,
-                ClientAdresses = newClientDto.ClientAdresses ?? new List<DbClientAdresse>(),
-                ClientAdresseComplement = newClientDto.ClientAdresseComplement ?? new List<DbClientAdresseComplement>(),
-                ClientOptin = newClientDto.ClientOptin ,
+                LivrRaisonSociale = newClientDto.LivrRaisonSociale
               };
 
             var Client = await _clientService.AddClient(newClient);

@@ -69,11 +69,5 @@ namespace ClientService.WebAPI.Dtos
 
         public string? LivrRaisonSociale { get; set; }
 
-
-        public List<DbClientAdresse> ClientAdresses { get; set; }
-
-        public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; }
-
-        public DbClientOptin ClientOptin { get; set; }
     }
 }
