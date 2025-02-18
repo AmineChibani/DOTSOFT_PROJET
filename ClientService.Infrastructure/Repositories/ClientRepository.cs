@@ -14,18 +14,26 @@ namespace ClientService.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _appcontext;
         private readonly ILogger<ClientRepository> _logger;
 
-        public ClientRepository(AppDbContext context, ILogger<ClientRepository> logger)
+        public ClientRepository(AppDbContext appcontext, ILogger<ClientRepository> logger)
         {
-            _context = context;
+            _appcontext = appcontext;
             _logger = logger;
         }
 
+        public async Task<DbClient> AddClient(DbClient client)
+        {
+            await _appcontext.Clients.AddAsync(client);
+            return client;
+        }
+
+        
+
         public async Task<Result<DbClient>> GetClientById(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
+            var client = await _appcontext.Clients.FindAsync(id);
             if (client == null)
             {
                 return Result<DbClient>.Failure("Client not found");
@@ -33,12 +41,11 @@ namespace ClientService.Infrastructure.Repositories
             return Result<DbClient>.Success(client);
         }
 
-
         public async Task<List<DbClient>> GetClientsAsync()
         {
             try
             {
-                var Allclients = await _context.Clients.AsNoTracking().ToListAsync();
+                var Allclients = await _appcontext.Clients.AsNoTracking().ToListAsync();
                 return Allclients;
             }
             catch (Exception ex)
