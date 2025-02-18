@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClientService.Core.Common;
+using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 
 namespace ClientService.Core.Services
@@ -16,9 +18,19 @@ namespace ClientService.Core.Services
             _clientRepository = clientRepository;
         }
 
-        public async Task<DbClient> GetClientById(int IdClient)
+        public Task<DbClient> AddClient(DbClient client)
         {
-            return await _clientRepository.GetClientById(IdClient);
+            return _clientRepository.AddClient(client);
+        }
+
+        public async Task<Result<DbClient>> GetClientById(int id)
+        {
+            var client = await _clientRepository.GetClientById(id);
+            if (!client.IsSuccess)
+            {
+                return Result<DbClient>.Failure("Client not found");
+            }
+            return Result<DbClient>.Success(client.Value);
         }
 
         public async Task<List<DbClient>> GetClients()
