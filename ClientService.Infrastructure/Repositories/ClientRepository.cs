@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClientService.Core.Common;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Data;
@@ -13,35 +14,38 @@ namespace ClientService.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _appcontext;
         private readonly ILogger<ClientRepository> _logger;
 
-        public ClientRepository(AppDbContext context, ILogger<ClientRepository> logger)
+        public ClientRepository(AppDbContext appcontext, ILogger<ClientRepository> logger)
         {
-            _context = context;
+            _appcontext = appcontext;
             _logger = logger;
         }
 
-        public async Task<DbClient> GetClientById(int idClient)
+        public async Task<DbClient> AddClient(DbClient client)
         {
-            try
-            {
-                // Using a raw SQL query formatted for Oracle
-                var Query = await _context.Clients.FindAsync(idClient);
-                return Query;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error fetching client by ID", ex);
-            }
+            await _appcontext.Clients.AddAsync(client);
+            return client;
         }
 
+        
+
+        public async Task<Result<DbClient>> GetClientById(int id)
+        {
+            var client = await _appcontext.Clients.FindAsync(id);
+            if (client == null)
+            {
+                return Result<DbClient>.Failure("Client not found");
+            }
+            return Result<DbClient>.Success(client);
+        }
 
         public async Task<List<DbClient>> GetClientsAsync()
         {
             try
             {
-                var Allclients = await _context.Clients.AsNoTracking().ToListAsync();
+                var Allclients = await _appcontext.Clients.AsNoTracking().ToListAsync();
                 return Allclients;
             }
             catch (Exception ex)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ClientService.Core.Common;
+using ClientService.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,9 @@ namespace ClientService.Core.Interfaces
 {
     public interface IClientService
     {
-        Task<DbClient> GetClientById(int IdClient);
+        Task<Result<DbClient>> GetClientById(int id);
         Task<List<DbClient>> GetClients();
+        Task<DbClient> AddClient(DbClient client);
+
     }
 }
