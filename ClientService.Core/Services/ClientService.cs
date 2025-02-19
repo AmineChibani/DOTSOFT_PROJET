@@ -37,5 +37,15 @@ namespace ClientService.Core.Services
         {
             return await _clientRepository.GetClientsAsync();
         }
+
+        public async Task<Result<List<DbParamPays>>> GetAllPays()
+        {
+            var result = await _clientRepository.GetAllPays();
+            if (!result.IsSuccess)
+            {
+                return Result<List<DbParamPays>>.Failure("Error getting countries");
+            }
+            return Result<List<DbParamPays>>.Success(result.Value);
+        }
     }
 }

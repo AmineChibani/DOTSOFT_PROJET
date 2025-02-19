@@ -42,7 +42,30 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        
+        public Task<List<CA>> CA(CaFilter filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result<List<DbClientAdresse>>> GetAllAdresses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Result<List<DbParamPays>>> GetAllPays()
+        {
+            try
+            {
+                List<DbParamPays> pays = await _appcontext.Pays.ToListAsync();
+                return Result<List<DbParamPays>>.Success(pays);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error fetching pays", ex.Message);
+                return Result<List<DbParamPays>>.Failure(ex.Message);
+            }
+        }
+
 
         public async Task<Result<DbClient>> GetClientById(int id)
         {

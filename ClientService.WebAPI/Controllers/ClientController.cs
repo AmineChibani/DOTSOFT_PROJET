@@ -1,4 +1,5 @@
-﻿using ClientService.Core.Entities;
+﻿using ClientService.Core.Common;
+using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.WebAPI.Dtos;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +16,18 @@ namespace ClientService.WebAPI.Controllers
         public ClientController(IClientService clientService)
         {
             _clientService = clientService;
+        }
+
+
+        [HttpGet("Getpays")]
+        public async Task<IActionResult> GetAllPays()
+        {
+            var result = await _clientService.GetAllPays();
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Error);
+            }
+            return Ok(result.Value);
         }
 
         [HttpGet("{clientId}")]
@@ -73,10 +86,7 @@ namespace ClientService.WebAPI.Controllers
                 Eticket = newClientDto.Eticket,
                 WebType = newClientDto.WebType,
                 RaisonSociale = newClientDto.RaisonSociale,
-                LivrRaisonSociale = newClientDto.LivrRaisonSociale,
-                ClientAdresses = newClientDto.ClientAdresses ?? new List<DbClientAdresse>(),
-                ClientAdresseComplement = newClientDto.ClientAdresseComplement ?? new List<DbClientAdresseComplement>(),
-                ClientOptin = newClientDto.ClientOptin ,
+                LivrRaisonSociale = newClientDto.LivrRaisonSociale
               };
 
             var Client = await _clientService.AddClient(newClient);
