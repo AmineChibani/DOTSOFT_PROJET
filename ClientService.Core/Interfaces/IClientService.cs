@@ -16,5 +16,7 @@ namespace ClientService.Core.Interfaces
         Task<List<DbClient>> GetClients();
         Task<DbClient> AddClient(DbClient client);
 
+        Task<Result<List<DbParamPays>>> GetAllPays();
+
     }
 }
