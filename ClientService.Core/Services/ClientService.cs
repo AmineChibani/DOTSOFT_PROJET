@@ -18,20 +18,20 @@ namespace ClientService.Core.Services
             _clientRepository = clientRepository;
         }
 
+        public async Task<Result<DbClient>> GetClientById(int id)
+        {
+            var result = await _clientRepository.GetClientById(id);
+            if (!result.IsSuccess)
+            {
+                return Result<DbClient>.Failure("Error finding the client");
+            }
+            return Result<DbClient>.Success(result.Value);
+        }
         public Task<DbClient> AddClient(DbClient client)
         {
             return _clientRepository.AddClient(client);
         }
 
-        public async Task<Result<DbClient>> GetClientById(int id)
-        {
-            var client = await _clientRepository.GetClientById(id);
-            if (!client.IsSuccess)
-            {
-                return Result<DbClient>.Failure("Client not found");
-            }
-            return Result<DbClient>.Success(client.Value);
-        }
 
         public async Task<List<DbClient>> GetClients()
         {
