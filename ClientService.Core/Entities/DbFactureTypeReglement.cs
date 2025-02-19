@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClientService.Core.Entities
 {
-    [Table("FACTURE_TYPE_REGLEMENT")]
+    [Table("FACTURE_TYPE_REGLEMENT", Schema = "DOTSOFT")]
     public class DbFactureTypeReglement
     {
         [Column("ID_TYPE_REGLEMENT")]

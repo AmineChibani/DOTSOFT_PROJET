@@ -9,6 +9,7 @@ using ClientService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Oracle.ManagedDataAccess.Client;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ClientService.Infrastructure.Repositories
 {
@@ -29,7 +30,7 @@ namespace ClientService.Infrastructure.Repositories
             return client;
         }
 
-        
+
 
         public async Task<Result<DbClient>> GetClientById(int id)
         {
@@ -41,11 +42,13 @@ namespace ClientService.Infrastructure.Repositories
             return Result<DbClient>.Success(client);
         }
 
+
         public async Task<List<DbClient>> GetClientsAsync()
         {
             try
             {
-                var Allclients = await _appcontext.Clients.AsNoTracking().ToListAsync();
+                var Allclients = await _appcontext.Clients.ToListAsync();
+                Console.WriteLine($"Executing Query: {Allclients}");
                 return Allclients;
             }
             catch (Exception ex)

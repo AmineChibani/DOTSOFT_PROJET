@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientService.Core.Entities
 {
 
-    [Table("ECOMMERCE_BA")]
+    [Table("ECOMMERCE_BA", Schema = "DOTSOFT")]
     public class DbEcommerceBa
     {
         [Column("ID_BA")]
