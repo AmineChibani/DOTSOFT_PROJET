@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClientService.Core.Entities
 {
-    [Table("CLIENT")]
+    [Table("CLIENT", Schema = "DOTSOFT")]
     public class DbClient
     {
         [Column("ID_CLIENT")]

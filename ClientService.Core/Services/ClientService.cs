@@ -27,11 +27,11 @@ namespace ClientService.Core.Services
             }
             return Result<DbClient>.Success(result.Value);
         }
+
         public Task<DbClient> AddClient(DbClient client)
         {
             return _clientRepository.AddClient(client);
         }
-
 
         public async Task<List<DbClient>> GetClients()
         {

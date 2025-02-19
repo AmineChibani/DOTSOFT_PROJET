@@ -1,6 +1,6 @@
 ﻿using ClientService.Core.Entities;
 
-namespace ClientService.WebAPI.Dtos
+namespace ClientService.Core.Dtos
 {
     public class Client
     {

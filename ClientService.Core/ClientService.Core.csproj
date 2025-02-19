@@ -11,5 +11,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.21.121" />
   </ItemGroup>
+  
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿using ClientService.Core.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClientService.WebAPI.Dtos
+namespace ClientService.Infrastructure.Dtos
 {
     public class AddClientDto
     {

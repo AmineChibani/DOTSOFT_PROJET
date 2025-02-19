@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
 using ClientService.Core.Entities;
+using ClientService.Core.Dtos;
+using ClientService.Core.Specifications.Clients;
 
 namespace ClientService.Core.Interfaces
 {
@@ -15,6 +17,7 @@ namespace ClientService.Core.Interfaces
         Task<Result<DbClient>> GetClientById(int IdClient);
         Task<List<DbClient>> GetClientsAsync();
         Task<DbClient> AddClient(DbClient client);
+        Task<List<CA>> CA(CaFilter filter);
 
     }
 }

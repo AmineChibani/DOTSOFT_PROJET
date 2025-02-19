@@ -1,8 +1,14 @@
 ﻿using ClientService.Core.Common.Pagination;
 using ClientService.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ClientService.Infrastructure.Data.Specifications.Clients
+namespace ClientService.Core.Specifications.Clients
 {
     public class ClientFilter : PagedFilter
     {
@@ -72,3 +78,4 @@ namespace ClientService.Infrastructure.Data.Specifications.Clients
         }
     }
 }
+
