@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClientService.Core.Entities
 {
-    [Table("CREDIT_CLIENT_HIER")]
+    [Table("CREDIT_CLIENT_HIER", Schema = "DOTSOFT")]
     public class DbMontantCredit
     {
         [Column("ID_STRUCTURE")]

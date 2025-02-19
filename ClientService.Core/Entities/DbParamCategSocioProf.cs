@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClientService.Core.Entities
 {
-    [Table("PARAM_CATEG_SOCIO_PROF")]
+    [Table("PARAM_CATEG_SOCIO_PROF", Schema = "DOTSOFT")]
     public class DbParamCategSocioProf
     {
         [Column("ID_CSP")]

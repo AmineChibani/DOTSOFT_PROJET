@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClientService.Core.Entities
 {
-    [Table("PARAM_CODE_POSTAL")]
+    [Table("PARAM_CODE_POSTAL", Schema = "DOTSOFT")]
     public class DbParamCodePostal
     {
         [Column("ID_CP")]
