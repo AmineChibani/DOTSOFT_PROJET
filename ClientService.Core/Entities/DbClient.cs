@@ -123,5 +123,8 @@ namespace ClientService.Core.Entities
         public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; } = new List<DbClientAdresseComplement>();
 
         public virtual DbClientOptin? ClientOptin { get; set; }
+        [ForeignKey("IdTypeClient")]
+        public virtual DbClientType ClientType { get; set; }
+
     }   
 }

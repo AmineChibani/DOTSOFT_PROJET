@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientService.Core.Entities
 {
 
-    [Table("CLIENT_FACTURE_LIGNE")]
+    [Table("CLIENT_FACTURE_LIGNE", Schema = "DOTSOFT")]
     public class DbClientFactureLigne
     {
         [Column("ID_LIGNE")]

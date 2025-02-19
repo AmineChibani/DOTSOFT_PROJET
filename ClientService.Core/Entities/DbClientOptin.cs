@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClientService.Core.Entities
 {
-    [Table("CLIENT_OPTIN")]
+    [Table("CLIENT_OPTIN", Schema = "DOTSOFT")]
     public class DbClientOptin
     {
         [Key]
