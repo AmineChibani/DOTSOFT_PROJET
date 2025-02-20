@@ -85,6 +85,10 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbLanguage_Param_Pays> Language_Param_Pays { get; set; }
         public DbSet<DbMarque> Marques { get; set; }
         public DbSet<DbParamTypeAdresse> TypeAdresses { get; set; }
+        public DbSet<DbClientCommande> ClientCommande { get; set; } 
+        public DbSet<DbToutesFamillesSansNull> ToutesFamillesSansNulls { get; set; }
+        public DbSet<DbSavDossier> SavDossiers { get; set; }
+        public DbSet<DbProduit> Produits { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
