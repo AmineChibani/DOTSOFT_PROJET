@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
 using ClientService.Core.Entities;
+using ClientService.Core.Dtos;
 
 namespace ClientService.Core.Interfaces
 {
@@ -18,6 +19,6 @@ namespace ClientService.Core.Interfaces
 
         Task<Result<List<DbParamPays>>> GetAllPays();
 
-        Task<Result<List<DbClientAdresse>>> GetAddressByClientId(int clientId);
+        Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
     }
 }

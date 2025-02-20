@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Oracle.EntityFrameworkCore;
+using ClientService.Core.Dtos;
 
 
 
@@ -84,6 +85,11 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbEcommerce_Demandes> Ecommerce_Demandes { get; set; }
         public DbSet<DbLanguage_Param_Pays> Language_Param_Pays { get; set; }
         public DbSet<DbMarque> Marques { get; set; }
+        public DbSet<DbParamTypeAdresse> TypeAdresses { get; set; }
+        public DbSet<DbClientCommande> ClientCommande { get; set; } 
+        public DbSet<DbToutesFamillesSansNull> ToutesFamillesSansNulls { get; set; }
+        public DbSet<DbSavDossier> SavDossiers { get; set; }
+        public DbSet<DbProduit> Produits { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
@@ -147,6 +153,7 @@ namespace ClientService.Infrastructure.Data
             //modelBuilder.Entity<DbClientFactureLigne>()
             //    .ToTable("CLIENT_FACTURE_LIGNE", "SYSTEM");
 
+            modelBuilder.Entity<ClientAddressDetailsDto>().HasNoKey();
             modelBuilder.Entity<DbDroitsSpeciaux>().HasNoKey();
             modelBuilder.Entity<DbClient>().HasMany<DbClientAdresse>((Expression<Func<DbClient, IEnumerable<DbClientAdresse>>>)(x => x.ClientAdresses)).WithOne((Expression<Func<DbClientAdresse, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresse, object>>)(x => (object)x.ClientId));
             modelBuilder.Entity<DbClientFacture>().HasMany<DbClientFactureLigne>((Expression<Func<DbClientFacture, IEnumerable<DbClientFactureLigne>>>)(x => x.ClientFactureLignes)).WithOne((Expression<Func<DbClientFactureLigne, DbClientFacture>>)(x => x.ClientFacture)).HasForeignKey((Expression<Func<DbClientFactureLigne, object>>)(x => (object)x.IdFactureC));

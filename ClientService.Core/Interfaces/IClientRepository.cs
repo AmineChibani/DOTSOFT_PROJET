@@ -20,6 +20,6 @@ namespace ClientService.Core.Interfaces
         Task<DbClient> AddClient(DbClient client);
         Task<List<CA>> CA(CaFilter filter);
 
-        Task<Result<List<DbClientAdresse>>> GetAddressByClientId(int clientId);
+        Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
     }
 }
