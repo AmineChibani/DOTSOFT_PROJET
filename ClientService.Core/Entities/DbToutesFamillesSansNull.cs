@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace ClientService.Core.Entities
     public class DbToutesFamillesSansNull
     {
         [Column("ID_FAMILLE")]
+        [Key]
         public int? ID_FAMILLE { get; set; }
 
         [Column("ID_COULEUR")]
