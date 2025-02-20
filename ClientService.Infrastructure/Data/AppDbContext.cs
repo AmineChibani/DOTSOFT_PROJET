@@ -132,9 +132,16 @@ namespace ClientService.Infrastructure.Data
             //modelBuilder.Entity<>.HasNoKey();
             //modelBuilder.Entity<Avoirs>().HasNoKey();
             //modelBuilder.Entity<ClientService.CA>().HasNoKey();
-            modelBuilder.Entity<DbClient>()
-            .ToTable("CLIENT", "DOTSOFT");
+            //modelBuilder.Entity<DbClient>()
+            //.ToTable("CLIENT", "DOTSOFT");
+            //modelBuilder.Entity<DbClient>()
+            //.ToTable("CLIENT", "SYSTEM");
 
+            //modelBuilder.Entity<DbClientFacture>()
+            //    .ToTable("CLIENT_FACTURE", "SYSTEM");
+
+            //modelBuilder.Entity<DbClientFactureLigne>()
+            //    .ToTable("CLIENT_FACTURE_LIGNE", "SYSTEM");
 
             modelBuilder.Entity<DbDroitsSpeciaux>().HasNoKey();
             modelBuilder.Entity<DbClient>().HasMany<DbClientAdresse>((Expression<Func<DbClient, IEnumerable<DbClientAdresse>>>)(x => x.ClientAdresses)).WithOne((Expression<Func<DbClientAdresse, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresse, object>>)(x => (object)x.ClientId));

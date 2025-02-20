@@ -1,4 +1,4 @@
-﻿namespace ClientService.WebAPI.Dtos
+﻿namespace ClientService.Core.Dtos
 {
     public class CA
     {

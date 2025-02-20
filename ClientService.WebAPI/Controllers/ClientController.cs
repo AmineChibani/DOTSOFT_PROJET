@@ -1,7 +1,7 @@
 ﻿using ClientService.Core.Common;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
-using ClientService.WebAPI.Dtos;
+using ClientService.Infrastructure.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
