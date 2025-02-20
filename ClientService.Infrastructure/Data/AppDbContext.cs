@@ -84,6 +84,7 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbEcommerce_Demandes> Ecommerce_Demandes { get; set; }
         public DbSet<DbLanguage_Param_Pays> Language_Param_Pays { get; set; }
         public DbSet<DbMarque> Marques { get; set; }
+        public DbSet<DbParamTypeAdresse> TypeAdresses { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).

@@ -94,13 +94,15 @@ namespace ClientService.WebAPI.Controllers
         }
 
 
-        [HttpGet("GetAddressByClientId/{clientId}")]
-        public async Task<IActionResult> GetAddressByClientId(int clientId)
+        [HttpGet("clients/{clientId}/addresses")]
+        public async Task<IActionResult> GetClientAddresses(int clientId)
         {
-            var result = await _clientService.GetAddressByClientId(clientId);
+            var result = await _clientService.GetAddressesByClientId(clientId);
             if (!result.IsSuccess)
             {
-                return NotFound(result.Error);
+                return result.Error.Contains("not found") ?
+                    NotFound(result.Error) :
+                    BadRequest(result.Error);
             }
             return Ok(result.Value);
         }

@@ -100,22 +100,64 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<List<DbClientAdresse>>> GetAddressByClientId(int clientId)
+        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
         {
             try
             {
-                var addresses = await _appcontext.ClientAdresses
-                    .Where(a => a.ClientId == clientId)
-                    .Include(a => a.Pays)
-                    .Include(a => a.ParamCodePostal)
-                    .ToListAsync();
+                // This LINQ query exactly mirrors your SQL query
+                var addresses = await (
+                    from ca in _appcontext.ClientAdresses
+                    join pta in _appcontext.TypeAdresses on
+                        ca.AdresseTypeId equals pta.Id
+                    join pp in _appcontext.Pays on
+                        (ca.PaysId ?? 65) equals pp.PaysId into ppJoin
+                    from pp in ppJoin.DefaultIfEmpty()
+                    join lpp in _appcontext.Language_Param_Pays on
+                        new { IdPays = pp.PaysId, Code = (int?)1 } equals
+                        new { IdPays = lpp.Id_Pays, Code = lpp.Code } into lppJoin
+                    from lpp in lppJoin.DefaultIfEmpty()
+                    join pcp in _appcontext.ParamCodePostals on
+                        ca.CpId equals pcp.CPId into pcpJoin
+                    from pcp in pcpJoin.DefaultIfEmpty()
+                    where ca.ClientId == clientId &&
+                          (ca.AdresseTypeId == 1 || ca.AdresseTypeId == 2)
+                    orderby ca.AdresseTypeId
+                    select new ClientAddressDetailsDto
+                    {
+                        IdClient = ca.ClientId,
+                        IdTypeAdresse = ca.AdresseTypeId,
+                        Adresse1 = ca.Adresse1,
+                        Adresse2 = ca.Adresse2,
+                        IdCp = ca.CpId,
+                        IdPays = ca.PaysId ?? 65, // COALESCE equivalent
+                        Telephone = ca.PhoneNumber,
+                        Portable = ca.CellPhone,
+                        NumVoie = ca.NumVoie,
+                        Btqc = ca.Btqc,
+                        TypeVoie = ca.TypeVoie,
+                        TelephoneAutre = ca.TelephoneAutre,
+                        Fax = ca.Fax,
+                        Batesc = ca.Batesc,
+                        Description = pta.Description,
+                        Nom = lpp != null ? lpp.Nom : pp.Libelle, // COALESCE equivalent
+                        //ParDefaut = pp.ParDefaut,
+                        Cp = pcp.CP,
+                        Commune = pcp.Commune,
+                        //Bureau = pcp.Bureau
+                    }
+                ).ToListAsync();
 
-                return Result<List<DbClientAdresse>>.Success(addresses);
+                if (!addresses.Any())
+                {
+                    return Result<List<ClientAddressDetailsDto>>.Failure($"No addresses found for client ID {clientId}");
+                }
+
+                return Result<List<ClientAddressDetailsDto>>.Success(addresses);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error fetching addresses for client ID {clientId}", ex.Message);
-                return Result<List<DbClientAdresse>>.Failure(ex.Message);
+                _logger.LogError($"Error fetching addresses for client ID {clientId}: {ex.Message}", ex);
+                return Result<List<ClientAddressDetailsDto>>.Failure(ex.Message);
             }
         }
     }
