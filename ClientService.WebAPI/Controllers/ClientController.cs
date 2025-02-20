@@ -92,5 +92,17 @@ namespace ClientService.WebAPI.Controllers
             var Client = await _clientService.AddClient(newClient);
             return CreatedAtAction(nameof(GetClientById), new { id = newClient.Nom }, newClient);
         }
+
+
+        [HttpGet("GetAddressByClientId/{clientId}")]
+        public async Task<IActionResult> GetAddressByClientId(int clientId)
+        {
+            var result = await _clientService.GetAddressByClientId(clientId);
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Error);
+            }
+            return Ok(result.Value);
+        }
     }
 }

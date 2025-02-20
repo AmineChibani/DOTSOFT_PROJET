@@ -47,5 +47,26 @@ namespace ClientService.Core.Services
             }
             return Result<List<DbParamPays>>.Success(result.Value);
         }
+
+        public async Task<Result<List<DbClientAdresse>>> GetAddressByClientId(int clientId)
+        {
+            if (clientId <= 0)
+            {
+                return Result<List<DbClientAdresse>>.Failure("Invalid client ID provided");
+            }
+
+            var result = await _clientRepository.GetAddressByClientId(clientId);
+            if (!result.IsSuccess)
+            {
+                return Result<List<DbClientAdresse>>.Failure($"Error retrieving addresses for client ID {clientId}: {result.Error}");
+            }
+
+            if (result.Value.Count == 0)
+            {
+                return Result<List<DbClientAdresse>>.Success(new List<DbClientAdresse>());
+            }
+
+            return Result<List<DbClientAdresse>>.Success(result.Value);
+        }
     }
 }

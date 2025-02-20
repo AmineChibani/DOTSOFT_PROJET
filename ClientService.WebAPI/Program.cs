@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Data;
 using ClientService.Infrastructure.Repositories;

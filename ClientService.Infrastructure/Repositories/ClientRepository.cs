@@ -74,5 +74,24 @@ namespace ClientService.Infrastructure.Repositories
                 throw;
             }
         }
+
+        public async Task<Result<List<DbClientAdresse>>> GetAddressByClientId(int clientId)
+        {
+            try
+            {
+                var addresses = await _appcontext.ClientAdresses
+                    .Where(a => a.ClientId == clientId)
+                    .Include(a => a.Pays)
+                    .Include(a => a.ParamCodePostal)
+                    .ToListAsync();
+
+                return Result<List<DbClientAdresse>>.Success(addresses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error fetching addresses for client ID {clientId}", ex.Message);
+                return Result<List<DbClientAdresse>>.Failure(ex.Message);
+            }
+        }
     }
 }
