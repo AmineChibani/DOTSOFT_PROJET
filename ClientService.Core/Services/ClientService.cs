@@ -49,9 +49,20 @@ namespace ClientService.Core.Services
             return Result<List<DbParamPays>>.Success(result.Value);
         }
 
-        public async Task<List<VentesNationales>> GetVentesNationales(int clientId)
+        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
         {
-            return await _clientRepository.GetVentesNationales(clientId);
+            if (clientId <= 0)
+            {
+                return Result<List<ClientAddressDetailsDto>>.Failure("Invalid client ID provided");
+            }
+
+            var result = await _clientRepository.GetAddressesByClientId(clientId);
+            if (!result.IsSuccess)
+            {
+                return Result<List<ClientAddressDetailsDto>>.Failure(result.Error);
+            }
+
+            return Result<List<ClientAddressDetailsDto>>.Success(result.Value);
         }
     }
 }

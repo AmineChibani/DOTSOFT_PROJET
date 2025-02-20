@@ -150,36 +150,12 @@ namespace ClientService.Infrastructure.Repositories
                     };
                     command.Parameters.Add(cursorParam);
 
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            resultList.Add(new ClientAddressDetailsDto
-                            {
-                                IdClient = reader.GetInt32(0),
-                                IdTypeAdresse = reader.GetInt32(1),
-                                Adresse1 = reader.GetString(2),
-                                Adresse2 = reader.IsDBNull(3) ? null : reader.GetString(3),
-                                IdCp = reader.GetInt32(4),
-                                IdPays = reader.GetInt32(5),
-                                Telephone = reader.IsDBNull(6) ? null : reader.GetString(6),
-                                Portable = reader.IsDBNull(7) ? null : reader.GetString(7),
-                                //NumVoie = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                Btqc = reader.IsDBNull(9) ? null : reader.GetString(9),
-                                TypeVoie = reader.IsDBNull(10) ? null : reader.GetString(10),
-                                TelephoneAutre = reader.IsDBNull(11) ? null : reader.GetString(11),
-                                Fax = reader.IsDBNull(12) ? null : reader.GetString(12),
-                                Batesc = reader.IsDBNull(13) ? null : reader.GetString(13),
-                                Description = reader.IsDBNull(14) ? null : reader.GetString(14),
-                                Nom = reader.IsDBNull(15) ? null : reader.GetString(15),
-                                ParDefaut = reader.IsDBNull(16) ? (bool?)null : reader.GetBoolean(16),
-                                Cp = reader.IsDBNull(17) ? null : reader.GetString(17),
-                                Commune = reader.IsDBNull(18) ? null : reader.GetString(18),
-                                Bureau = reader.IsDBNull(19) ? null : reader.GetString(19)
-                            });
-                        }
-                    }
-                }
+                return Result<List<DbClientAdresse>>.Success(addresses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error fetching addresses for client ID {clientId}", ex.Message);
+                return Result<List<DbClientAdresse>>.Failure(ex.Message);
             }
 
             return Result<List<ClientAddressDetailsDto>>.Success(resultList);

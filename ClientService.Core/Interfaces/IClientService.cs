@@ -20,6 +20,6 @@ namespace ClientService.Core.Interfaces
         Task<Result<List<DbParamPays>>> GetAllPays();
         Task<List<VentesNationales>> GetVentesNationales(int clientId);
 
-        Task<Result<List<DbClientAdresse>>> GetAddressByClientId(int clientId);
+        Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
     }
 }
