@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Oracle.EntityFrameworkCore;
+using ClientService.Core.Dtos;
 
 
 
@@ -152,6 +153,7 @@ namespace ClientService.Infrastructure.Data
             //modelBuilder.Entity<DbClientFactureLigne>()
             //    .ToTable("CLIENT_FACTURE_LIGNE", "SYSTEM");
 
+            modelBuilder.Entity<ClientAddressDetailsDto>().HasNoKey();
             modelBuilder.Entity<DbDroitsSpeciaux>().HasNoKey();
             modelBuilder.Entity<DbClient>().HasMany<DbClientAdresse>((Expression<Func<DbClient, IEnumerable<DbClientAdresse>>>)(x => x.ClientAdresses)).WithOne((Expression<Func<DbClientAdresse, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresse, object>>)(x => (object)x.ClientId));
             modelBuilder.Entity<DbClientFacture>().HasMany<DbClientFactureLigne>((Expression<Func<DbClientFacture, IEnumerable<DbClientFactureLigne>>>)(x => x.ClientFactureLignes)).WithOne((Expression<Func<DbClientFactureLigne, DbClientFacture>>)(x => x.ClientFacture)).HasForeignKey((Expression<Func<DbClientFactureLigne, object>>)(x => (object)x.IdFactureC));

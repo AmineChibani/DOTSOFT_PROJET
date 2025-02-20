@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace ClientService.Core.Entities
     public class DbSavDossier
     {
         [Column("ID_DOSSIER")]
+        [Key]
         public long ID_DOSSIER { get; set; }
 
         [Column("ID_CLIENT")]
