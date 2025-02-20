@@ -79,7 +79,11 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbClientType> ClientTypes { get; set; }
         public DbSet<DbStructure> Structure { get; set; }
         public DbSet<DbParamDepartement> Departements { get; set; }
-
+        public DbSet<DbBordereau_Entree> Bordereau_Entrees { get; set; }
+        public DbSet<DbBordereau_Ligne_Serie> Bordereau_Ligne_Series { get; set; }
+        public DbSet<DbEcommerce_Demandes> Ecommerce_Demandes { get; set; }
+        public DbSet<DbLanguage_Param_Pays> Language_Param_Pays { get; set; }
+        public DbSet<DbMarque> Marques { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
