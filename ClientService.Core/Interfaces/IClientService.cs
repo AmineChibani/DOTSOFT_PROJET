@@ -18,5 +18,6 @@ namespace ClientService.Core.Interfaces
 
         Task<Result<List<DbParamPays>>> GetAllPays();
 
+        Task<Result<List<DbClientAdresse>>> GetAddressByClientId(int clientId);
     }
 }

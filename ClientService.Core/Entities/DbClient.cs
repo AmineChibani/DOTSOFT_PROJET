@@ -14,13 +14,13 @@ namespace ClientService.Core.Entities
         public int? StructureOriginId { get; set; }
 
         [Column("NOM")]
-        public string Nom { get; set; } = string.Empty;
+        public string? Nom { get; set; }
 
         [Column("NOM2")]
         public string? Nom2 { get; set; }
 
         [Column("PRENOM")]
-        public string Prenom { get; set; } = string.Empty;
+        public string? Prenom { get; set; }
 
         [Column("NOMPRENOM")]
         public string? FirstLastName { get; set; }
@@ -38,7 +38,7 @@ namespace ClientService.Core.Entities
         public DateTime? Fdate { get; set; }
 
         [Column("MAIL")]
-        public string Mail { get; set; } = string.Empty;
+        public string? Mail { get; set; }
 
         [Column("NBRE_POINTS")]
         public int? PointsNumber { get; set; }
