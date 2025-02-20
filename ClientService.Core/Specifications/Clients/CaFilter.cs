@@ -28,4 +28,4 @@ namespace ClientService.Core.Specifications.Clients
         }
     }
 }
-}
+
