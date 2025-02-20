@@ -1,7 +1,9 @@
 ﻿using ClientService.Core.Common;
+using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Dtos;
+using ClientService.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +14,13 @@ namespace ClientService.WebAPI.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
+        private readonly ILogger<ClientController> _logger;
 
-        public ClientController(IClientService clientService)
+
+        public ClientController(IClientService clientService,ILogger<ClientController> logger)
         {
             _clientService = clientService;
+            _logger = logger;
         }
 
 
@@ -46,6 +51,30 @@ namespace ClientService.WebAPI.Controllers
         {
             var clients = await _clientService.GetClients();
             return Ok(clients);
+        }
+
+        [HttpGet("VentesNationales/{clientId}")]
+        public async Task<ActionResult<List<VentesNationales>>> GetVentesNationales(int clientId)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving invoices for client {ClientId}", clientId);
+
+                var factures = await _clientService.GetVentesNationales(clientId);
+
+                if (factures == null || !factures.Any())
+                {
+                    _logger.LogWarning("No invoices found for client {ClientId}", clientId);
+                    return NotFound($"No invoices found for client ID: {clientId}");
+                }
+
+                return Ok(factures);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving invoices for client {ClientId}", clientId);
+                return StatusCode(500, "An error occurred while retrieving the invoices");
+            }
         }
 
         [HttpPost]

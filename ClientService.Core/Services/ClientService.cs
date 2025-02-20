@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
+using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 
@@ -48,25 +49,9 @@ namespace ClientService.Core.Services
             return Result<List<DbParamPays>>.Success(result.Value);
         }
 
-        public async Task<Result<List<DbClientAdresse>>> GetAddressByClientId(int clientId)
+        public async Task<List<VentesNationales>> GetVentesNationales(int clientId)
         {
-            if (clientId <= 0)
-            {
-                return Result<List<DbClientAdresse>>.Failure("Invalid client ID provided");
-            }
-
-            var result = await _clientRepository.GetAddressByClientId(clientId);
-            if (!result.IsSuccess)
-            {
-                return Result<List<DbClientAdresse>>.Failure($"Error retrieving addresses for client ID {clientId}: {result.Error}");
-            }
-
-            if (result.Value.Count == 0)
-            {
-                return Result<List<DbClientAdresse>>.Success(new List<DbClientAdresse>());
-            }
-
-            return Result<List<DbClientAdresse>>.Success(result.Value);
+            return await _clientRepository.GetVentesNationales(clientId);
         }
     }
 }
