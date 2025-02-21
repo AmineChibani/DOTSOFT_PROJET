@@ -93,7 +93,7 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
-
+        // Get Chiffre d'affaire par client
         [HttpGet("CA/{clientId}")]
         public async Task<ActionResult<IEnumerable<CAResult>>> GetCA(int clientId)
         {
@@ -123,6 +123,5 @@ namespace ClientService.WebAPI.Controllers
                 return StatusCode(500, "An error occurred while processing your request");
             }
         }
-
     }
 }

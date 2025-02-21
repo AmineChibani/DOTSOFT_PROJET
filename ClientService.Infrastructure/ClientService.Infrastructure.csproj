@@ -18,6 +18,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.19.80" />
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="23.7.0" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.7.0" />
   </ItemGroup>
 

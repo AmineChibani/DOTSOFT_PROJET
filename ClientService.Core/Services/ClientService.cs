@@ -73,7 +73,7 @@ namespace ClientService.Core.Services
         {
             throw new NotImplementedException();
         }
-        //Get chiffre d'affaire par client
+        //Get chiffre d'affaire par client (ou bien tous les factures de Client )
         public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
         {
             try

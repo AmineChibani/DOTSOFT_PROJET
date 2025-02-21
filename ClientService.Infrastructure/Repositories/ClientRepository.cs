@@ -68,32 +68,40 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
+        //méthode pour récupére tous les factures clients qui a fait le client
         public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
         {
-            var query = from f in _appcontext.ClientFactures
-                        join fl in _appcontext.ClientFatureLignes
-                        on f.IdFactureC equals fl.IdFactureC
-                        where f.IdClient == request.IdClient
-                        group new { f, fl } by new
-                        {
-                            f.IdFactureC,
-                            f.Fdate,
-                            f.NumFacture,
-                            f.TypeFacture
-                        } into g
-                        select new CAResult
-                        {
-                            Fdate = g.Key.Fdate,
-                            IdFactureC = g.Key.IdFactureC,
-                            NumFacture = g.Key.NumFacture.ToString(),
-                            TypeFacture = g.Key.TypeFacture,
-                            Cattc = g.Sum(x => x.fl.Montant * x.fl.Quantite),
-                            Achat = g.Sum(x => x.fl.MontantAchat * x.fl.Quantite),
-                            Caht = g.Sum(x => x.fl.Montant / (1 + (x.fl.MontantTva / 100m)))
-                        };
+            try
+            {
+                if (request.IdClient <= 0)
+                {
+                    throw new ArgumentException("Invalid Client ID");
+                }
 
-            return await query.OrderByDescending(x => x.Fdate).ToListAsync();
+                // Créer un paramètre pour le curseur de sortie
+                var outputParameter = new OracleParameter
+                {
+                    ParameterName = "p_Result",
+                    Direction = ParameterDirection.Output,
+                    OracleDbType = OracleDbType.RefCursor
+                };
+
+                // Exécuter la procédure stockée avec OracleParameter pour gérer les paramètres IN et OUT
+                var result = await _appcontext.Set<CAResult>()
+                    .FromSqlRaw("BEGIN DOTSOFT.GetCA(:p_IdClient, :p_Result); END;",
+                                new OracleParameter(":p_IdClient", request.IdClient),
+                                outputParameter)
+                    .ToListAsync();
+
+                return result.OrderByDescending(x => x.Fdate).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting CA data for client {ClientId}", request.IdClient);
+                throw;
+            }
         }
+
 
         public async Task<Result<DbClient>> GetClientById(int id)
         {
