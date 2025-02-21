@@ -43,7 +43,8 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public Task<List<CA>> CA(CaFilter filter)
+
+        public Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
         {
             throw new NotImplementedException();
         }
@@ -67,6 +68,40 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
+        public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
+        {
+            var query = from f in _appcontext.ClientFactures
+                        join fl in _appcontext.ClientFatureLignes
+                        on f.IdFactureC equals fl.IdFactureC
+                        where f.IdClient == request.IdClient
+                        && f.IdStructure == request.IdStructure
+                        && f.Annulation == 0
+                        && f.Avoir == 0
+                        && (request.All == 1 ||
+                            (request.StartDate.HasValue &&
+                             request.EndDate.HasValue &&
+                             f.Fdate >= request.StartDate.Value &&
+                             f.Fdate <= request.EndDate.Value))
+                        group new { f, fl } by new
+                        {
+                            f.IdFactureC,
+                            f.Fdate,
+                            f.NumFacture,
+                            f.TypeFacture
+                        } into g
+                        select new CAResult
+                        {
+                            Fdate = g.Key.Fdate,
+                            IdFactureC = g.Key.IdFactureC,
+                            NumFacture = g.Key.NumFacture.ToString(),
+                            TypeFacture = g.Key.TypeFacture,
+                            Cattc = g.Sum(x => x.fl.Montant * x.fl.Quantite),
+                            Achat = g.Sum(x => x.fl.MontantAchat * x.fl.Quantite),
+                            Caht = g.Sum(x => x.fl.Montant / (1 + (x.fl.MontantTva / 100m)))
+                        };
+
+            return await query.OrderByDescending(x => x.Fdate).ToListAsync();
+        }
 
         public async Task<Result<DbClient>> GetClientById(int id)
         {
@@ -84,6 +119,11 @@ namespace ClientService.Infrastructure.Repositories
                 _logger.LogError(ex, $"Error retrieving client with ID {id}");
                 return Result<DbClient>.Failure("Error retrieving client");
             }
+        }
+
+        public Task<List<CAResult>> GetClientCA(int clientId, int structureId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<List<DbClient>> GetClientsAsync()
@@ -107,61 +147,19 @@ namespace ClientService.Infrastructure.Repositories
 
             using (var connection = _appcontext.Database.GetDbConnection())
             {
-                await connection.OpenAsync();
+                var addresses = await _appcontext.ClientAdresses
+                    .Where(a => a.ClientId == clientId)
+                    .Include(a => a.Pays)
+                    .Include(a => a.ParamCodePostal)
+                    .ToListAsync();
 
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "BEGIN DOTSOFT.GetClientAddresses(:ClientId, :ResultCursor); END;";
-                    command.CommandType = CommandType.Text;
-
-                    // Input parameter
-                    var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
-                    {
-                        Value = clientId,
-                        Direction = ParameterDirection.Input
-                    };
-                    command.Parameters.Add(clientIdParam);
-
-                    // Output parameter (REF CURSOR)
-                    var cursorParam = new OracleParameter("ResultCursor", OracleDbType.RefCursor)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    command.Parameters.Add(cursorParam);
-
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            resultList.Add(new ClientAddressDetailsDto
-                            {
-                                IdClient = reader.GetInt32(0),
-                                IdTypeAdresse = reader.GetInt32(1),
-                                Adresse1 = reader.GetString(2),
-                                Adresse2 = reader.IsDBNull(3) ? null : reader.GetString(3),
-                                IdCp = reader.GetInt32(4),
-                                IdPays = reader.GetInt32(5),
-                                Telephone = reader.IsDBNull(6) ? null : reader.GetString(6),
-                                Portable = reader.IsDBNull(7) ? null : reader.GetString(7),
-                                //NumVoie = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                Btqc = reader.IsDBNull(9) ? null : reader.GetString(9),
-                                TypeVoie = reader.IsDBNull(10) ? null : reader.GetString(10),
-                                TelephoneAutre = reader.IsDBNull(11) ? null : reader.GetString(11),
-                                Fax = reader.IsDBNull(12) ? null : reader.GetString(12),
-                                Batesc = reader.IsDBNull(13) ? null : reader.GetString(13),
-                                Description = reader.IsDBNull(14) ? null : reader.GetString(14),
-                                Nom = reader.IsDBNull(15) ? null : reader.GetString(15),
-                                ParDefaut = reader.IsDBNull(16) ? (bool?)null : reader.GetBoolean(16),
-                                Cp = reader.IsDBNull(17) ? null : reader.GetString(17),
-                                Commune = reader.IsDBNull(18) ? null : reader.GetString(18),
-                                Bureau = reader.IsDBNull(19) ? null : reader.GetString(19)
-                            });
-                        }
-                    }
-                }
+                return Result<List<DbClientAdresse>>.Success(addresses);
             }
-
-            return Result<List<ClientAddressDetailsDto>>.Success(resultList);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error fetching addresses for client ID {clientId}", ex.Message);
+                return Result<List<DbClientAdresse>>.Failure(ex.Message);
+            }
         }
 
     }

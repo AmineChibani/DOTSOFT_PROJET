@@ -18,6 +18,10 @@ namespace ClientService.Core.Interfaces
         Task<DbClient> AddClient(DbClient client);
 
         Task<Result<List<DbParamPays>>> GetAllPays();
+        Task<List<VentesNationales>> GetVentesNationales(int clientId);
+
+        Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
+        Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
     }
