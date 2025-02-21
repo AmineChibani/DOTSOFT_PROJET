@@ -73,12 +73,11 @@ namespace ClientService.Core.Services
         {
             throw new NotImplementedException();
         }
-
+        //Get chiffre d'affaire par client
         public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
         {
             try
             {
-                // Add any business logic/validation here if needed
                 if (request.IdClient <= 0)
                 {
                     throw new ArgumentException("Invalid Client ID");
