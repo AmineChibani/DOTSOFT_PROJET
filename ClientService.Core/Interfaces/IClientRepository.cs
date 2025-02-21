@@ -15,11 +15,14 @@ namespace ClientService.Core.Interfaces
     public interface IClientRepository
     {
         Task<Result<DbClient>> GetClientById(int IdClient);
-        Task<Result<List<DbParamPays>>> GetAllPays();   
+        Task<Result<List<DbClientAdresse>>> GetAllAdresses();
+        Task<Result<List<DbParamPays>>> GetAllPays();
         Task<List<DbClient>> GetClientsAsync();
         Task<DbClient> AddClient(DbClient client);
-        Task<List<CA>> CA(CaFilter filter);
+
+        Task<List<VentesNationales>> GetVentesNationales(int clientId);
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
+        Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);
     }
 }

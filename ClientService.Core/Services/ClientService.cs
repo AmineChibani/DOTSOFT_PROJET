@@ -7,16 +7,19 @@ using ClientService.Core.Common;
 using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace ClientService.Core.Services
 {
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
+        private readonly ILogger<ClientService> _logger;
 
-        public ClientService(IClientRepository clientRepository)
+        public ClientService(IClientRepository clientRepository, ILogger<ClientService> logger)
         {
             _clientRepository = clientRepository;
+            _logger = logger;
         }
 
         public async Task<Result<DbClient>> GetClientById(int id)
@@ -49,20 +52,44 @@ namespace ClientService.Core.Services
             return Result<List<DbParamPays>>.Success(result.Value);
         }
 
+        
         public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
+            {
+                if (clientId <= 0)
+                {
+                    return Result<List<ClientAddressDetailsDto>>.Failure("Invalid client ID provided");
+                }
+
+                var result = await _clientRepository.GetAddressesByClientId(clientId);
+                if (!result.IsSuccess)
+                {
+                    return Result<List<ClientAddressDetailsDto>>.Failure(result.Error);
+                }
+
+                return Result<List<ClientAddressDetailsDto>>.Success(result.Value);
+        }
+
+        public Task<List<VentesNationales>> GetVentesNationales(int clientId)
         {
-            if (clientId <= 0)
+            throw new NotImplementedException();
+        }
+        //Get chiffre d'affaire par client (ou bien tous les factures de Client )
+        public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
+        {
+            try
             {
-                return Result<List<ClientAddressDetailsDto>>.Failure("Invalid client ID provided");
-            }
+                if (request.IdClient <= 0)
+                {
+                    throw new ArgumentException("Invalid Client ID");
+                }
 
-            var result = await _clientRepository.GetAddressesByClientId(clientId);
-            if (!result.IsSuccess)
+                return await _clientRepository.GetCAAsync(request);
+            }
+            catch (Exception ex)
             {
-                return Result<List<ClientAddressDetailsDto>>.Failure(result.Error);
+                _logger.LogError(ex, "Error occurred while getting CA data for client {ClientId}", request.IdClient);
+                throw;
             }
-
-            return Result<List<ClientAddressDetailsDto>>.Success(result.Value);
         }
     }
 }

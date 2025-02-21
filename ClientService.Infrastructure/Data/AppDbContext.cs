@@ -85,11 +85,8 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbEcommerce_Demandes> Ecommerce_Demandes { get; set; }
         public DbSet<DbLanguage_Param_Pays> Language_Param_Pays { get; set; }
         public DbSet<DbMarque> Marques { get; set; }
-        public DbSet<DbParamTypeAdresse> TypeAdresses { get; set; }
-        public DbSet<DbClientCommande> ClientCommande { get; set; } 
-        public DbSet<DbToutesFamillesSansNull> ToutesFamillesSansNulls { get; set; }
-        public DbSet<DbSavDossier> SavDossiers { get; set; }
-        public DbSet<DbProduit> Produits { get; set; }
+        public DbSet<VentesNationales> ventesNationales { get; set; }
+        public DbSet<CAResult> GetChiffreDaffaire { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
@@ -139,6 +136,8 @@ namespace ClientService.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<VentesNationales>().HasNoKey();
+            modelBuilder.Entity<CAResult>().HasNoKey();
             //modelBuilder.Entity<>.HasNoKey();
             //modelBuilder.Entity<Avoirs>().HasNoKey();
             //modelBuilder.Entity<ClientService.CA>().HasNoKey();

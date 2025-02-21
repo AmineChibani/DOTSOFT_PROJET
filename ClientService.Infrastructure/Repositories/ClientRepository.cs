@@ -43,7 +43,8 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public Task<List<CA>> CA(CaFilter filter)
+
+        public Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
         {
             throw new NotImplementedException();
         }
@@ -67,6 +68,40 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
+        //méthode pour récupére tous les factures clients qui a fait le client
+        public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
+        {
+            try
+            {
+                if (request.IdClient <= 0)
+                {
+                    throw new ArgumentException("Invalid Client ID");
+                }
+
+                // Créer un paramètre pour le curseur de sortie
+                var outputParameter = new OracleParameter
+                {
+                    ParameterName = "p_Result",
+                    Direction = ParameterDirection.Output,
+                    OracleDbType = OracleDbType.RefCursor
+                };
+
+                // Exécuter la procédure stockée avec OracleParameter pour gérer les paramètres IN et OUT
+                var result = await _appcontext.Set<CAResult>()
+                    .FromSqlRaw("BEGIN DOTSOFT.GetCA(:p_IdClient, :p_Result); END;",
+                                new OracleParameter(":p_IdClient", request.IdClient),
+                                outputParameter)
+                    .ToListAsync();
+
+                return result.OrderByDescending(x => x.Fdate).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting CA data for client {ClientId}", request.IdClient);
+                throw;
+            }
+        }
+
 
         public async Task<Result<DbClient>> GetClientById(int id)
         {
@@ -86,6 +121,7 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
+
         public async Task<List<DbClient>> GetClientsAsync()
         {
             try
@@ -101,74 +137,17 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
+        public async Task<List<VentesNationales>> GetVentesNationales(int clientId)
         {
-            try
+            var parameter = new OracleParameter("p_client_id", OracleDbType.Int32)
             {
-                var resultList = new List<ClientAddressDetailsDto>();
+                Value = clientId
+            };
 
-                using (var connection = _appcontext.Database.GetDbConnection())
-                {
-                    await connection.OpenAsync();
-
-                    using (var command = connection.CreateCommand())
-                    {
-                        command.CommandText = "BEGIN DOTSOFT.GetClientAddresses(:ClientId, :ResultCursor); END;";
-                        command.CommandType = CommandType.Text;
-
-                        // Input parameter
-                        var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
-                        {
-                            Value = clientId,
-                            Direction = ParameterDirection.Input
-                        };
-                        command.Parameters.Add(clientIdParam);
-
-                        // Output parameter (REF CURSOR)
-                        var cursorParam = new OracleParameter("ResultCursor", OracleDbType.RefCursor)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        command.Parameters.Add(cursorParam);
-
-                        using (var reader = await command.ExecuteReaderAsync())
-                        {
-                            while (await reader.ReadAsync())
-                            {
-                                resultList.Add(new ClientAddressDetailsDto
-                                {
-                                    IdClient = reader.GetInt32(0),
-                                    IdTypeAdresse = reader.IsDBNull(1) ? null : reader.GetInt32(1),
-                                    Adresse1 = reader.IsDBNull(2) ? null : reader.GetString(2),
-                                    Adresse2 = reader.IsDBNull(3) ? null : reader.GetString(3),
-                                    IdCp = reader.IsDBNull(4) ? null : reader.GetInt32(4),
-                                    IdPays = reader.IsDBNull(5) ? null : reader.GetInt32(5),
-                                    Telephone = reader.IsDBNull(6) ? null : reader.GetString(6),
-                                    Portable = reader.IsDBNull(7) ? null : reader.GetString(7),
-                                    NumVoie = reader.IsDBNull(8) ? null : reader.GetInt32(8),
-                                    Btqc = reader.IsDBNull(9) ? null : reader.GetString(9),
-                                    TypeVoie = reader.IsDBNull(10) ? null : reader.GetString(10),
-                                    TelephoneAutre = reader.IsDBNull(11) ? null : reader.GetString(11),
-                                    Fax = reader.IsDBNull(12) ? null : reader.GetString(12),
-                                    Batesc = reader.IsDBNull(13) ? null : reader.GetString(13),
-                                    Description = reader.IsDBNull(14) ? null : reader.GetString(14),
-                                    Nom = reader.IsDBNull(15) ? null : reader.GetString(15),
-                                    ParDefaut = reader.IsDBNull(16) ? (bool?)null : reader.GetBoolean(16),
-                                    Cp = reader.IsDBNull(17) ? null : reader.GetString(17),
-                                    Commune = reader.IsDBNull(18) ? null : reader.GetString(18),
-                                    Bureau = reader.IsDBNull(19) ? null : reader.GetString(19)
-                                });
-                            }
-                        }
-                    }
-                }
-
-                return Result<List<ClientAddressDetailsDto>>.Success(resultList);
-            }
-            catch(Exception ex) {
-                return Result<List<ClientAddressDetailsDto>>.Failure("Error occured while trying to get Client's adress: "+ ex.Message);
-            }
+            return await _appcontext.ventesNationales
+                .FromSqlRaw("BEGIN DOTSOFT.GET_VENTES_NATIONALE(:p_client_id, :p_resultset); END;",
+                    parameter)
+                .ToListAsync();
         }
-
     }
 }
