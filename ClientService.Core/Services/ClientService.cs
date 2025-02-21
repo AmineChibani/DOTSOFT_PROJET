@@ -83,11 +83,6 @@ namespace ClientService.Core.Services
                     throw new ArgumentException("Invalid Client ID");
                 }
 
-                if (request.IdStructure <= 0)
-                {
-                    throw new ArgumentException("Invalid Structure ID");
-                }
-
                 return await _clientRepository.GetCAAsync(request);
             }
             catch (Exception ex)
@@ -96,5 +91,5 @@ namespace ClientService.Core.Services
                 throw;
             }
         }
-    } 
+    }
 }

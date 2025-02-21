@@ -94,11 +94,22 @@ namespace ClientService.WebAPI.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<ActionResult<IEnumerable<CAResult>>> GetCA([FromBody] CARequest request)
+        [HttpGet("CA/{clientId}")]
+        public async Task<ActionResult<IEnumerable<CAResult>>> GetCA(int clientId)
         {
             try
             {
+                if (clientId <= 0)
+                {
+                    throw new ArgumentException("Invalid Client ID");
+                }
+
+                // Création d'un objet CARequest avec le seul IdClient
+                var request = new CARequest
+                {
+                    IdClient = clientId
+                };
+
                 var results = await _clientService.GetCAAsync(request);
                 return Ok(results);
             }
@@ -108,9 +119,10 @@ namespace ClientService.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error processing CA request");
+                _logger.LogError(ex, "Error processing CA request for client {ClientId}", clientId);
                 return StatusCode(500, "An error occurred while processing your request");
             }
         }
+
     }
 }

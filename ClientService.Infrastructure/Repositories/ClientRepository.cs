@@ -74,14 +74,6 @@ namespace ClientService.Infrastructure.Repositories
                         join fl in _appcontext.ClientFatureLignes
                         on f.IdFactureC equals fl.IdFactureC
                         where f.IdClient == request.IdClient
-                        && f.IdStructure == request.IdStructure
-                        && f.Annulation == 0
-                        && f.Avoir == 0
-                        && (request.All == 1 ||
-                            (request.StartDate.HasValue &&
-                             request.EndDate.HasValue &&
-                             f.Fdate >= request.StartDate.Value &&
-                             f.Fdate <= request.EndDate.Value))
                         group new { f, fl } by new
                         {
                             f.IdFactureC,
