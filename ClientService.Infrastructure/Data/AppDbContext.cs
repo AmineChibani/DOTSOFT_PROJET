@@ -86,7 +86,7 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbLanguage_Param_Pays> Language_Param_Pays { get; set; }
         public DbSet<DbMarque> Marques { get; set; }
         public DbSet<VentesNationales> ventesNationales { get; set; }
-        public DbSet<CA> GetChiffreDaffaire { get; set; }
+        public DbSet<CAResult> GetChiffreDaffaire { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
@@ -137,7 +137,7 @@ namespace ClientService.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<VentesNationales>().HasNoKey();
-            modelBuilder.Entity<CA>().HasNoKey();
+            modelBuilder.Entity<CAResult>().HasNoKey();
             //modelBuilder.Entity<>.HasNoKey();
             //modelBuilder.Entity<Avoirs>().HasNoKey();
             //modelBuilder.Entity<ClientService.CA>().HasNoKey();

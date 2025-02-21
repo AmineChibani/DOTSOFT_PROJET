@@ -43,7 +43,8 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public Task<List<CA>> CA(CaFilter filter)
+
+        public Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
         {
             throw new NotImplementedException();
         }
@@ -67,6 +68,40 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
+        public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
+        {
+            var query = from f in _appcontext.ClientFactures
+                        join fl in _appcontext.ClientFatureLignes
+                        on f.IdFactureC equals fl.IdFactureC
+                        where f.IdClient == request.IdClient
+                        && f.IdStructure == request.IdStructure
+                        && f.Annulation == 0
+                        && f.Avoir == 0
+                        && (request.All == 1 ||
+                            (request.StartDate.HasValue &&
+                             request.EndDate.HasValue &&
+                             f.Fdate >= request.StartDate.Value &&
+                             f.Fdate <= request.EndDate.Value))
+                        group new { f, fl } by new
+                        {
+                            f.IdFactureC,
+                            f.Fdate,
+                            f.NumFacture,
+                            f.TypeFacture
+                        } into g
+                        select new CAResult
+                        {
+                            Fdate = g.Key.Fdate,
+                            IdFactureC = g.Key.IdFactureC,
+                            NumFacture = g.Key.NumFacture.ToString(),
+                            TypeFacture = g.Key.TypeFacture,
+                            Cattc = g.Sum(x => x.fl.Montant * x.fl.Quantite),
+                            Achat = g.Sum(x => x.fl.MontantAchat * x.fl.Quantite),
+                            Caht = g.Sum(x => x.fl.Montant / (1 + (x.fl.MontantTva / 100m)))
+                        };
+
+            return await query.OrderByDescending(x => x.Fdate).ToListAsync();
+        }
 
         public async Task<Result<DbClient>> GetClientById(int id)
         {
@@ -86,25 +121,9 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public Task<List<CA>> GetClientCA(int clientId, int structureId)
+        public Task<List<CAResult>> GetClientCA(int clientId, int structureId)
         {
-            try
-            {
-                var results = await _context.GetCAAsync(
-                    clientId: clientId,
-                    structureId: structureId,
-                    startDate: DateTime.Now.AddMonths(-1),
-                    endDate: DateTime.Now,
-                    all: 0);
-
-                return results;
-            }
-            catch (Exception ex)
-            {
-                // Handle any errors
-                Console.WriteLine($"Error fetching CA: {ex.Message}");
-                throw;
-            }
+            throw new NotImplementedException();
         }
 
         public async Task<List<DbClient>> GetClientsAsync()
@@ -122,44 +141,17 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
+        public async Task<List<VentesNationales>> GetVentesNationales(int clientId)
         {
-            var resultList = new List<ClientAddressDetailsDto>();
-
-            using (var connection = _appcontext.Database.GetDbConnection())
+            var parameter = new OracleParameter("p_client_id", OracleDbType.Int32)
             {
-                await connection.OpenAsync();
+                Value = clientId
+            };
 
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "BEGIN DOTSOFT.GetClientAddresses(:ClientId, :ResultCursor); END;";
-                    command.CommandType = CommandType.Text;
-
-                    // Input parameter
-                    var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
-                    {
-                        Value = clientId,
-                        Direction = ParameterDirection.Input
-                    };
-                    command.Parameters.Add(clientIdParam);
-
-                    // Output parameter (REF CURSOR)
-                    var cursorParam = new OracleParameter("ResultCursor", OracleDbType.RefCursor)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    command.Parameters.Add(cursorParam);
-
-                return Result<List<DbClientAdresse>>.Success(addresses);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error fetching addresses for client ID {clientId}", ex.Message);
-                return Result<List<DbClientAdresse>>.Failure(ex.Message);
-            }
-
-            return Result<List<ClientAddressDetailsDto>>.Success(resultList);
+            return await _appcontext.ventesNationales
+                .FromSqlRaw("BEGIN DOTSOFT.GET_VENTES_NATIONALE(:p_client_id, :p_resultset); END;",
+                    parameter)
+                .ToListAsync();
         }
-
     }
 }
