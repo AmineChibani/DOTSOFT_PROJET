@@ -23,6 +23,5 @@ namespace ClientService.Core.Interfaces
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
         Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);
 
-        Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
     }
 }

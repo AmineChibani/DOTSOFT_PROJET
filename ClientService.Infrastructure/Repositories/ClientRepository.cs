@@ -121,10 +121,6 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public Task<List<CAResult>> GetClientCA(int clientId, int structureId)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<List<DbClient>> GetClientsAsync()
         {
@@ -141,26 +137,17 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
+        public async Task<List<VentesNationales>> GetVentesNationales(int clientId)
         {
-            var resultList = new List<ClientAddressDetailsDto>();
-
-            using (var connection = _appcontext.Database.GetDbConnection())
+            var parameter = new OracleParameter("p_client_id", OracleDbType.Int32)
             {
-                var addresses = await _appcontext.ClientAdresses
-                    .Where(a => a.ClientId == clientId)
-                    .Include(a => a.Pays)
-                    .Include(a => a.ParamCodePostal)
-                    .ToListAsync();
+                Value = clientId
+            };
 
-                return Result<List<DbClientAdresse>>.Success(addresses);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error fetching addresses for client ID {clientId}", ex.Message);
-                return Result<List<DbClientAdresse>>.Failure(ex.Message);
-            }
+            return await _appcontext.ventesNationales
+                .FromSqlRaw("BEGIN DOTSOFT.GET_VENTES_NATIONALE(:p_client_id, :p_resultset); END;",
+                    parameter)
+                .ToListAsync();
         }
-
     }
 }

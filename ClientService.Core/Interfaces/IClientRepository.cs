@@ -23,7 +23,6 @@ namespace ClientService.Core.Interfaces
         Task<List<VentesNationales>> GetVentesNationales(int clientId);
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
-        Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
         Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);
     }
 }
