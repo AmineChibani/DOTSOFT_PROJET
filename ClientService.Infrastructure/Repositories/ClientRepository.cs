@@ -103,65 +103,71 @@ namespace ClientService.Infrastructure.Repositories
 
         public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
         {
-            var resultList = new List<ClientAddressDetailsDto>();
-
-            using (var connection = _appcontext.Database.GetDbConnection())
+            try
             {
-                await connection.OpenAsync();
+                var resultList = new List<ClientAddressDetailsDto>();
 
-                using (var command = connection.CreateCommand())
+                using (var connection = _appcontext.Database.GetDbConnection())
                 {
-                    command.CommandText = "BEGIN DOTSOFT.GetClientAddresses(:ClientId, :ResultCursor); END;";
-                    command.CommandType = CommandType.Text;
+                    await connection.OpenAsync();
 
-                    // Input parameter
-                    var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
+                    using (var command = connection.CreateCommand())
                     {
-                        Value = clientId,
-                        Direction = ParameterDirection.Input
-                    };
-                    command.Parameters.Add(clientIdParam);
+                        command.CommandText = "BEGIN DOTSOFT.GetClientAddresses(:ClientId, :ResultCursor); END;";
+                        command.CommandType = CommandType.Text;
 
-                    // Output parameter (REF CURSOR)
-                    var cursorParam = new OracleParameter("ResultCursor", OracleDbType.RefCursor)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    command.Parameters.Add(cursorParam);
-
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
+                        // Input parameter
+                        var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
                         {
-                            resultList.Add(new ClientAddressDetailsDto
+                            Value = clientId,
+                            Direction = ParameterDirection.Input
+                        };
+                        command.Parameters.Add(clientIdParam);
+
+                        // Output parameter (REF CURSOR)
+                        var cursorParam = new OracleParameter("ResultCursor", OracleDbType.RefCursor)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        command.Parameters.Add(cursorParam);
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
                             {
-                                IdClient = reader.GetInt32(0),
-                                IdTypeAdresse = reader.GetInt32(1),
-                                Adresse1 = reader.GetString(2),
-                                Adresse2 = reader.IsDBNull(3) ? null : reader.GetString(3),
-                                IdCp = reader.GetInt32(4),
-                                IdPays = reader.GetInt32(5),
-                                Telephone = reader.IsDBNull(6) ? null : reader.GetString(6),
-                                Portable = reader.IsDBNull(7) ? null : reader.GetString(7),
-                                //NumVoie = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                Btqc = reader.IsDBNull(9) ? null : reader.GetString(9),
-                                TypeVoie = reader.IsDBNull(10) ? null : reader.GetString(10),
-                                TelephoneAutre = reader.IsDBNull(11) ? null : reader.GetString(11),
-                                Fax = reader.IsDBNull(12) ? null : reader.GetString(12),
-                                Batesc = reader.IsDBNull(13) ? null : reader.GetString(13),
-                                Description = reader.IsDBNull(14) ? null : reader.GetString(14),
-                                Nom = reader.IsDBNull(15) ? null : reader.GetString(15),
-                                ParDefaut = reader.IsDBNull(16) ? (bool?)null : reader.GetBoolean(16),
-                                Cp = reader.IsDBNull(17) ? null : reader.GetString(17),
-                                Commune = reader.IsDBNull(18) ? null : reader.GetString(18),
-                                Bureau = reader.IsDBNull(19) ? null : reader.GetString(19)
-                            });
+                                resultList.Add(new ClientAddressDetailsDto
+                                {
+                                    IdClient = reader.GetInt32(0),
+                                    IdTypeAdresse = reader.IsDBNull(1) ? null : reader.GetInt32(1),
+                                    Adresse1 = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                    Adresse2 = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                    IdCp = reader.IsDBNull(4) ? null : reader.GetInt32(4),
+                                    IdPays = reader.IsDBNull(5) ? null : reader.GetInt32(5),
+                                    Telephone = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                    Portable = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                    NumVoie = reader.IsDBNull(8) ? null : reader.GetInt32(8),
+                                    Btqc = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                    TypeVoie = reader.IsDBNull(10) ? null : reader.GetString(10),
+                                    TelephoneAutre = reader.IsDBNull(11) ? null : reader.GetString(11),
+                                    Fax = reader.IsDBNull(12) ? null : reader.GetString(12),
+                                    Batesc = reader.IsDBNull(13) ? null : reader.GetString(13),
+                                    Description = reader.IsDBNull(14) ? null : reader.GetString(14),
+                                    Nom = reader.IsDBNull(15) ? null : reader.GetString(15),
+                                    ParDefaut = reader.IsDBNull(16) ? (bool?)null : reader.GetBoolean(16),
+                                    Cp = reader.IsDBNull(17) ? null : reader.GetString(17),
+                                    Commune = reader.IsDBNull(18) ? null : reader.GetString(18),
+                                    Bureau = reader.IsDBNull(19) ? null : reader.GetString(19)
+                                });
+                            }
                         }
                     }
                 }
-            }
 
-            return Result<List<ClientAddressDetailsDto>>.Success(resultList);
+                return Result<List<ClientAddressDetailsDto>>.Success(resultList);
+            }
+            catch(Exception ex) {
+                return Result<List<ClientAddressDetailsDto>>.Failure("Error occured while trying to get Client's adress: "+ ex.Message);
+            }
         }
 
     }

@@ -9,11 +9,11 @@ namespace ClientService.Core.Dtos
     public class ClientAddressDetailsDto
     {
         public int IdClient { get; set; }
-        public int IdTypeAdresse { get; set; }
+        public int? IdTypeAdresse { get; set; }
         public string? Adresse1 { get; set; }
         public string? Adresse2 { get; set; }
         public int? IdCp { get; set; }
-        public int IdPays { get; set; }
+        public int? IdPays { get; set; }
         public string? Telephone { get; set; }
         public string? Portable { get; set; }
         public int? NumVoie { get; set; }
