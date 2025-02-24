@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Oracle.EntityFrameworkCore;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos;
 
 
 
@@ -85,7 +86,7 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbEcommerce_Demandes> Ecommerce_Demandes { get; set; }
         public DbSet<DbLanguage_Param_Pays> Language_Param_Pays { get; set; }
         public DbSet<DbMarque> Marques { get; set; }
-        public DbSet<VentesNationales> ventesNationales { get; set; }
+        public DbSet<VenteResult> ventesNationales { get; set; }
         public DbSet<CAResult> GetChiffreDaffaire { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
@@ -136,7 +137,7 @@ namespace ClientService.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<VentesNationales>().HasNoKey();
+            modelBuilder.Entity<VenteResult>().HasNoKey();
             modelBuilder.Entity<CAResult>().HasNoKey();
             //modelBuilder.Entity<>.HasNoKey();
             //modelBuilder.Entity<Avoirs>().HasNoKey();
@@ -152,6 +153,7 @@ namespace ClientService.Infrastructure.Data
             //modelBuilder.Entity<DbClientFactureLigne>()
             //    .ToTable("CLIENT_FACTURE_LIGNE", "SYSTEM");
 
+            
             modelBuilder.Entity<ClientAddressDetailsDto>().HasNoKey();
             modelBuilder.Entity<DbDroitsSpeciaux>().HasNoKey();
             modelBuilder.Entity<DbClient>().HasMany<DbClientAdresse>((Expression<Func<DbClient, IEnumerable<DbClientAdresse>>>)(x => x.ClientAdresses)).WithOne((Expression<Func<DbClientAdresse, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresse, object>>)(x => (object)x.ClientId));
