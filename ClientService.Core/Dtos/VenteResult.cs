@@ -8,7 +8,7 @@ namespace ClientService.Core.Dtos
 
         public int Id_Structure { get; set; }
 
-        public char Type_Avoir { get; set; }
+        public string Type_Avoir { get; set; }
 
         public decimal Avoir { get; set; }
 
@@ -38,6 +38,6 @@ namespace ClientService.Core.Dtos
 
         public int Sans_Marge { get; set; }
 
-        public char Type_Facture { get; set; }
+        public string Type_Facture { get; set; }
     }
 }
