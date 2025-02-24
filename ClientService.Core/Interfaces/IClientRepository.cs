@@ -17,6 +17,7 @@ namespace ClientService.Core.Interfaces
         Task<Result<DbClient>> GetClientById(int IdClient);
         Task<Result<List<DbParamPays>>> GetAllPays();
         Task<Result<int>> Duplicate(int clientId, int adressTypeId);
+        Task<Result<List<DbParamCategSocioProf>>> GetCSPs();
         Task<List<DbClient>> GetClientsAsync();
         Task<DbClient> AddClient(DbClient client);
         Task<List<CA>> CA(CaFilter filter);

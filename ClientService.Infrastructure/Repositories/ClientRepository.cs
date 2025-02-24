@@ -8,6 +8,7 @@ using ClientService.Core.Common;
 using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
+using ClientService.Core.Mappers;
 using ClientService.Core.Specifications.Clients;
 using ClientService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -233,5 +234,20 @@ namespace ClientService.Infrastructure.Repositories
             return Result<int>.Success(oldClientAdresse.ClientId);
         }
 
+        public async Task<Result<List<DbParamCategSocioProf>>> GetCSPs()
+        {
+            try
+            {
+                List<DbParamCategSocioProf> csps = await _appcontext.ParamCategSocioProfS
+                                        //.Where(x => x.LanguageParamCategSocioPro.Code == 1)
+                                        .ToListAsync();
+
+                return Result<List<DbParamCategSocioProf>>.Success(csps);
+            }
+            catch (Exception ex)
+            {
+                return Result<List<DbParamCategSocioProf>>.Failure("An error occured while retreiving the Csps" + ex.Message);
+            }
+        }
     }
 }

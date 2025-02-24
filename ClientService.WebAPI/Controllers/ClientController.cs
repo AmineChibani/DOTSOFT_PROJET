@@ -94,8 +94,7 @@ namespace ClientService.WebAPI.Controllers
             return CreatedAtAction(nameof(GetClientById), new { id = newClient.Nom }, newClient);
         }
 
-
-        [HttpGet("clients/{clientId}/addresses")]
+        [HttpGet("clients/addresses/{clientId}")]
         public async Task<IActionResult> GetClientAddresses(int clientId)
         {
             var result = await _clientService.GetAddressesByClientId(clientId);
@@ -108,7 +107,7 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPost("{clientId}/{AdressTypeId}")]
+        [HttpPost("duplicate/{clientId}/{AdressTypeId}")]
         public async Task<IActionResult> DuplicateAdresse([FromRoute] int clientId, [FromRoute] int AdressTypeId)
         {
             var result = await _clientService.Duplicate(clientId, AdressTypeId);
@@ -117,6 +116,17 @@ namespace ClientService.WebAPI.Controllers
                 return result.Error.Contains("not found") ?
                 NotFound(result.Error) :
                     BadRequest(result.Error);
+            }
+            return Ok(result.Value);
+        }
+
+        [HttpGet("Csps")]
+        public async Task<IActionResult> GetCsps()
+        {
+            var result = await _clientService.GetCSPs();
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Error);
             }
             return Ok(result.Value);
         }

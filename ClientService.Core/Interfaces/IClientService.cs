@@ -21,5 +21,6 @@ namespace ClientService.Core.Interfaces
         Task<Result<List<DbParamPays>>> GetAllPays();
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
+        Task<Result<List<CspDto>>> GetCSPs();
     }
 }

@@ -7,6 +7,7 @@ using ClientService.Core.Common;
 using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
+using ClientService.Core.Mappers;
 
 namespace ClientService.Core.Services
 {
@@ -80,6 +81,16 @@ namespace ClientService.Core.Services
 
             return Result<int>.Success(result.Value);
 
+        }
+
+        public async Task<Result<List<CspDto>>> GetCSPs()
+        {
+            var result = await _clientRepository.GetCSPs();
+            if (!result.IsSuccess)
+            {
+                return Result<List<CspDto>>.Failure(result.Error); 
+            }
+            return Result<List<CspDto>>.Success(result.Value.Select(x => x.toCspDto()).ToList());
         }
     }
 }
