@@ -168,47 +168,27 @@ namespace ClientService.WebAPI.Controllers
 
 
         [HttpGet("ventes-nationales")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<VenteResult>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetVentesNational(
-    [FromQuery] VenteRequest request)
+        public async Task<IActionResult> GetVentesNational([FromQuery] VenteRequest request)
         {
             try
             {
-                // Validate the request input
-                if (request == null)
+                if (request == null || request.IdClient <= 0)
                 {
-                    return BadRequest("Request cannot be null.");
+                    return BadRequest("Invalid request parameters.");
                 }
 
-                if (request.IdClient <= 0)
-                {
-                    return BadRequest("Invalid Client ID.");
-                }
-
-                // Call the service to get the national sales
                 var results = await _clientService.GetVentesNationalesAsync(request);
 
-                // If no results, return NotFound
-                if (results == null || !results.Any())
+                if (!results.Any())
                 {
-                    return NotFound($"No national sales found for client {request.IdClient}.");
+                    return NotFound();
                 }
 
-                // Return the results with a 200 OK response
                 return Ok(results);
-            }
-            catch (ArgumentException ex)
-            {
-                // Catch validation errors (like invalid input) and return BadRequest
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                // Handle any other errors and log them, return a 500 status
-                _logger.LogError(ex, "Error occurred while processing national sales data for client {ClientId}", request.IdClient);
+                _logger.LogError(ex, "Error getting national sales for client {ClientId}", request.IdClient);
                 return StatusCode(500, "An error occurred while processing your request");
             }
         }
