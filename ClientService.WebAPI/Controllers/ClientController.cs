@@ -5,6 +5,7 @@ using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Dtos;
 using ClientService.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClientService.WebAPI.Controllers
@@ -93,6 +94,7 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
+<<<<<<< HEAD
         // Get Chiffre d'affaire par client
         [HttpGet("CA/{clientId}")]
         public async Task<ActionResult<IEnumerable<CAResult>>> GetCA(int clientId)
@@ -122,6 +124,19 @@ namespace ClientService.WebAPI.Controllers
                 _logger.LogError(ex, "Error processing CA request for client {ClientId}", clientId);
                 return StatusCode(500, "An error occurred while processing your request");
             }
+=======
+        [HttpPost("{clientId}/{AdressTypeId}")]
+        public async Task<IActionResult> DuplicateAdresse([FromRoute] int clientId, [FromRoute] int AdressTypeId)
+        {
+            var result = await _clientService.Duplicate(clientId, AdressTypeId);
+            if (!result.IsSuccess)
+            {
+                return result.Error.Contains("not found") ?
+                NotFound(result.Error) :
+                    BadRequest(result.Error);
+            }
+            return Ok(result.Value);
+>>>>>>> cefeeb1fc6f3e47c423f66bbbe9bbadd67e7cec3
         }
     }
 }
