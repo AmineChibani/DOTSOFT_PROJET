@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -166,8 +166,9 @@ namespace ClientService.Infrastructure.Repositories
 
                 return Result<List<ClientAddressDetailsDto>>.Success(resultList);
             }
-            catch(Exception ex) {
-                return Result<List<ClientAddressDetailsDto>>.Failure("Error occured while trying to get Client's adress: "+ ex.Message);
+            catch (Exception ex)
+            {
+                return Result<List<ClientAddressDetailsDto>>.Failure("Error occured while trying to get Client's adress: " + ex.Message);
             }
         }
 
