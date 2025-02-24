@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace ClientService.Core.Entities
     public class DbParamModeEnlevement
     {
         [Column("ID_MODE_ENLEVEMENT")]
+        [Key]
+
         public int? IdModeEnlevement { get; set; }
 
         [Column("NOM")]

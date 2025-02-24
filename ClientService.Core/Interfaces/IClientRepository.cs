@@ -26,5 +26,7 @@ namespace ClientService.Core.Interfaces
         Task<Result<int>> Duplicate(int clientId, int adressTypeId);
         Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);
         Task<Result<List<DbParamCategSocioProf>>> GetCSPs();
+
+        Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);
     }
 }

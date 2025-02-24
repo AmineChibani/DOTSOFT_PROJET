@@ -157,5 +157,15 @@ namespace ClientService.Core.Services
                 throw;
             }
         }
+
+        public async Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure)
+        {
+            var result = await _clientRepository.GetEnCoursAsync(idClient, idStructure);
+            if (!result.IsSuccess)
+            {
+                return Result<List<EnCours>>.Failure("An Error occured while returning Encours" + result.Error);
+            }
+            return Result<List<EnCours>>.Success(result.Value);
+        }
     }
 }

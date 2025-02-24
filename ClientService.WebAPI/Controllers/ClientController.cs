@@ -1,4 +1,5 @@
-﻿using ClientService.Core.Common;
+﻿using System.Net.Sockets;
+using ClientService.Core.Common;
 using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
@@ -191,6 +192,18 @@ namespace ClientService.WebAPI.Controllers
                 _logger.LogError(ex, "Error getting national sales for client {ClientId}", request.IdClient);
                 return StatusCode(500, "An error occurred while processing your request");
             }
+        }
+
+
+        [HttpGet("{idClient}/{idStructure}/Encours")]
+        public async Task<IActionResult> GetEncours([FromRoute] int idClient, [FromRoute] int idStructure)
+        {
+            var result = await _clientService.GetEnCoursAsync(idClient, idStructure);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Error);
+            }
+            return Ok(result.Value);
         }
 
     }

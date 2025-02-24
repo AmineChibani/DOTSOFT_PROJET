@@ -26,5 +26,6 @@ namespace ClientService.Core.Interfaces
         Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);
 
         Task<Result<List<CspDto>>> GetCSPs();
+        Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);
     }
 }

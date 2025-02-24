@@ -224,4 +224,4 @@ namespace ClientService.Core.Entities
         public int? ProduitsAAffectation { get; set; }
     }
 }
-}
+

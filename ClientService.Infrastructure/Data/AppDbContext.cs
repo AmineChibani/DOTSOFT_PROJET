@@ -91,7 +91,7 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbClientCommandeLigne> ClientCommandeLigne { get; set; }
         public DbSet<DbPlanning> Planning { get; set; }
         public DbSet<DbParamModeEnlevement> ParamModeEnlevement { get; set; }
-        public DbSet<DbProduitFamille> ProduitFamille { get; set; }
+        public DbSet<DbProduitFamille> DProduitFamille { get; set; }
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
         public override int SaveChanges()
@@ -142,6 +142,7 @@ namespace ClientService.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<VenteResult>().HasNoKey();
             modelBuilder.Entity<CAResult>().HasNoKey();
+            modelBuilder.Entity<EnCours>().HasNoKey();
             //modelBuilder.Entity<>.HasNoKey();
             //modelBuilder.Entity<Avoirs>().HasNoKey();
             //modelBuilder.Entity<ClientService.CA>().HasNoKey();
@@ -156,7 +157,7 @@ namespace ClientService.Infrastructure.Data
             //modelBuilder.Entity<DbClientFactureLigne>()
             //    .ToTable("CLIENT_FACTURE_LIGNE", "SYSTEM");
 
-            
+
             modelBuilder.Entity<ClientAddressDetailsDto>().HasNoKey();
             modelBuilder.Entity<DbDroitsSpeciaux>().HasNoKey();
             modelBuilder.Entity<DbClient>().HasMany<DbClientAdresse>((Expression<Func<DbClient, IEnumerable<DbClientAdresse>>>)(x => x.ClientAdresses)).WithOne((Expression<Func<DbClientAdresse, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresse, object>>)(x => (object)x.ClientId));
