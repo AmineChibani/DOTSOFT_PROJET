@@ -33,25 +33,15 @@ namespace ClientService.Infrastructure.Repositories
         {
             try
             {
-                await _appcontext.Clients.AddAsync(client);  
-                await _appcontext.SaveChangesAsync();  
+                await _appcontext.Clients.AddAsync(client);
+                await _appcontext.SaveChangesAsync();
                 return client;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding client to the database");
-                throw;  
+                throw;
             }
-        }
-
-        public Task<List<CA>> CA(CaFilter filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<List<DbClientAdresse>>> GetAllAdresses()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Result<List<DbParamPays>>> GetAllPays()
@@ -98,7 +88,7 @@ namespace ClientService.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all clients from the database");
-                throw;  
+                throw;
             }
         }
 
@@ -249,10 +239,8 @@ namespace ClientService.Infrastructure.Repositories
             {
                 return Result<List<DbParamCategSocioProf>>.Failure("An error occured while retreiving the Csps" + ex.Message);
             }
-<<<<<<< HEAD
         }
-=======
-        }
+
 
         //méthode pour récupére tous les factures clients qui a fait spécifique le client
         public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
@@ -285,41 +273,6 @@ namespace ClientService.Infrastructure.Repositories
             {
                 _logger.LogError(ex, "Error occurred while getting CA data for client {ClientId}", request.IdClient);
                 throw;
-            }
-        }
-
-
-        public async Task<Result<DbClient>> GetClientById(int id)
-        {
-            try
-            {
-                var client = await _appcontext.Clients.FindAsync(id);
-                if (client == null)
-                {
-                    return Result<DbClient>.Failure("Client not found");
-                }
-                return Result<DbClient>.Success(client);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error retrieving client with ID {id}");
-                return Result<DbClient>.Failure("Error retrieving client");
-            }
-        }
-
-
-        public async Task<List<DbClient>> GetClientsAsync()
-        {
-            try
-            {
-                var allClients = await _appcontext.Clients.ToListAsync();
-                _logger.LogInformation($"Retrieved {allClients.Count} clients from the database");
-                return allClients;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving all clients from the database");
-                throw;  
             }
         }
 
@@ -410,6 +363,5 @@ namespace ClientService.Infrastructure.Repositories
                 throw;
             }
         }
->>>>>>> develop
     }
 }
