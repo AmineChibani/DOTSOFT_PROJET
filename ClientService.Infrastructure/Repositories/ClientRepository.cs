@@ -44,10 +44,6 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public Task<List<CA>> CA(CaFilter filter)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<Result<List<DbClientAdresse>>> GetAllAdresses()
         {
