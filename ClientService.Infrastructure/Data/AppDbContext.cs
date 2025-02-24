@@ -88,7 +88,10 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbMarque> Marques { get; set; }
         public DbSet<VenteResult> ventesNationales { get; set; }
         public DbSet<CAResult> GetChiffreDaffaire { get; set; }
-
+        public DbSet<DbClientCommandeLigne> ClientCommandeLigne { get; set; }
+        public DbSet<DbPlanning> Planning { get; set; }
+        public DbSet<DbParamModeEnlevement> ParamModeEnlevement { get; set; }
+        public DbSet<DbProduitFamille> ProduitFamille { get; set; }
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
         public override int SaveChanges()
