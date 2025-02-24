@@ -295,24 +295,22 @@ namespace ClientService.Infrastructure.Repositories
                 Direction = ParameterDirection.Output,
                 OracleDbType = OracleDbType.RefCursor
             }
-        };
+            };
 
-                // Modified to use ADO.NET directly instead of EF Core for RefCursor
                 using var connection = _appcontext.Database.GetDbConnection() as OracleConnection;
                 if (connection.State != ConnectionState.Open)
                     await connection.OpenAsync();
 
                 using var command = connection.CreateCommand();
                 command.CommandText = @"
-            BEGIN 
-                DOTSOFT.GET_Ventes_Nationales(
-                    :p_id_client, 
-                    :p_abandonnee, 
-                    :p_id_structure, 
-                    :result_cursor
-                ); 
-            END;";
-
+                                        BEGIN 
+                                            DOTSOFT.GET_Ventes_Nationales(
+                                                :p_id_client, 
+                                                :p_abandonnee, 
+                                                :p_id_structure, 
+                                                :result_cursor
+                                            ); 
+                                        END;";
                 command.Parameters.AddRange(parameters);
 
                 var results = new List<VenteResult>();
@@ -321,12 +319,13 @@ namespace ClientService.Infrastructure.Repositories
                 while (await reader.ReadAsync())
                 {
                     results.Add(new VenteResult
-                    {
-                        Nom = reader["nom"] as string,
+                    {   
+
+                        Nom = reader["nom"] as string,  
                         Id_Structure = Convert.ToInt32(reader["id_structure"]),
-                        Type_Avoir = reader["type_avoir"] as string,
-                        Avoir = reader["avoir"] as decimal?,
-                        Num_Facture = reader["num_facture"] as int?,
+                        Type_Avoir = reader["type_avoir"] as string ?? "None",
+                        Avoir = reader["avoir"] != DBNull.Value ? Convert.ToInt32(reader["avoir"]) : (int?)null,
+                        Num_Facture = reader["num_facture"] != DBNull.Value ? Convert.ToInt64(reader["num_facture"]) : (long?)null,
                         Id_Facture = Convert.ToInt32(reader["id_facture"]),
                         FDate = reader["fdate"] as DateTime?,
                         Montant_Facture = reader["montant_facture"] as decimal?,
@@ -338,7 +337,7 @@ namespace ClientService.Infrastructure.Repositories
                         Id_Client = Convert.ToInt32(reader["id_client"]),
                         Id_Produit = Convert.ToInt32(reader["id_produit"]),
                         Code_Reference = reader["code_reference"] as string,
-                        Sans_Marge = reader["sans_marge"] as bool?,
+                        Sans_Marge = Convert.ToBoolean(reader["sans_marge"]),
                         Type_Facture = reader["type_facture"] as string
                     });
                 }

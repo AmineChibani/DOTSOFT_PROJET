@@ -7,8 +7,8 @@ namespace ClientService.Core.Dtos
             public string? Nom { get; set; }
             public int Id_Structure { get; set; }
             public string? Type_Avoir { get; set; }
-            public decimal? Avoir { get; set; }
-            public int? Num_Facture { get; set; }
+            public int? Avoir { get; set; }
+            public long? Num_Facture { get; set; }
             public int Id_Facture { get; set; }
             public DateTime? FDate { get; set; }
             public decimal? Montant_Facture { get; set; }
