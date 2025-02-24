@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -54,7 +55,7 @@ namespace ClientService.Core.Services
 
         
         public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
-            {
+        {
                 if (clientId <= 0)
                 {
                     return Result<List<ClientAddressDetailsDto>>.Failure("Invalid client ID provided");
@@ -69,10 +70,8 @@ namespace ClientService.Core.Services
                 return Result<List<ClientAddressDetailsDto>>.Success(result.Value);
         }
 
-        public Task<List<VentesNationales>> GetVentesNationales(int clientId)
-        {
-            throw new NotImplementedException();
-        }
+
+        
         //Get chiffre d'affaire par client (ou bien tous les factures de Client )
         public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
         {
@@ -88,6 +87,49 @@ namespace ClientService.Core.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting CA data for client {ClientId}", request.IdClient);
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<VenteResult>> GetVentesNationalesAsync(VenteRequest request)
+        {
+            try
+            {
+                // Input validation
+                if (request == null)
+                {
+                    throw new ArgumentNullException(nameof(request));
+                }
+
+                if (request.IdClient <= 0)
+                {
+                    _logger.LogWarning("Invalid client ID provided: {ClientId}", request.IdClient);
+                    throw new ArgumentException("Invalid client ID provided", nameof(request.IdClient));
+                }
+
+                // Additional validation if needed
+                if (request.Abandonnee != 0 && request.Abandonnee != 1)
+                {
+                    _logger.LogWarning("Invalid Abandonnee value provided: {Abandonnee}", request.Abandonnee);
+                    throw new ArgumentException("Abandonnee value must be 0 or 1", nameof(request.Abandonnee));
+                }
+
+                // Call repository method
+                var results = await _clientRepository.GetVentesNationalesAsync(request);
+
+                // Log success
+                _logger.LogInformation("Successfully retrieved national sales data for client {ClientId}", request.IdClient);
+
+                return results;
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogWarning(ex, "Validation error in GetVentesNationalesAsync for client {ClientId}", request.IdClient);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while processing national sales data for client {ClientId}", request.IdClient);
                 throw;
             }
         }

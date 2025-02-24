@@ -1,11 +1,14 @@
 ﻿using ClientService.Core.Common;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Dtos;
 using ClientService.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Common;
+using System.Diagnostics;
 
 namespace ClientService.WebAPI.Controllers
 {
@@ -53,33 +56,6 @@ namespace ClientService.WebAPI.Controllers
             return Ok(clients);
         }
 
-        [HttpGet("VentesNationales/{clientId}")]
-        public async Task<ActionResult<List<VentesNationales>>> GetVentesNationales(int clientId)
-        {
-            try
-            {
-                _logger.LogInformation("Retrieving invoices for client {ClientId}", clientId);
-
-                var factures = await _clientService.GetVentesNationales(clientId);
-
-                if (factures == null || !factures.Any())
-                {
-                    _logger.LogWarning("No invoices found for client {ClientId}", clientId);
-                    return NotFound($"No invoices found for client ID: {clientId}");
-                }
-
-                return Ok(factures);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving invoices for client {ClientId}", clientId);
-                return StatusCode(500, "An error occurred while retrieving the invoices");
-            }
-        }
-
-        
-
-
         [HttpGet("clients/{clientId}/addresses")]
         public async Task<IActionResult> GetClientAddresses(int clientId)
         {
@@ -123,5 +99,53 @@ namespace ClientService.WebAPI.Controllers
                 return StatusCode(500, "An error occurred while processing your request");
             }
         }
+
+        [HttpGet("ventes-nationales")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<VenteResult>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetVentesNational(
+    [FromQuery] VenteRequest request)
+        {
+            try
+            {
+                // Validate the request input
+                if (request == null)
+                {
+                    return BadRequest("Request cannot be null.");
+                }
+
+                if (request.IdClient <= 0)
+                {
+                    return BadRequest("Invalid Client ID.");
+                }
+
+                // Call the service to get the national sales
+                var results = await _clientService.GetVentesNationalesAsync(request);
+
+                // If no results, return NotFound
+                if (results == null || !results.Any())
+                {
+                    return NotFound($"No national sales found for client {request.IdClient}.");
+                }
+
+                // Return the results with a 200 OK response
+                return Ok(results);
+            }
+            catch (ArgumentException ex)
+            {
+                // Catch validation errors (like invalid input) and return BadRequest
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Handle any other errors and log them, return a 500 status
+                _logger.LogError(ex, "Error occurred while processing national sales data for client {ClientId}", request.IdClient);
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+
     }
 }

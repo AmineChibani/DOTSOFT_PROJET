@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ClientService.Core.Common;
 using ClientService.Core.Entities;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos;
 
 namespace ClientService.Core.Interfaces
 {
@@ -18,7 +19,7 @@ namespace ClientService.Core.Interfaces
         Task<DbClient> AddClient(DbClient client);
 
         Task<Result<List<DbParamPays>>> GetAllPays();
-        Task<List<VentesNationales>> GetVentesNationales(int clientId);
+        Task<IEnumerable<VenteResult>> GetVentesNationalesAsync(VenteRequest request);
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
         Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);

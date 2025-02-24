@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Core.Specifications.Clients;
 using ClientService.Infrastructure.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Oracle.ManagedDataAccess.Client;
@@ -68,7 +70,7 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        //méthode pour récupére tous les factures clients qui a fait le client
+        //méthode pour récupére tous les factures clients qui a fait spécifique le client
         public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
         {
             try
@@ -137,17 +139,66 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public async Task<List<VentesNationales>> GetVentesNationales(int clientId)
+        // pour récuperer les ventes nationales d'un client 
+        public async Task<IEnumerable<VenteResult>> GetVentesNationalesAsync(VenteRequest request)
         {
-            var parameter = new OracleParameter("p_client_id", OracleDbType.Int32)
+            try
             {
-                Value = clientId
-            };
+                // Previous parameter setup remains the same
+                var parameters = new[]
+                {
+                new OracleParameter("p_id_client", OracleDbType.Int32) { Value = request.IdClient },
+                new OracleParameter("p_abandonnee", OracleDbType.Int32) { Value = request.Abandonnee },
+                new OracleParameter("p_id_structure", OracleDbType.Int32)
+                {
+                    Value = request.IdStructure.HasValue ? (object)request.IdStructure.Value : DBNull.Value,
+                    IsNullable = true
+                },
+                new OracleParameter
+                    {
+                        ParameterName = "result_cursor",
+                        Direction = ParameterDirection.Output,
+                        OracleDbType = OracleDbType.RefCursor
+                    }
+                };
 
-            return await _appcontext.ventesNationales
-                .FromSqlRaw("BEGIN DOTSOFT.GET_VENTES_NATIONALE(:p_client_id, :p_resultset); END;",
-                    parameter)
-                .ToListAsync();
+                // Make sure the DbContext is configured properly
+                _appcontext.Database.SetCommandTimeout(120); // Optional: increase timeout if needed
+
+                var sql = @"
+                            BEGIN 
+                                DOTSOFT.GET_Ventes_Nationales(
+                                    :p_id_client, 
+                                    :p_abandonnee, 
+                                    :p_id_structure, 
+                                    :result_cursor
+                                ); 
+                            END;";
+
+                // Use explicit mapping configuration
+                var results = await _appcontext.Set<VenteResult>()
+                    .FromSqlRaw(sql, parameters)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                return results.OrderByDescending(x => x.FDate)
+                             .ThenByDescending(x => x.Num_Facture)
+                             .ThenBy(x => x.Id_Structure);
+            }
+            catch (OracleException oex)
+            {
+                _logger.LogError(oex,
+                    "Oracle error getting national sales data. ErrorCode: {ErrorCode}, Message: {Message}",
+                    oex.ErrorCode, oex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,
+                    "Error getting national sales data. Client: {ClientId}, Abandonnee: {Abandonnee}, Structure: {StructureId}",
+                    request.IdClient, request.Abandonnee, request.IdStructure);
+                throw;
+            }
         }
     }
 }
