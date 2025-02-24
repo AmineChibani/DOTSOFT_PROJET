@@ -266,42 +266,68 @@ namespace ClientService.Infrastructure.Repositories
         {
             try
             {
-                // Previous parameter setup remains the same
                 var parameters = new[]
                 {
-                new OracleParameter("p_id_client", OracleDbType.Int32) { Value = request.IdClient },
-                new OracleParameter("p_abandonnee", OracleDbType.Int32) { Value = request.Abandonnee },
-                new OracleParameter("p_id_structure", OracleDbType.Int32)
+            new OracleParameter("p_id_client", OracleDbType.Int32) { Value = request.IdClient },
+            new OracleParameter("p_abandonnee", OracleDbType.Int32) { Value = request.Abandonnee },
+            new OracleParameter("p_id_structure", OracleDbType.Int32)
+            {
+                Value = request.IdStructure.HasValue ? (object)request.IdStructure.Value : DBNull.Value,
+                IsNullable = true
+            },
+            new OracleParameter
+            {
+                ParameterName = "result_cursor",
+                Direction = ParameterDirection.Output,
+                OracleDbType = OracleDbType.RefCursor
+            }
+        };
+
+                // Modified to use ADO.NET directly instead of EF Core for RefCursor
+                using var connection = _appcontext.Database.GetDbConnection() as OracleConnection;
+                if (connection.State != ConnectionState.Open)
+                    await connection.OpenAsync();
+
+                using var command = connection.CreateCommand();
+                command.CommandText = @"
+            BEGIN 
+                DOTSOFT.GET_Ventes_Nationales(
+                    :p_id_client, 
+                    :p_abandonnee, 
+                    :p_id_structure, 
+                    :result_cursor
+                ); 
+            END;";
+
+                command.Parameters.AddRange(parameters);
+
+                var results = new List<VenteResult>();
+                using var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
                 {
-                    Value = request.IdStructure.HasValue ? (object)request.IdStructure.Value : DBNull.Value,
-                    IsNullable = true
-                },
-                new OracleParameter
+                    results.Add(new VenteResult
                     {
-                        ParameterName = "result_cursor",
-                        Direction = ParameterDirection.Output,
-                        OracleDbType = OracleDbType.RefCursor
-                    }
-                };
-
-                // Make sure the DbContext is configured properly
-                _appcontext.Database.SetCommandTimeout(120); // Optional: increase timeout if needed
-
-                var sql = @"
-                            BEGIN 
-                                DOTSOFT.GET_Ventes_Nationales(
-                                    :p_id_client, 
-                                    :p_abandonnee, 
-                                    :p_id_structure, 
-                                    :result_cursor
-                                ); 
-                            END;";
-
-                // Use explicit mapping configuration
-                var results = await _appcontext.Set<VenteResult>()
-                    .FromSqlRaw(sql, parameters)
-                    .AsNoTracking()
-                    .ToListAsync();
+                        Nom = reader["nom"] as string,
+                        Id_Structure = Convert.ToInt32(reader["id_structure"]),
+                        Type_Avoir = reader["type_avoir"] as string,
+                        Avoir = reader["avoir"] as decimal?,
+                        Num_Facture = reader["num_facture"] as int?,
+                        Id_Facture = Convert.ToInt32(reader["id_facture"]),
+                        FDate = reader["fdate"] as DateTime?,
+                        Montant_Facture = reader["montant_facture"] as decimal?,
+                        Quantite = reader["quantite"] as decimal?,
+                        Montant_Produit = reader["montant_produit"] as decimal?,
+                        Nom_Produit = reader["nom_produit"] as string,
+                        Montant_Achat = reader["montant_achat"] as decimal?,
+                        Montant_Tva = reader["montant_tva"] as decimal?,
+                        Id_Client = Convert.ToInt32(reader["id_client"]),
+                        Id_Produit = Convert.ToInt32(reader["id_produit"]),
+                        Code_Reference = reader["code_reference"] as string,
+                        Sans_Marge = reader["sans_marge"] as bool?,
+                        Type_Facture = reader["type_facture"] as string
+                    });
+                }
 
                 return results.OrderByDescending(x => x.FDate)
                              .ThenByDescending(x => x.Num_Facture)
