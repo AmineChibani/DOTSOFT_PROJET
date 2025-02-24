@@ -170,5 +170,68 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
+        public async Task<Result<int>> Duplicate(int idClient, int adresseTypeId)
+        {
+            var oldClientAdresse = await _appcontext.ClientAdresses
+                .FirstOrDefaultAsync(x => x.ClientId == idClient && x.AdresseTypeId == adresseTypeId);
+
+            if (oldClientAdresse == null)
+                return Result<int>.Failure("Client address not found.");
+
+            var existingAdresse = await _appcontext.ClientAdresses
+                .FirstOrDefaultAsync(x => x.ClientId == idClient && x.AdresseTypeId == 2);
+
+            if (existingAdresse == null)
+            {
+                var newAdresse = new DbClientAdresse
+                {
+                    ClientId = oldClientAdresse.ClientId,
+                    AdresseTypeId = 2,
+                    ParamCodePostal = oldClientAdresse.ParamCodePostal,
+                    Adresse1 = oldClientAdresse.Adresse1,
+                    Adresse2 = oldClientAdresse.Adresse2,
+                    Abandon = oldClientAdresse.Abandon,
+                    VilleEtranger = oldClientAdresse.VilleEtranger,
+                    CpEtranger = oldClientAdresse.CpEtranger,
+                    Batesc = oldClientAdresse.Batesc,
+                    CellPhone = oldClientAdresse.CellPhone,
+                    PhoneNumber = oldClientAdresse.PhoneNumber,
+                    TypeVoie = oldClientAdresse.TypeVoie,
+                    PaysId = oldClientAdresse.PaysId,
+                    CpId = oldClientAdresse.CpId,
+                    NumVoie = oldClientAdresse.NumVoie,
+                    Btqc = oldClientAdresse.Btqc,
+                    TelephoneAutre = oldClientAdresse.TelephoneAutre,
+                    Fax = oldClientAdresse.Fax,
+                    Pays = oldClientAdresse.Pays
+                };
+
+                _appcontext.ClientAdresses.Add(newAdresse);
+            }
+            else
+            {
+                existingAdresse.Adresse1 = oldClientAdresse.Adresse1;
+                existingAdresse.ParamCodePostal = oldClientAdresse.ParamCodePostal;
+                existingAdresse.Adresse2 = oldClientAdresse.Adresse2;
+                existingAdresse.Abandon = oldClientAdresse.Abandon;
+                existingAdresse.VilleEtranger = oldClientAdresse.VilleEtranger;
+                existingAdresse.CpEtranger = oldClientAdresse.CpEtranger;
+                existingAdresse.Batesc = oldClientAdresse.Batesc;
+                existingAdresse.CellPhone = oldClientAdresse.CellPhone;
+                existingAdresse.PhoneNumber = oldClientAdresse.PhoneNumber;
+                existingAdresse.TypeVoie = oldClientAdresse.TypeVoie;
+                existingAdresse.PaysId = oldClientAdresse.PaysId;
+                existingAdresse.NumVoie = oldClientAdresse.NumVoie;
+                existingAdresse.Btqc = oldClientAdresse.Btqc;
+                existingAdresse.TelephoneAutre = oldClientAdresse.TelephoneAutre;
+                existingAdresse.Fax = oldClientAdresse.Fax;
+                existingAdresse.Pays = oldClientAdresse.Pays;
+            }
+
+            await _appcontext.SaveChangesAsync();
+
+            return Result<int>.Success(oldClientAdresse.ClientId);
+        }
+
     }
 }

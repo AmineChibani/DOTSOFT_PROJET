@@ -64,5 +64,22 @@ namespace ClientService.Core.Services
 
             return Result<List<ClientAddressDetailsDto>>.Success(result.Value);
         }
+
+        public async Task<Result<int>> Duplicate(int clientId, int adressTypeId)
+        {
+            if (clientId <= 0)
+            {
+                return Result<int>.Failure("Invalid client ID provided");
+            }
+
+            var result = await _clientRepository.Duplicate(clientId, adressTypeId);
+            if (!result.IsSuccess)
+            {
+                return Result<int>.Failure(result.Error);
+            }
+
+            return Result<int>.Success(result.Value);
+
+        }
     }
 }

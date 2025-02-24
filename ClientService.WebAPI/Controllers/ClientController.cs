@@ -3,6 +3,7 @@ using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Dtos;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClientService.WebAPI.Controllers
@@ -102,6 +103,19 @@ namespace ClientService.WebAPI.Controllers
             {
                 return result.Error.Contains("not found") ?
                     NotFound(result.Error) :
+                    BadRequest(result.Error);
+            }
+            return Ok(result.Value);
+        }
+
+        [HttpPost("{clientId}/{AdressTypeId}")]
+        public async Task<IActionResult> DuplicateAdresse([FromRoute] int clientId, [FromRoute] int AdressTypeId)
+        {
+            var result = await _clientService.Duplicate(clientId, AdressTypeId);
+            if (!result.IsSuccess)
+            {
+                return result.Error.Contains("not found") ?
+                NotFound(result.Error) :
                     BadRequest(result.Error);
             }
             return Ok(result.Value);
