@@ -33,23 +33,16 @@ namespace ClientService.Infrastructure.Repositories
         {
             try
             {
-                await _appcontext.Clients.AddAsync(client);  
-                await _appcontext.SaveChangesAsync();  
+                await _appcontext.Clients.AddAsync(client);
+                await _appcontext.SaveChangesAsync();
                 return client;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding client to the database");
-                throw;  
+                throw;
             }
         }
-
-
-        public Task<Result<List<DbClientAdresse>>> GetAllAdresses()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Result<List<DbParamPays>>> GetAllPays()
         {
             try
@@ -94,7 +87,7 @@ namespace ClientService.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all clients from the database");
-                throw;  
+                throw;
             }
         }
 
@@ -244,6 +237,129 @@ namespace ClientService.Infrastructure.Repositories
             catch (Exception ex)
             {
                 return Result<List<DbParamCategSocioProf>>.Failure("An error occured while retreiving the Csps" + ex.Message);
+            }
+        }
+
+
+        //méthode pour récupére tous les factures clients qui a fait spécifique le client
+        public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
+        {
+            try
+            {
+                if (request.IdClient <= 0)
+                {
+                    throw new ArgumentException("Invalid Client ID");
+                }
+
+                // Créer un paramètre pour le curseur de sortie
+                var outputParameter = new OracleParameter
+                {
+                    ParameterName = "p_Result",
+                    Direction = ParameterDirection.Output,
+                    OracleDbType = OracleDbType.RefCursor
+                };
+
+                // Exécuter la procédure stockée avec OracleParameter pour gérer les paramètres IN et OUT
+                var result = await _appcontext.Set<CAResult>()
+                    .FromSqlRaw("BEGIN DOTSOFT.GetCA(:p_IdClient, :p_Result); END;",
+                                new OracleParameter(":p_IdClient", request.IdClient),
+                                outputParameter)
+                    .ToListAsync();
+
+                return result.OrderByDescending(x => x.Fdate).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting CA data for client {ClientId}", request.IdClient);
+                throw;
+            }
+        }
+
+        // pour récuperer les ventes nationales d'un client 
+        public async Task<IEnumerable<VenteResult>> GetVentesNationalesAsync(VenteRequest request)
+        {
+            try
+            {
+                var parameters = new[]
+                {
+            new OracleParameter("p_id_client", OracleDbType.Int32) { Value = request.IdClient },
+            new OracleParameter("p_abandonnee", OracleDbType.Int32) { Value = request.Abandonnee },
+            new OracleParameter("p_id_structure", OracleDbType.Int32)
+            {
+                Value = request.IdStructure.HasValue ? (object)request.IdStructure.Value : DBNull.Value,
+                IsNullable = true
+            },
+            new OracleParameter
+            {
+                ParameterName = "result_cursor",
+                Direction = ParameterDirection.Output,
+                OracleDbType = OracleDbType.RefCursor
+            }
+        };
+
+                // Modified to use ADO.NET directly instead of EF Core for RefCursor
+                using var connection = _appcontext.Database.GetDbConnection() as OracleConnection;
+                if (connection.State != ConnectionState.Open)
+                    await connection.OpenAsync();
+
+                using var command = connection.CreateCommand();
+                command.CommandText = @"
+            BEGIN 
+                DOTSOFT.GET_Ventes_Nationales(
+                    :p_id_client, 
+                    :p_abandonnee, 
+                    :p_id_structure, 
+                    :result_cursor
+                ); 
+            END;";
+
+                command.Parameters.AddRange(parameters);
+
+                var results = new List<VenteResult>();
+                using var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    results.Add(new VenteResult
+                    {
+                        Nom = reader["nom"] as string,
+                        Id_Structure = Convert.ToInt32(reader["id_structure"]),
+                        Type_Avoir = reader["type_avoir"] as string,
+                        Avoir = reader["avoir"] as decimal?,
+                        Num_Facture = reader["num_facture"] as int?,
+                        Id_Facture = Convert.ToInt32(reader["id_facture"]),
+                        FDate = reader["fdate"] as DateTime?,
+                        Montant_Facture = reader["montant_facture"] as decimal?,
+                        Quantite = reader["quantite"] as decimal?,
+                        Montant_Produit = reader["montant_produit"] as decimal?,
+                        Nom_Produit = reader["nom_produit"] as string,
+                        Montant_Achat = reader["montant_achat"] as decimal?,
+                        Montant_Tva = reader["montant_tva"] as decimal?,
+                        Id_Client = Convert.ToInt32(reader["id_client"]),
+                        Id_Produit = Convert.ToInt32(reader["id_produit"]),
+                        Code_Reference = reader["code_reference"] as string,
+                        Sans_Marge = reader["sans_marge"] as bool?,
+                        Type_Facture = reader["type_facture"] as string
+                    });
+                }
+
+                return results.OrderByDescending(x => x.FDate)
+                             .ThenByDescending(x => x.Num_Facture)
+                             .ThenBy(x => x.Id_Structure);
+            }
+            catch (OracleException oex)
+            {
+                _logger.LogError(oex,
+                    "Oracle error getting national sales data. ErrorCode: {ErrorCode}, Message: {Message}",
+                    oex.ErrorCode, oex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,
+                    "Error getting national sales data. Client: {ClientId}, Abandonnee: {Abandonnee}, Structure: {StructureId}",
+                    request.IdClient, request.Abandonnee, request.IdStructure);
+                throw;
             }
         }
     }

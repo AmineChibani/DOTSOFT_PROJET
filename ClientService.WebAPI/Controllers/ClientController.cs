@@ -1,4 +1,5 @@
 ﻿using ClientService.Core.Common;
+using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Infrastructure.Dtos;
@@ -13,10 +14,13 @@ namespace ClientService.WebAPI.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
+        private readonly ILogger<ClientController> _logger;
 
-        public ClientController(IClientService clientService)
+        public ClientController(IClientService clientService, ILogger<ClientController> logger)
         {
             _clientService = clientService;
+            _logger = logger;
+
         }
 
 
@@ -56,7 +60,7 @@ namespace ClientService.WebAPI.Controllers
 
             //Mapp Dto to  DbClient entity
             DbClient newClient = new DbClient
-              {
+            {
                 Prenom = newClientDto.Prenom,
                 Nom = newClientDto.Nom,
                 Nom2 = newClientDto.Nom2,
@@ -88,7 +92,7 @@ namespace ClientService.WebAPI.Controllers
                 WebType = newClientDto.WebType,
                 RaisonSociale = newClientDto.RaisonSociale,
                 LivrRaisonSociale = newClientDto.LivrRaisonSociale
-              };
+            };
 
             var Client = await _clientService.AddClient(newClient);
             return CreatedAtAction(nameof(GetClientById), new { id = newClient.Nom }, newClient);
@@ -130,5 +134,64 @@ namespace ClientService.WebAPI.Controllers
             }
             return Ok(result.Value);
         }
+
+
+        [HttpGet("CA/{clientId}")]
+        public async Task<ActionResult<IEnumerable<CAResult>>> GetCA(int clientId)
+        {
+            try
+            {
+                if (clientId <= 0)
+                {
+                    throw new ArgumentException("Invalid Client ID");
+                }
+
+                // Création d'un objet CARequest avec le seul IdClient
+                var request = new CARequest
+                {
+                    IdClient = clientId
+                };
+
+                var results = await _clientService.GetCAAsync(request);
+                return Ok(results);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing CA request for client {ClientId}", clientId);
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+
+        [HttpGet("ventes-nationales")]
+        public async Task<IActionResult> GetVentesNational([FromQuery] VenteRequest request)
+        {
+            try
+            {
+                if (request == null || request.IdClient <= 0)
+                {
+                    return BadRequest("Invalid request parameters.");
+                }
+
+                var results = await _clientService.GetVentesNationalesAsync(request);
+
+                if (!results.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting national sales for client {ClientId}", request.IdClient);
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
     }
 }
