@@ -219,7 +219,7 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet("CommunicationPreferences/{idClient}/{typeAdress}")]
+        [HttpGet("CommunicationPreferences/{idClient}")]
         public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient)
         {
             var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient);
