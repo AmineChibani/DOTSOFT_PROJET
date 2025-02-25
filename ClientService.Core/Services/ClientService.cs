@@ -167,5 +167,15 @@ namespace ClientService.Core.Services
             }
             return Result<List<EnCours>>.Success(result.Value);
         }
+
+        public async Task<Result<bool>> DeleteClient(int idClient)
+        {
+            var result = await _clientRepository.DeleteClient(idClient);
+            if (!result.IsSuccess)
+            {
+                return Result<bool>.Failure(result.Error);
+            }
+            return Result<bool>.Success(result.Value);
+        }
     }
 }

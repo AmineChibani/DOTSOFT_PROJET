@@ -27,5 +27,6 @@ namespace ClientService.Core.Interfaces
 
         Task<Result<List<CspDto>>> GetCSPs();
         Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);
+        Task<Result<bool>> DeleteClient(int idClient);
     }
 }

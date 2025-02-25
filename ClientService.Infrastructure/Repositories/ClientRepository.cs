@@ -187,7 +187,7 @@ public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(
             try
             {
                 List<DbParamCategSocioProf> csps = await _appcontext.ParamCategSocioProfS
-                                        //.Where(x => x.LanguageParamCategSocioPro.Code == 1)
+                                        .Where(x => x.LanguageParamCategSocioPro.Code == 1)
                                         .ToListAsync();
 
                 return Result<List<DbParamCategSocioProf>>.Success(csps);
@@ -354,6 +354,26 @@ public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(
             {
                 return Result<List<EnCours>>.Failure("Error getting Encours : " + ex.Message);
             }
+        }
+
+        public async Task<Result<bool>> DeleteClient(int idClient)
+        {
+            try
+            {
+                var client = await _appcontext.Clients.FirstOrDefaultAsync(x => x.ClientId == idClient);
+                if (client == null)
+                {
+                    return Result<bool>.Failure("Client not found");
+                }
+                _appcontext.Clients.Remove(client);
+                _appcontext.SaveChanges();
+                return Result<bool>.Success(true);
+            }
+            catch (Exception ex)
+            {
+                return Result<bool>.Failure("Error deleting client: "+ ex.Message);
+            }
+
         }
     }
 

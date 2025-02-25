@@ -206,5 +206,18 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
+        [HttpDelete("DeleteClient/{idClient}")]
+        public async Task<IActionResult> DeleteClient([FromRoute] int idClient)
+        {
+            var result = await _clientService.DeleteClient(idClient);
+            if (!result.IsSuccess)
+            {
+                return result.Error.Contains("not found") ?
+                   NotFound(result.Error) :
+                   BadRequest(result.Error);
+            }
+            return Ok(result.Value);
+        }
+
     }
 }
