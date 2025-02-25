@@ -394,7 +394,7 @@ namespace ClientService.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                return Result<List<EnCours>>.Failure("Error getting Encours: " + ex.Message);
+                return Result<List<EnCours>>.Failure("Error getting Encours : " + ex.Message);
             }
         }
     }
