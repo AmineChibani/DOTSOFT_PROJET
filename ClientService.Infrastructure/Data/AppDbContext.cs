@@ -92,6 +92,7 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbPlanning> Planning { get; set; }
         public DbSet<DbParamModeEnlevement> ParamModeEnlevement { get; set; }
         public DbSet<DbProduitFamille> DProduitFamille { get; set; }
+        public DbSet<DbCritereBoutiqueStructure> CritereBoutiqueStructure { get; set; }
         public DbSet<AvoirResult> AvoirResults { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
