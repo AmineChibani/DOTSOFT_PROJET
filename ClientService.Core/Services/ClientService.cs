@@ -178,9 +178,9 @@ namespace ClientService.Core.Services
             return Result<bool>.Success(result.Value);
         }
 
-        public async Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId, int AdresseTypeId)
+        public async Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId)
         {
-            var result = await _clientRepository.GetClientCommunicationPreferencesAsync(clientId, AdresseTypeId);
+            var result = await _clientRepository.GetClientCommunicationPreferencesAsync(clientId);
             if (!result.IsSuccess)
             {
                 return Result<CommunicationPreferencesDto>.Failure(result.Error);

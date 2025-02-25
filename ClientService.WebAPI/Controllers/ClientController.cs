@@ -105,7 +105,7 @@ namespace ClientService.WebAPI.Controllers
             var result = await _clientService.GetAddressesByClientId(clientId);
             if (!result.IsSuccess)
             {
-                return result.Error.Contains("not found") ?
+                return result.Error!.Contains("not found") ?
                     NotFound(result.Error) :
                     BadRequest(result.Error);
             }
@@ -118,7 +118,7 @@ namespace ClientService.WebAPI.Controllers
             var result = await _clientService.Duplicate(clientId, AdressTypeId);
             if (!result.IsSuccess)
             {
-                return result.Error.Contains("not found") ?
+                return result.Error!.Contains("not found") ?
                 NotFound(result.Error) :
                     BadRequest(result.Error);
             }
@@ -212,7 +212,7 @@ namespace ClientService.WebAPI.Controllers
             var result = await _clientService.DeleteClient(idClient);
             if (!result.IsSuccess)
             {
-                return result.Error.Contains("not found") ?
+                return result.Error!.Contains("not found") ?
                    NotFound(result.Error) :
                    BadRequest(result.Error);
             }
@@ -220,12 +220,12 @@ namespace ClientService.WebAPI.Controllers
         }
 
         [HttpGet("CommunicationPreferences/{idClient}/{typeAdress}")]
-        public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient, [FromRoute] int typeAdress)
+        public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient)
         {
-            var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient, typeAdress);
+            var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient);
             if (!result.IsSuccess)
             {
-                return result.Error.Contains("not found") ?
+                return result.Error!.Contains("not found") ?
                    NotFound(result.Error) :
                    BadRequest(result.Error);
             }

@@ -375,7 +375,7 @@ namespace ClientService.Infrastructure.Repositories
 
         }
 
-        public async Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId, int AdresseTypeId)
+        public async Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId)
         {
             try
             {
@@ -390,7 +390,7 @@ namespace ClientService.Infrastructure.Repositories
 
                 // Get the address with postal preferences
                 var Adresse = await _appcontext.ClientAdresseComplement
-                    .FirstOrDefaultAsync(a => a.ClientId == clientId && a.AdresseTypeId == AdresseTypeId);
+                    .FirstOrDefaultAsync(a => a.ClientId == clientId && a.AdresseTypeId == 1);
                 if (Adresse == null)
                 {
                     return Result<CommunicationPreferencesDto>.Failure("Adress not found");

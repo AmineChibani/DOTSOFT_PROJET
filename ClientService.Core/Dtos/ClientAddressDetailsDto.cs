@@ -28,5 +28,7 @@ namespace ClientService.Core.Dtos
         public string? cp { get; set; }
         public string? commune { get; set; }
         public string? bureau { get; set; }
+        public bool eticket { get; set; }
+        public bool NPAI { get; set; }
     }
 }
