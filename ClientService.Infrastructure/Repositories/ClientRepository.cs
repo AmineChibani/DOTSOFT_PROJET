@@ -360,12 +360,7 @@ namespace ClientService.Infrastructure.Repositories
                     request.IdClient, request.Abandonnee, request.IdStructure);
                 throw;
             }
-<<<<<<< HEAD
         }
-    }
-=======
-        }
-
 
         public async Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure)
         {
@@ -403,5 +398,4 @@ namespace ClientService.Infrastructure.Repositories
         }
     }
 
->>>>>>> eb995c3f39a67220986ba7e79470fe85f7660d69
 }
