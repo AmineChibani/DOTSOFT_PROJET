@@ -91,33 +91,33 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
-{
-    try
-    {
-        // Create parameters for the stored procedure
-        var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
+        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
         {
-            Direction = ParameterDirection.Input,
-            Value = clientId
-        };
-        var resultParam = new OracleParameter("ResultCursor", OracleDbType.RefCursor)
-        {
-            Direction = ParameterDirection.Output
-        };
-        
-        var result = await _appcontext.Set<ClientAddressDetailsDto>()
-            .FromSqlRaw("BEGIN DOTSOFT.GetClientAddresses(:ClientId, :ResultCursor); END;",
-                clientIdParam, resultParam)
-            .ToListAsync();
-            
-        return Result<List<ClientAddressDetailsDto>>.Success(result);
-    }
-    catch (Exception ex)
-    {
-        return Result<List<ClientAddressDetailsDto>>.Failure("Error occured while trying to get Client's adress: " + ex.Message);
-    }
-}
+            try
+            {
+                // Create parameters for the stored procedure
+                var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
+                {
+                    Direction = ParameterDirection.Input,
+                    Value = clientId
+                };
+                var resultParam = new OracleParameter("ResultCursor", OracleDbType.RefCursor)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
+                var result = await _appcontext.Set<ClientAddressDetailsDto>()
+                    .FromSqlRaw("BEGIN DOTSOFT.GetClientAddresses(:ClientId, :ResultCursor); END;",
+                        clientIdParam, resultParam)
+                    .ToListAsync();
+
+                return Result<List<ClientAddressDetailsDto>>.Success(result);
+            }
+            catch (Exception ex)
+            {
+                return Result<List<ClientAddressDetailsDto>>.Failure("Error occured while trying to get Client's adress: " + ex.Message);
+            }
+        }
 
         public async Task<Result<int>> Duplicate(int idClient, int adresseTypeId)
         {
@@ -277,9 +277,9 @@ public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(
                 while (await reader.ReadAsync())
                 {
                     results.Add(new VenteResult
-                    {   
+                    {
 
-                        Nom = reader["nom"] as string,  
+                        Nom = reader["nom"] as string,
                         Id_Structure = Convert.ToInt32(reader["id_structure"]),
                         Type_Avoir = reader["type_avoir"] as string ?? "None",
                         Avoir = reader["avoir"] != DBNull.Value ? Convert.ToInt32(reader["avoir"]) : (int?)null,
@@ -370,10 +370,39 @@ public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(
             }
             catch (Exception ex)
             {
-                return Result<bool>.Failure("Error deleting client: "+ ex.Message);
+                return Result<bool>.Failure("Error deleting client: " + ex.Message);
             }
 
         }
+
+        public async Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId, int AdresseTypeId)
+        {
+            try
+            {
+                // Get the client with email and SMS preferences
+                var client = await _appcontext.Clients
+                    .FirstOrDefaultAsync(c => c.ClientId == clientId);
+                
+                if (client == null)
+                {
+                    return Result<CommunicationPreferencesDto>.Failure("Client not found");
+                }
+
+                // Get the address with postal preferences
+                var Adresse = await _appcontext.ClientAdresseComplement
+                    .FirstOrDefaultAsync(a => a.ClientId == clientId && a.AdresseTypeId == AdresseTypeId);
+                if (Adresse == null)
+                {
+                    return Result<CommunicationPreferencesDto>.Failure("Adress not found");
+                }
+                // returning the dto using the mapper
+                return Result<CommunicationPreferencesDto>.Success(client.ToClientCommunicationPreferencesDto(Adresse));
+            }
+            catch (Exception ex)
+            {
+                return Result<CommunicationPreferencesDto>.Failure("An error occured while getting communication preferences: " + ex.Message);
+            }
+        }
     }
 
-}
+    }

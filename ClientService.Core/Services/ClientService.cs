@@ -177,5 +177,15 @@ namespace ClientService.Core.Services
             }
             return Result<bool>.Success(result.Value);
         }
+
+        public async Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId, int AdresseTypeId)
+        {
+            var result = await _clientRepository.GetClientCommunicationPreferencesAsync(clientId, AdresseTypeId);
+            if (!result.IsSuccess)
+            {
+                return Result<CommunicationPreferencesDto>.Failure(result.Error);
+            }
+            return Result<CommunicationPreferencesDto>.Success(result.Value);
+        }
     }
 }

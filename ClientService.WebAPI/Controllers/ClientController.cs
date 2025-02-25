@@ -219,5 +219,18 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
+        [HttpGet("CommunicationPreferences/{idClient}/{typeAdress}")]
+        public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient, [FromRoute] int typeAdress)
+        {
+            var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient, typeAdress);
+            if (!result.IsSuccess)
+            {
+                return result.Error.Contains("not found") ?
+                   NotFound(result.Error) :
+                   BadRequest(result.Error);
+            }
+            return Ok(result.Value);
+        }
+
     }
 }

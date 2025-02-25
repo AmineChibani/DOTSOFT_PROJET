@@ -30,5 +30,6 @@ namespace ClientService.Core.Interfaces
         Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);
 
         Task<Result<bool>> DeleteClient(int idClient);
+        Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId, int AdresseTypeId);
     }
 }
