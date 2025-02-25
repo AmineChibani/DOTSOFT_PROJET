@@ -8,25 +8,25 @@ namespace ClientService.Core.Dtos
 {
     public class ClientAddressDetailsDto
     {
-        public int IdClient { get; set; }
-        public int? IdTypeAdresse { get; set; }
-        public string? Adresse1 { get; set; }
-        public string? Adresse2 { get; set; }
-        public int? IdCp { get; set; }
-        public int? IdPays { get; set; }
-        public string? Telephone { get; set; }
-        public string? Portable { get; set; }
-        public int? NumVoie { get; set; }
-        public string? Btqc { get; set; }
-        public string? TypeVoie { get; set; }
-        public string? TelephoneAutre { get; set; }
-        public string? Fax { get; set; }
-        public string? Batesc { get; set; }
-        public string? Description { get; set; }
-        public string? Nom { get; set; }
-        public bool? ParDefaut { get; set; }
-        public string? Cp { get; set; }
-        public string? Commune { get; set; }
-        public string? Bureau { get; set; }
+        public int id_client { get; set; }
+        public int? id_type_adresse { get; set; }
+        public string? adresse1 { get; set; }
+        public string? adresse2 { get; set; }
+        public int? id_cp { get; set; }
+        public int? id_pays { get; set; }
+        public string? telephone { get; set; }
+        public string? portable { get; set; }
+        public int? num_voie { get; set; }
+        public string? btqc { get; set; }
+        public string? type_voie { get; set; }
+        public string? telephone_autre { get; set; }
+        public string? fax { get; set; }
+        public string? batesc { get; set; }
+        public string? description { get; set; }
+        public string? nom { get; set; }
+        public bool? par_defaut { get; set; }
+        public string? cp { get; set; }
+        public string? commune { get; set; }
+        public string? bureau { get; set; }
     }
 }
