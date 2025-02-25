@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
@@ -186,6 +187,16 @@ namespace ClientService.Core.Services
                 return Result<CommunicationPreferencesDto>.Failure(result.Error);
             }
             return Result<CommunicationPreferencesDto>.Success(result.Value);
+        }
+
+        public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
+        {
+            var result = await _clientRepository.GetAvoirData(clientId);
+            if (!result.IsSuccess)
+            {
+                return Result<List<AvoirResult>>.Failure("An Error occured while returning Avoirs" + result.Error);
+            }
+            return Result<List<AvoirResult>>.Success(result.Value);
         }
     }
 }

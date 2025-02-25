@@ -92,6 +92,8 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbPlanning> Planning { get; set; }
         public DbSet<DbParamModeEnlevement> ParamModeEnlevement { get; set; }
         public DbSet<DbProduitFamille> DProduitFamille { get; set; }
+        public DbSet<AvoirResult> AvoirResults { get; set; }
+
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
         public override int SaveChanges()
@@ -144,7 +146,7 @@ namespace ClientService.Infrastructure.Data
             modelBuilder.Entity<CAResult>().HasNoKey();
             modelBuilder.Entity<EnCours>().HasNoKey();
             //modelBuilder.Entity<>.HasNoKey();
-            //modelBuilder.Entity<Avoirs>().HasNoKey();
+            modelBuilder.Entity<AvoirResult>().HasNoKey();
             //modelBuilder.Entity<ClientService.CA>().HasNoKey();
             //modelBuilder.Entity<DbClient>()
             //.ToTable("CLIENT", "DOTSOFT");

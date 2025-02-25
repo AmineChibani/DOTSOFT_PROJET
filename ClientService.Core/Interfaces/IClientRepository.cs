@@ -30,8 +30,13 @@ namespace ClientService.Core.Interfaces
         Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);
 
         Task<Result<bool>> DeleteClient(int idClient);
+<<<<<<< Updated upstream
 
         Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId);
+=======
+        Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId, int AdresseTypeId);
+        Task<Result<List<AvoirResult>>> GetAvoirData(int clientId);
+>>>>>>> Stashed changes
     }
 
 }
