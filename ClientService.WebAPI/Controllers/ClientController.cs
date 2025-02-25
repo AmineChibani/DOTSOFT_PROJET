@@ -218,9 +218,7 @@ namespace ClientService.WebAPI.Controllers
             }
             return Ok(result.Value);
         }
-<<<<<<< HEAD
-        
-=======
+
 
         [HttpGet("CommunicationPreferences/{idClient}")]
         public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient)
@@ -234,7 +232,7 @@ namespace ClientService.WebAPI.Controllers
             }
             return Ok(result.Value);
         }
->>>>>>> 494d8950ab16f86efac4ee573c713239fc86f3b8
+
 
         [HttpGet("{idClient}/Avoirs")]
         public async Task<IActionResult> GetAvoirs([FromRoute] int idClient)
