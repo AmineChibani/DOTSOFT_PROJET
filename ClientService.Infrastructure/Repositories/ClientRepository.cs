@@ -360,6 +360,48 @@ namespace ClientService.Infrastructure.Repositories
                     request.IdClient, request.Abandonnee, request.IdStructure);
                 throw;
             }
+<<<<<<< HEAD
         }
     }
+=======
+        }
+
+
+        public async Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure)
+        {
+            try
+            {
+                // Create parameters for the stored procedure
+                var idClientParam = new OracleParameter("p_id_client", OracleDbType.Int32)
+                {
+                    Direction = ParameterDirection.Input,
+                    Value = idClient
+                };
+
+                var idStructureParam = new OracleParameter("p_id_structure", OracleDbType.Int32)
+                {
+                    Direction = ParameterDirection.Input,
+                    Value = idStructure
+                };
+
+                var resultParam = new OracleParameter("p_recordset", OracleDbType.RefCursor)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
+                var result = await _appcontext.Set<EnCours>()
+                    .FromSqlRaw("BEGIN DOTSOFT.GET_EN_COURS(:p_id_client, :p_id_structure, :p_recordset); END;",
+                        idClientParam, idStructureParam, resultParam)
+                    .ToListAsync();
+
+                return Result<List<EnCours>>.Success(result);
+            }
+            catch (Exception ex)
+            {
+                return Result<List<EnCours>>.Failure("Error getting Encours : " + ex.Message);
+            }
+        }
+    }
+
+>>>>>>> eb995c3f39a67220986ba7e79470fe85f7660d69
 }
