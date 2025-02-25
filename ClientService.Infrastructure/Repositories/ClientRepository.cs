@@ -361,42 +361,5 @@ namespace ClientService.Infrastructure.Repositories
                 throw;
             }
         }
-
-
-        public async Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure)
-        {
-            try
-            {
-                // Create parameters for the stored procedure
-                var idClientParam = new OracleParameter("p_id_client", OracleDbType.Int32)
-                {
-                    Direction = ParameterDirection.Input,
-                    Value = idClient
-                };
-
-                var idStructureParam = new OracleParameter("p_id_structure", OracleDbType.Int32)
-                {
-                    Direction = ParameterDirection.Input,
-                    Value = idStructure
-                };
-
-                var resultParam = new OracleParameter("p_recordset", OracleDbType.RefCursor)
-                {
-                    Direction = ParameterDirection.Output
-                };
-
-                var result = await _appcontext.Set<EnCours>()
-                    .FromSqlRaw("BEGIN DOTSOFT.GET_EN_COURS(:p_id_client, :p_id_structure, :p_recordset); END;",
-                        idClientParam, idStructureParam, resultParam)
-                    .ToListAsync();
-
-                return Result<List<EnCours>>.Success(result);
-            }
-            catch (Exception ex)
-            {
-                return Result<List<EnCours>>.Failure("Error getting Encours: " + ex.Message);
-            }
-        }
     }
-
 }
