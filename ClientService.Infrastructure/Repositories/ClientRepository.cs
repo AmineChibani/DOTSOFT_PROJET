@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -319,7 +319,6 @@ public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(
                 throw;
             }
         }
-
 
         public async Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure)
         {
