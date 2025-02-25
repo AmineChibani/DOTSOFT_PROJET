@@ -232,5 +232,17 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
+        [HttpGet("{idClient}/Avoirs")]
+        public async Task<IActionResult> GetAvoirs([FromRoute] int idClient)
+        {
+            var result = await _clientService.GetAvoirData(idClient);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Error);
+            }
+            return Ok(result.Value);
+        }
+
+
     }
 }

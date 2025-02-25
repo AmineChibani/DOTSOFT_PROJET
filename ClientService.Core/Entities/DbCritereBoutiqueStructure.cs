@@ -9,15 +9,14 @@ using System.Threading.Tasks;
 namespace ClientService.Core.Entities
 {
     [Table("CRITEREBOUTIQUE_STRUCTURE", Schema = "COM02")]
-    public class CritereBoutiqueStructure
+    public class DbCritereBoutiqueStructure
     {
         [Key]
         [Column("ID_CRITERE")]
-        public long IdCritere { get; set; }
+        public int IdCritere { get; set; }
 
-        [Key]
         [Column("ID_STRUCTURE")]
-        public long IdStructure { get; set; }
+        public int IdStructure { get; set; }
 
         [Column("VALEUR")]
         [MaxLength(255)]
