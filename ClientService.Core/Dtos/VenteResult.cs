@@ -3,9 +3,10 @@
 namespace ClientService.Core.Dtos
 {
     public class VenteResult
-    {      
+    {
+        
             public string? Nom { get; set; }
-            public int Id_Structure { get; set; }
+            public int? Id_Structure { get; set; }
             public string? Type_Avoir { get; set; }
             public int? Avoir { get; set; }
             public long? Num_Facture { get; set; }
@@ -20,7 +21,9 @@ namespace ClientService.Core.Dtos
             public int Id_Client { get; set; }
             public int Id_Produit { get; set; }
             public string? Code_Reference { get; set; }
-            public bool? Sans_Marge { get; set; }
-            public string? Type_Facture { get; set; }    
+            public bool Sans_Marge { get; set; }
+            public string? Type_Facture { get; set; }
+        
+
     }
 }

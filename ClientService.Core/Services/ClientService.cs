@@ -117,47 +117,14 @@ namespace ClientService.Core.Services
             }
         }
 
-        public async Task<IEnumerable<VenteResult>> GetVentesNationalesAsync(VenteRequest request)
+        public async Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request)
         {
-            try
+            var result = await _clientRepository.GetVentesNationalesAsync(request);
+            if (!result.IsSuccess)
             {
-                // Input validation
-                if (request == null)
-                {
-                    throw new ArgumentNullException(nameof(request));
-                }
-
-                if (request.IdClient <= 0)
-                {
-                    _logger.LogWarning("Invalid client ID provided: {ClientId}", request.IdClient);
-                    throw new ArgumentException("Invalid client ID provided", nameof(request.IdClient));
-                }
-
-                // Additional validation if needed
-                if (request.Abandonnee != 0 && request.Abandonnee != 1)
-                {
-                    _logger.LogWarning("Invalid Abandonnee value provided: {Abandonnee}", request.Abandonnee);
-                    throw new ArgumentException("Abandonnee value must be 0 or 1", nameof(request.Abandonnee));
-                }
-
-                // Call repository method
-                var results = await _clientRepository.GetVentesNationalesAsync(request);
-
-                // Log success
-                _logger.LogInformation("Successfully retrieved national sales data for client {ClientId}", request.IdClient);
-
-                return results;
+                return Result<List<VenteResult>>.Failure("An Error occured while returning Avoirs" + result.Error);
             }
-            catch (ArgumentException ex)
-            {
-                _logger.LogWarning(ex, "Validation error in GetVentesNationalesAsync for client {ClientId}", request.IdClient);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while processing national sales data for client {ClientId}", request.IdClient);
-                throw;
-            }
+            return Result<List<VenteResult>>.Success(result.Value);
         }
 
         public async Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure)

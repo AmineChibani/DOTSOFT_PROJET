@@ -238,91 +238,53 @@ namespace ClientService.Infrastructure.Repositories
         }
 
         // pour récuperer les ventes nationales d'un client 
-        public async Task<IEnumerable<VenteResult>> GetVentesNationalesAsync(VenteRequest request)
+        public async Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request)
         {
             try
             {
-                var parameters = new[]
+                var idClientParam = new OracleParameter("p_id_client", OracleDbType.Int32)
                 {
-            new OracleParameter("p_id_client", OracleDbType.Int32) { Value = request.IdClient },
-            new OracleParameter("p_abandonnee", OracleDbType.Int32) { Value = request.Abandonnee },
-            new OracleParameter("p_id_structure", OracleDbType.Int32)
-            {
-                Value = request.IdStructure.HasValue ? (object)request.IdStructure.Value : DBNull.Value,
-                IsNullable = true
-            },
-            new OracleParameter
-            {
-                ParameterName = "result_cursor",
-                Direction = ParameterDirection.Output,
-                OracleDbType = OracleDbType.RefCursor
-            }
-            };
+                    Value = request.IdClient,
+                    Direction = ParameterDirection.Input
+                };
 
-                using var connection = _appcontext.Database.GetDbConnection() as OracleConnection;
-                if (connection.State != ConnectionState.Open)
-                    await connection.OpenAsync();
-
-                using var command = connection.CreateCommand();
-                command.CommandText = @"
-                                        BEGIN 
-                                            DOTSOFT.GET_Ventes_Nationales(
-                                                :p_id_client, 
-                                                :p_abandonnee, 
-                                                :p_id_structure, 
-                                                :result_cursor
-                                            ); 
-                                        END;";
-                command.Parameters.AddRange(parameters);
-
-                var results = new List<VenteResult>();
-                using var reader = await command.ExecuteReaderAsync();
-
-                while (await reader.ReadAsync())
+                var abandonneeParam = new OracleParameter("p_abandonnee", OracleDbType.Int32)
                 {
-                    results.Add(new VenteResult
-                    {
+                    Value = request.Abandonnee,
+                    Direction = ParameterDirection.Input
+                };
 
-                        Nom = reader["nom"] as string,
-                        Id_Structure = Convert.ToInt32(reader["id_structure"]),
-                        Type_Avoir = reader["type_avoir"] as string ?? "None",
-                        Avoir = reader["avoir"] != DBNull.Value ? Convert.ToInt32(reader["avoir"]) : (int?)null,
-                        Num_Facture = reader["num_facture"] != DBNull.Value ? Convert.ToInt64(reader["num_facture"]) : (long?)null,
-                        Id_Facture = Convert.ToInt32(reader["id_facture"]),
-                        FDate = reader["fdate"] as DateTime?,
-                        Montant_Facture = reader["montant_facture"] as decimal?,
-                        Quantite = reader["quantite"] as decimal?,
-                        Montant_Produit = reader["montant_produit"] as decimal?,
-                        Nom_Produit = reader["nom_produit"] as string,
-                        Montant_Achat = reader["montant_achat"] as decimal?,
-                        Montant_Tva = reader["montant_tva"] as decimal?,
-                        Id_Client = Convert.ToInt32(reader["id_client"]),
-                        Id_Produit = Convert.ToInt32(reader["id_produit"]),
-                        Code_Reference = reader["code_reference"] as string,
-                        Sans_Marge = Convert.ToBoolean(reader["sans_marge"]),
-                        Type_Facture = reader["type_facture"] as string
-                    });
-                }
+                var idStructureParam = new OracleParameter("p_id_structure", OracleDbType.Int32)
+                {
+                    Value = request.IdStructure ?? (object)DBNull.Value,
+                    Direction = ParameterDirection.Input,
+                    IsNullable = true
+                };
 
-                return results.OrderByDescending(x => x.FDate)
-                             .ThenByDescending(x => x.Num_Facture)
-                             .ThenBy(x => x.Id_Structure);
+                var resultParam = new OracleParameter
+                {
+                    ParameterName = "result_cursor",
+                    OracleDbType = OracleDbType.RefCursor,
+                    Direction = ParameterDirection.Output
+                };
+
+                var resultList = await _appcontext.ventesNationales
+                    .FromSqlRaw("BEGIN DOTSOFT.GET_Ventes_Nationales(:p_id_client, :p_abandonnee, :p_id_structure, :result_cursor); END;",
+                                idClientParam, abandonneeParam, idStructureParam, resultParam)
+                    .ToListAsync();
+
+                return Result<List<VenteResult>>.Success(resultList);
             }
-            catch (OracleException oex)
+            catch (OracleException ex)
             {
-                _logger.LogError(oex,
-                    "Oracle error getting national sales data. ErrorCode: {ErrorCode}, Message: {Message}",
-                    oex.ErrorCode, oex.Message);
-                throw;
+                return Result<List<VenteResult>>.Failure($"Oracle error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,
-                    "Error getting national sales data. Client: {ClientId}, Abandonnee: {Abandonnee}, Structure: {StructureId}",
-                    request.IdClient, request.Abandonnee, request.IdStructure);
-                throw;
+                return Result<List<VenteResult>>.Failure($"Error: {ex.Message}");
             }
         }
+
 
         public async Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure)
         {

@@ -171,27 +171,14 @@ namespace ClientService.WebAPI.Controllers
         [HttpGet("ventes-nationales")]
         public async Task<IActionResult> GetVentesNational([FromQuery] VenteRequest request)
         {
-            try
+            var result = await _clientService.GetVentesNationalesAsync(request);
+            if(!result.IsSuccess)
             {
-                if (request == null || request.IdClient <= 0)
-                {
-                    return BadRequest("Invalid request parameters.");
-                }
-
-                var results = await _clientService.GetVentesNationalesAsync(request);
-
-                if (!results.Any())
-                {
-                    return NotFound();
-                }
-
-                return Ok(results);
+                return result.Error!.Contains("not found") ?
+                   NotFound(result.Error) :
+                   BadRequest(result.Error);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting national sales for client {ClientId}", request.IdClient);
-                return StatusCode(500, "An error occurred while processing your request");
-            }
+            return Ok(result.Value);
         }
 
 

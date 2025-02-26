@@ -21,7 +21,7 @@ namespace ClientService.Core.Interfaces
         Task<List<DbClient>> GetClientsAsync();
         Task<DbClient> AddClient(DbClient client);
 
-        Task<IEnumerable<VenteResult>> GetVentesNationalesAsync(VenteRequest request);
+        Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request);
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
         Task<Result<int>> Duplicate(int clientId, int adressTypeId);

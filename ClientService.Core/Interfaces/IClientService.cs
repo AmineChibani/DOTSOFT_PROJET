@@ -20,7 +20,7 @@ namespace ClientService.Core.Interfaces
         Task<DbClient> AddClient(DbClient client);
 
         Task<Result<List<DbParamPays>>> GetAllPays();
-        Task<IEnumerable<VenteResult>> GetVentesNationalesAsync(VenteRequest request);
+        Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request);
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
         Task<Result<int>> Duplicate(int clientId, int adressTypeId);
