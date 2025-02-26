@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Oracle.EntityFrameworkCore;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos.ClientService.Core.Dtos;
 
 
 
@@ -147,8 +148,7 @@ namespace ClientService.Infrastructure.Data
             modelBuilder.Entity<CAResult>().HasNoKey();
             modelBuilder.Entity<EnCours>().HasNoKey();
             //modelBuilder.Entity<>.HasNoKey();
-            modelBuilder.Entity<AvoirResult>().HasNoKey();
-            //modelBuilder.Entity<ClientService.CA>().HasNoKey();
+            modelBuilder.Entity<AvoirResult>().HasNoKey();         
             //modelBuilder.Entity<DbClient>()
             //.ToTable("CLIENT", "DOTSOFT");
             //modelBuilder.Entity<DbClient>()

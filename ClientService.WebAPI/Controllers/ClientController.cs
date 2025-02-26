@@ -219,8 +219,10 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
+
         [HttpGet("CommunicationPreferences/{idClient}/{idStructure}")]
         public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient,[FromRoute] int idStructure)
+
         {
             var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient, idStructure);
             if (!result.IsSuccess)
@@ -231,6 +233,7 @@ namespace ClientService.WebAPI.Controllers
             }
             return Ok(result.Value);
         }
+
 
         [HttpGet("{idClient}/Avoirs")]
         public async Task<IActionResult> GetAvoirs([FromRoute] int idClient)

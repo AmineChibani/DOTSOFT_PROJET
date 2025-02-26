@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos.ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Core.Mappers;

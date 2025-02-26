@@ -10,6 +10,7 @@ using ClientService.Core.Entities;
 using ClientService.Core.Dtos;
 using ClientService.Core.Specifications.Clients;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos.ClientService.Core.Dtos;
 
 namespace ClientService.Core.Interfaces
 {
