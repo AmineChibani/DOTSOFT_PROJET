@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClientService.Core.Entities
 {
-    [Table("CRITEREBOUTIQUE_STRUCTURE", Schema = "COM02")]
+    [Table("CRITEREBOUTIQUE_STRUCTURE")]
     public class DbCritereBoutiqueStructure
     {
         [Key]
@@ -33,5 +33,7 @@ namespace ClientService.Core.Entities
 
         [Column("FDATE_MODIFICATION")]
         public DateTime? FdateModification { get; set; }
+
+        public DbStructure structure { get; set; }
     }
 }

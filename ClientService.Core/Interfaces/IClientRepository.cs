@@ -31,7 +31,7 @@ namespace ClientService.Core.Interfaces
 
         Task<Result<bool>> DeleteClient(int idClient);
 
-        Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId);
+        Task<Result<CommunicationPreferencesBaseDto>> GetClientCommunicationPreferencesAsync(int clientId, int idStructure);
         Task<Result<List<AvoirResult>>> GetAvoirData(int clientId);
     }
 

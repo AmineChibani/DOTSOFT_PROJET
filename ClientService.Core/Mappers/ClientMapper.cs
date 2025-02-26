@@ -10,34 +10,30 @@ namespace ClientService.Core.Mappers
 {
     public static class ClientMapper
     {
-        public static CommunicationPreferencesDto ToClientCommunicationPreferencesDto(
-        this DbClient client,
-        DbClientAdresseComplement Adresse = null)
+        public static CommunicationPreferencesBaseDto ToClientCommunicationPreferencesDto(
+            this DbClient client, DbClientAdresseComplement adresse, bool affiliate)
         {
-            if (client == null)
-            {
-                return null;
-            }
 
-            var dto = new CommunicationPreferencesDto
+            var baseDto = new CommunicationPreferencesBaseDto
             {
-                // Map Client properties
                 OkPourMailing = client.OkPourMailing != 0,
                 OkPourMailingPartner = client.OkPourMailingPartner != 0,
-                OkPourMailingAff = client.OkPourMailingAff != 0,
                 OkPourSms = client.OkPourSms != 0,
                 OkPourSmsPartner = client.OkPourSmsPartner != 0,
-                OkPourSmsAff = client.OkPourSmsAff != 0
+                OkPourEnvoiPostal = adresse.OkPourEnvoiPostal != 0,
+                OkPourEnvoiPostalPartner = adresse.OkPourEnvoiPostalPartner != 0
             };
 
-            // If primary address is provided as an argument, use it
-            if (Adresse != null)
+            if (!affiliate) return baseDto;
+
+            // Use explicit conversion to FullDto
+            return new CommunicationPreferencesFullDto(baseDto)
             {
-                dto.OkPourEnvoiPostal = Adresse.OkPourEnvoiPostal != 0;
-                dto.OkPourEnvoiPostalPartner = Adresse.OkPourEnvoiPostalPartner != 0;
-                dto.OkPourEnvoiPostalAff = Adresse.OkPourEnvoiPostalAff != 0;
-            }
-            return dto;
+                OkPourMailingAff = client.OkPourMailingAff != 0,
+                OkPourSmsAff = client.OkPourSmsAff != 0,
+                OkPourEnvoiPostalAff = adresse.OkPourEnvoiPostalAff != 0
+            };
         }
     }
+
 }

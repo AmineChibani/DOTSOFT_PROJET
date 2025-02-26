@@ -179,14 +179,14 @@ namespace ClientService.Core.Services
             return Result<bool>.Success(result.Value);
         }
 
-        public async Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId)
+        public async Task<Result<CommunicationPreferencesBaseDto>> GetClientCommunicationPreferencesAsync(int clientId, int idStructure)
         {
-            var result = await _clientRepository.GetClientCommunicationPreferencesAsync(clientId);
+            var result = await _clientRepository.GetClientCommunicationPreferencesAsync(clientId,idStructure);
             if (!result.IsSuccess)
             {
-                return Result<CommunicationPreferencesDto>.Failure(result.Error);
+                return Result<CommunicationPreferencesBaseDto>.Failure(result.Error!);
             }
-            return Result<CommunicationPreferencesDto>.Success(result.Value);
+            return Result<CommunicationPreferencesBaseDto>.Success(result.Value!);
         }
 
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)

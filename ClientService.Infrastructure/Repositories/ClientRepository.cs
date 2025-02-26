@@ -377,35 +377,54 @@ namespace ClientService.Infrastructure.Repositories
 
         }
 
-        public async Task<Result<CommunicationPreferencesDto>> GetClientCommunicationPreferencesAsync(int clientId)
+        public async Task<Result<CommunicationPreferencesBaseDto>> GetClientCommunicationPreferencesAsync(int clientId, int idStructure)
         {
             try
             {
-                // Get the client with email and SMS preferences
+                // Get the client
                 var client = await _appcontext.Clients
                     .FirstOrDefaultAsync(c => c.ClientId == clientId);
-                
+
                 if (client == null)
                 {
-                    return Result<CommunicationPreferencesDto>.Failure("Client not found");
+                    return Result<CommunicationPreferencesBaseDto>.Failure("Client not found");
                 }
 
-                // Get the address with postal preferences
+                // Get the address
                 var Adresse = await _appcontext.ClientAdresseComplement
                     .FirstOrDefaultAsync(a => a.ClientId == clientId && a.AdresseTypeId == 1);
                 if (Adresse == null)
                 {
-                    return Result<CommunicationPreferencesDto>.Failure("Adress not found");
+                    return Result<CommunicationPreferencesBaseDto>.Failure("Adress not found");
                 }
-                // returning the dto using the mapper
-                return Result<CommunicationPreferencesDto>.Success(client.ToClientCommunicationPreferencesDto(Adresse));
+
+                // Check for affiliation
+                bool Affiliation = false;
+                try
+                {
+                    Affiliation = await _appcontext.CritereBoutiqueStructure
+                        .Join(_appcontext.Structure,
+                            cbs => cbs.IdStructure,
+                            s => s.IdStructure,
+                            (cbs, s) => new { CritereBoutique = cbs, Structure = s })
+                        .AnyAsync(x =>
+                            x.CritereBoutique.IdStructure == idStructure &&
+                            x.CritereBoutique.IdCritere == 4 &&
+                            x.CritereBoutique.Valeur.ToLower().Trim().StartsWith("affili") &&
+                            (x.Structure.id_pays == 65 || x.Structure.id_pays == 59));
+                }
+                catch (Exception ex)
+                {
+                    return Result<CommunicationPreferencesBaseDto>.Failure("An error occured while getting affiliations preferences: " + ex.Message);
+                }
+
+                return Result<CommunicationPreferencesBaseDto>.Success(client.ToClientCommunicationPreferencesDto(Adresse, Affiliation));
             }
             catch (Exception ex)
             {
-                return Result<CommunicationPreferencesDto>.Failure("An error occured while getting communication preferences: " + ex.Message);
+                return Result<CommunicationPreferencesBaseDto>.Failure("An error occured while getting communication preferences: " + ex.Message);
             }
         }
-
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
         {
             var query = @"
@@ -571,6 +590,8 @@ namespace ClientService.Infrastructure.Repositories
                 return Result<List<AvoirResult>>.Failure($"An error occurred: {ex.Message}");
             }
         }
+
+
 
     }
 

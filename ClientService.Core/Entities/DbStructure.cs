@@ -26,6 +26,9 @@ namespace ClientService.Core.Entities
         [DefaultValue(0)]
         [Precision(22,18)]
         public int Id_Distrib { get; set; }
+
+        [Column("ID_PAYS")]
+        public int id_pays { get; set; }
     }
 
 }

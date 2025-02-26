@@ -219,10 +219,10 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet("CommunicationPreferences/{idClient}")]
-        public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient)
+        [HttpGet("CommunicationPreferences/{idClient}/{idStructure}")]
+        public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient,[FromRoute] int idStructure)
         {
-            var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient);
+            var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient, idStructure);
             if (!result.IsSuccess)
             {
                 return result.Error!.Contains("not found") ?
