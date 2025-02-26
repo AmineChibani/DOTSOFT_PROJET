@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
 using ClientService.Core.Dtos;
+using ClientService.Core.Dtos.ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Core.Mappers;
@@ -408,167 +410,34 @@ namespace ClientService.Infrastructure.Repositories
 
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
         {
-            var query = @"
-    BEGIN 
-        DOTSOFT.GetAvoir(:ClientId, :result); 
-    END;";
-
             try
             {
-                // Create the command and parameters
-                using (var command = _appcontext.Database.GetDbConnection().CreateCommand())
+                var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
                 {
-                    command.CommandText = query;
-                    command.CommandType = CommandType.Text;
-
-                    // Set up input parameter for clientId
-                    var clientIdParameter = new OracleParameter("ClientId", OracleDbType.Int32)
-                    {
-                        Value = clientId,
-                        Direction = ParameterDirection.Input
-                    };
-                    command.Parameters.Add(clientIdParameter);
-
-                    // Set up the output parameter for the cursor
-                    var resultParameter = new OracleParameter("result", OracleDbType.RefCursor)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    command.Parameters.Add(resultParameter);
-
-                    // Open the connection if it's not already open
-                    if (command.Connection.State != ConnectionState.Open)
-                        await command.Connection.OpenAsync();
-
-                    // Execute the command
-                    await command.ExecuteNonQueryAsync();
-
-                    // Read from the RefCursor
-                    using (var reader = ((OracleRefCursor)resultParameter.Value).GetDataReader())
-                    {
-                        var resultList = new List<AvoirResult>();
-
-                        // Create a case-insensitive dictionary to map columns
-                        var columnMap = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            columnMap[reader.GetName(i)] = i;
-                        }
-
-                        // Debug: Print all available columns from the database
-                        Console.WriteLine("Available columns in database result:");
-                        foreach (var col in columnMap.Keys)
-                        {
-                            Console.WriteLine($"- {col}");
-                        }
-
-                        // Column name mappings (database column name to property name)
-                        var columnMappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-                {
-                    // Map actual DB column names to model property names
-                    { "ID_BA", "ID_BA" },
-                    { "DATE_CREATION", "FDATE" }, // Special case: DATE_CREATION maps to FDATE
-                    // Add other mappings as needed
+                    Value = clientId,
+                    Direction = ParameterDirection.Input
                 };
 
-                        // Map the data to AvoirResult with case-insensitive lookups
-                        while (await reader.ReadAsync())
-                        {
-                            var resultItem = new AvoirResult();
+                var resultParam = new OracleParameter
+                {
+                    ParameterName = "result",
+                    OracleDbType = OracleDbType.RefCursor,
+                    Direction = ParameterDirection.Output
+                };
 
-                            // Helper method for safe value retrieval with case-insensitive column names
-                            T GetSafeValue<T>(string columnName, T defaultValue = default)
-                            {
-                                // Try the mapped column name first if it exists
-                                string actualColumnName = columnName;
-                                if (columnMappings.ContainsKey(columnName))
-                                    actualColumnName = columnMappings[columnName];
+                var resultList = await _appcontext.AvoirResults
+                    .FromSqlRaw("BEGIN DOTSOFT.GetAvoir(:ClientId, :result); END;", clientIdParam, resultParam)
+                    .ToListAsync();
 
-                                // Find column in a case-insensitive way
-                                var matchingColumn = columnMap.Keys.FirstOrDefault(k =>
-                                    string.Equals(k, actualColumnName, StringComparison.OrdinalIgnoreCase));
-
-                                if (matchingColumn == null)
-                                    return defaultValue;
-
-                                var ordinal = columnMap[matchingColumn];
-                                if (reader.IsDBNull(ordinal))
-                                    return defaultValue;
-
-                                try
-                                {
-                                    var value = reader.GetValue(ordinal);
-
-                                    if (typeof(T) == typeof(int) || typeof(T) == typeof(int?))
-                                        return (T)(object)Convert.ToInt32(value);
-                                    else if (typeof(T) == typeof(decimal) || typeof(T) == typeof(decimal?))
-                                        return (T)(object)Convert.ToDecimal(value);
-                                    else if (typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?))
-                                        return (T)(object)Convert.ToDateTime(value);
-                                    else if (typeof(T) == typeof(string))
-                                        return (T)(object)value.ToString();
-                                    else if (typeof(T) == typeof(long) || typeof(T) == typeof(long?))
-                                        return (T)(object)Convert.ToInt64(value);
-
-                                    else
-                                        return (T)value;
-                                }
-                                catch
-                                {
-                                    return defaultValue;
-                                }
-                            }
-
-                            // Set properties directly
-                            resultItem.ID_BA = GetSafeValue<int>("ID_BA"); // The actual ID_BA value
-                            resultItem.ID_STRUCTURE = GetSafeValue<int?>("ID_STRUCTURE");
-                            resultItem.ID_EMPLOYE = GetSafeValue<int?>("ID_EMPLOYE");
-                            resultItem.FDATE = GetSafeValue<DateTime?>("DATE_CREATION"); // Map DATE_CREATION to FDATE
-                            resultItem.DATE_DEBUT = GetSafeValue<DateTime?>("DATE_DEBUT");
-                            resultItem.DATE_FIN = GetSafeValue<DateTime?>("DATE_FIN");
-                            resultItem.ID_CLIENT = GetSafeValue<int?>("ID_CLIENT");
-                            resultItem.CODE = GetSafeValue<string>("CODE");
-                            resultItem.ANNULE = GetSafeValue<int?>("ANNULE");
-                            resultItem.MONTANT_BA_INITIAL = GetSafeValue<decimal?>("MONTANT_BA_INITIAL");
-                            resultItem.MONTANT_BA_VALIDE = GetSafeValue<decimal?>("MONTANT_BA_VALIDE");
-                            resultItem.MONTANT_BA_ENCOURS = GetSafeValue<decimal?>("MONTANT_BA_ENCOURS");
-                            resultItem.TYPE_BA = GetSafeValue<int?>("TYPE_BA");
-                            resultItem.DATE_ANNULATION = GetSafeValue<DateTime?>("DATE_ANNULATION");
-                            resultItem.TYPE_ANNULATION = GetSafeValue<int?>("TYPE_ANNULATION");
-                            resultItem.ID_EMPLOYE_ANNULE = GetSafeValue<int?>("ID_EMPLOYE_ANNULE");
-                            resultItem.TYPE_REGLEMENT_CMD = GetSafeValue<int?>("TYPE_REGLEMENT_CMD");
-                            resultItem.ID_COMMANDEC = GetSafeValue<int?>("ID_COMMANDEC");
-                            resultItem.VALIDITE_BA_MOIS = GetSafeValue<int?>("VALIDITE_BA_MOIS");
-                            resultItem.ID_FACTUREC = GetSafeValue<int?>("ID_FACTUREC");
-                            // Fix for TAUX_TVA - try both column names
-                            resultItem.TAUX_TVA = GetSafeValue<decimal?>("TAUX_TVA") ?? GetSafeValue<decimal?>("AUX_TVA");
-                            resultItem.ID_DISTRIB = GetSafeValue<int?>("ID_DISTRIB");
-                            resultItem.CODE_BARRE_COMPLET = GetSafeValue<string>("CODE_BARRE_COMPLET");
-                            resultItem.DESTINATAIRE = GetSafeValue<string>("DESTINATAIRE");
-                            resultItem.MESSAGE = GetSafeValue<string>("MESSAGE");
-                            resultItem.ID_DEVISE = GetSafeValue<int?>("ID_DEVISE");
-                            resultItem.montant_BA_restant = GetSafeValue<decimal?>("MONTANT_BA_RESTANT");
-                            resultItem.ID_TICKET_CAISSE = GetSafeValue<long?>("ID_TICKET_CAISSE");
-                            resultItem.num_commande = GetSafeValue<int?>("NUM_COMMANDE");
-
-                            resultList.Add(resultItem);
-                        }
-
-                        return Result<List<AvoirResult>>.Success(resultList);
-                    }
-                }
+                return Result<List<AvoirResult>>.Success(resultList);
             }
             catch (OracleException ex)
             {
-                return Result<List<AvoirResult>>.Failure($"An Oracle error occurred while returning Avoirs: {ex.Message}");
-            }
-            catch (InvalidCastException ex)
-            {
-                return Result<List<AvoirResult>>.Failure($"Invalid cast occurred: {ex.Message}");
+                return Result<List<AvoirResult>>.Failure($"Oracle error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                return Result<List<AvoirResult>>.Failure($"An error occurred: {ex.Message}");
+                return Result<List<AvoirResult>>.Failure($"Error: {ex.Message}");
             }
         }
 
