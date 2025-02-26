@@ -18,14 +18,14 @@ namespace ClientService.Core.Interfaces
     {
         Task<Result<DbClient>> GetClientById(int IdClient);
         Task<Result<List<DbParamPays>>> GetAllPays();
-        Task<List<DbClient>> GetClientsAsync();
+        Task<Result<List<DbClient>>> GetClientsAsync();
         Task<DbClient> AddClient(DbClient client);
 
         Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request);
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
         Task<Result<int>> Duplicate(int clientId, int adressTypeId);
-        Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);
+        Task<Result<IEnumerable<CAResult>>> GetCAAsync(CARequest request);
         Task<Result<List<DbParamCategSocioProf>>> GetCSPs();
 
         Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);

@@ -16,7 +16,7 @@ namespace ClientService.Core.Interfaces
     public interface IClientService
     {
         Task<Result<DbClient>> GetClientById(int id);
-        Task<List<DbClient>> GetClients();
+        Task<Result<List<DbClient>>> GetClientsAsync();
         Task<DbClient> AddClient(DbClient client);
 
         Task<Result<List<DbParamPays>>> GetAllPays();
@@ -24,8 +24,7 @@ namespace ClientService.Core.Interfaces
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
         Task<Result<int>> Duplicate(int clientId, int adressTypeId);
-        Task<IEnumerable<CAResult>> GetCAAsync(CARequest request);
-
+        Task<Result<IEnumerable<CAResult>>> GetCAAsync(CARequest request);
         Task<Result<List<CspDto>>> GetCSPs();
         Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);
         Task<Result<bool>> DeleteClient(int idClient);

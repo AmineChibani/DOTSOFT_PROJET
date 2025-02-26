@@ -50,8 +50,8 @@ namespace ClientService.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClients()
         {
-            var clients = await _clientService.GetClients();
-            return Ok(clients);
+            var result = await _clientService.GetClientsAsync();
+            return Ok(result.Value);
         }
 
         //[HttpPost]
@@ -138,33 +138,21 @@ namespace ClientService.WebAPI.Controllers
 
 
         [HttpGet("CA/{clientId}")]
-        public async Task<ActionResult<IEnumerable<CAResult>>> GetCA(int clientId)
+        public async Task<ActionResult<CAResult>> GetCA(int clientId)
         {
-            try
+            var CaRequest = new CARequest
             {
-                if (clientId <= 0)
-                {
-                    throw new ArgumentException("Invalid Client ID");
-                }
+                IdClient = clientId,
+            };
 
-                // Création d'un objet CARequest avec le seul IdClient
-                var request = new CARequest
-                {
-                    IdClient = clientId
-                };
-
-                var results = await _clientService.GetCAAsync(request);
-                return Ok(results);
-            }
-            catch (ArgumentException ex)
+            var result = await _clientService.GetCAAsync(CaRequest);
+            if (!result.IsSuccess)
             {
-                return BadRequest(ex.Message);
+                return result.Error!.Contains("not found") ?
+                  NotFound(result.Error) :
+                  BadRequest(result.Error);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error processing CA request for client {ClientId}", clientId);
-                return StatusCode(500, "An error occurred while processing your request");
-            }
+            return Ok(result.Value);
         }
 
 

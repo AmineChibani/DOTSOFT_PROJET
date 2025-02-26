@@ -80,18 +80,17 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public async Task<List<DbClient>> GetClientsAsync()
+        public async Task<Result<List<DbClient>>> GetClientsAsync()
         {
             try
             {
                 var allClients = await _appcontext.Clients.ToListAsync();
-                _logger.LogInformation($"Retrieved {allClients.Count} clients from the database");
-                return allClients;
+                return Result<List<DbClient>>.Success(allClients);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all clients from the database");
-                throw;
+                return Result<List<DbClient>>.Failure("Error retrieving all clients from the database");
             }
         }
 
@@ -203,17 +202,17 @@ namespace ClientService.Infrastructure.Repositories
         }
 
 
-        //méthode pour récupére tous les factures clients qui a fait spécifique le client
-        public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
+        //méthode pour récupére tous les factures clients qui a fait spécifique  client
+        public async Task<Result<IEnumerable<CAResult>>> GetCAAsync(CARequest request)
         {
             try
             {
                 if (request.IdClient <= 0)
                 {
-                    throw new ArgumentException("Invalid Client ID");
+                    return Result<IEnumerable<CAResult>>.Failure("Invalid Client ID");
                 }
 
-                // Créer un paramètre pour le curseur de sortie
+                // Create output parameter for the cursor
                 var outputParameter = new OracleParameter
                 {
                     ParameterName = "p_Result",
@@ -221,19 +220,24 @@ namespace ClientService.Infrastructure.Repositories
                     OracleDbType = OracleDbType.RefCursor
                 };
 
-                // Exécuter la procédure stockée avec OracleParameter pour gérer les paramètres IN et OUT
+                // Execute stored procedure with OracleParameter to handle IN and OUT parameters
                 var result = await _appcontext.Set<CAResult>()
                     .FromSqlRaw("BEGIN DOTSOFT.GetCA(:p_IdClient, :p_Result); END;",
                                 new OracleParameter(":p_IdClient", request.IdClient),
                                 outputParameter)
                     .ToListAsync();
 
-                return result.OrderByDescending(x => x.Fdate).ToList();
+                return Result<IEnumerable<CAResult>>.Success(result.OrderByDescending(x => x.Fdate).ToList());
+            }
+            catch (OracleException ex)
+            {
+                _logger.LogError(ex, "Oracle error occurred while getting CA data for client {ClientId}", request.IdClient);
+                return Result<IEnumerable<CAResult>>.Failure($"Oracle error: {ex.Message}");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting CA data for client {ClientId}", request.IdClient);
-                throw;
+                return Result<IEnumerable<CAResult>>.Failure($"Error: {ex.Message}");
             }
         }
 
@@ -392,12 +396,7 @@ namespace ClientService.Infrastructure.Repositories
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
         {
             try
-            {
-                if (clientId <= 0)
-                {
-                    return Result<List<AvoirResult>>.Failure("Invalid client ID provided");
-                }
-
+            {          
                 var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
                 {
                     Value = clientId,
@@ -414,11 +413,6 @@ namespace ClientService.Infrastructure.Repositories
                 var resultList = await _appcontext.AvoirResults
                     .FromSqlRaw("BEGIN DOTSOFT.GetAvoir(:ClientId, :result); END;", clientIdParam, resultParam)
                     .ToListAsync();
-
-                if (resultList == null || resultList.Count == 0)
-                {
-                    return Result<List<AvoirResult>>.Failure("Client ID not found in the database");
-                }
 
                 return Result<List<AvoirResult>>.Success(resultList);
             }

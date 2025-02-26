@@ -28,6 +28,11 @@ namespace ClientService.Core.Services
 
         public async Task<Result<DbClient>> GetClientById(int id)
         {
+            if(id <= 0)
+            {
+              return Result<DbClient>.Failure("Invalid client ID provided");
+
+            }
             var result = await _clientRepository.GetClientById(id);
             if (!result.IsSuccess)
             {
@@ -41,9 +46,14 @@ namespace ClientService.Core.Services
             return _clientRepository.AddClient(client);
         }
 
-        public async Task<List<DbClient>> GetClients()
+        public async Task<Result<List<DbClient>>> GetClientsAsync()
         {
-            return await _clientRepository.GetClientsAsync();
+            var result = await _clientRepository.GetClientsAsync();
+            if (result.Value.Count == 0)
+            {
+                return Result<List<DbClient>>.Success(result.Value);
+            }
+            return Result<List<DbClient>>.Success(result.Value);
         }
 
         public async Task<Result<List<DbParamPays>>> GetAllPays()
@@ -99,31 +109,51 @@ namespace ClientService.Core.Services
             return Result<List<CspDto>>.Success(result.Value.Select(x => x.toCspDto()).ToList());
         }
 
-        public async Task<IEnumerable<CAResult>> GetCAAsync(CARequest request)
+        public async Task<Result<IEnumerable<CAResult>>> GetCAAsync(CARequest request)
         {
-            try
+            if (request == null)
             {
-                if (request.IdClient <= 0)
-                {
-                    throw new ArgumentException("Invalid Client ID");
-                }
+                return Result<IEnumerable<CAResult>>.Failure("Request cannot be null");
+            }
 
-                return await _clientRepository.GetCAAsync(request);
-            }
-            catch (Exception ex)
+            if (request.IdClient <= 0)
             {
-                _logger.LogError(ex, "Error occurred while getting CA data for client {ClientId}", request.IdClient);
-                throw;
+                return Result<IEnumerable<CAResult>>.Failure($"Invalid client ID: {request.IdClient}");
             }
+
+            var result = await _clientRepository.GetCAAsync(request);
+            if (result.IsFailure)
+            {
+                _logger.LogError("Failed to retrieve CA data: {Error}", result.Error);
+                return Result<IEnumerable<CAResult>>.Failure($"Failed to retrieve CA data: {result.Error}");
+            }
+
+            return Result<IEnumerable<CAResult>>.Success(result.Value);
         }
 
         public async Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request)
         {
-            var result = await _clientRepository.GetVentesNationalesAsync(request);
-            if (!result.IsSuccess)
+            if (request == null)
             {
-                return Result<List<VenteResult>>.Failure("An Error occured while returning Avoirs" + result.Error);
+                return Result<List<VenteResult>>.Failure("Request cannot be null");
             }
+
+            if (request.IdClient <= 0)
+            {
+                return Result<List<VenteResult>>.Failure($"Invalid client ID: {request.IdClient}");
+            }
+
+            var result = await _clientRepository.GetVentesNationalesAsync(request);
+            if (result.IsFailure)
+            {
+                return Result<List<VenteResult>>.Failure($"Failed to retrieve ventes nationales: {result.Error}");
+            }
+
+            if (result.Value.Count == 0)
+            {
+                 return Result<List<VenteResult>>.Failure($"No ventes nationales found for the provided criteria");
+            }
+
             return Result<List<VenteResult>>.Success(result.Value);
         }
 
@@ -160,16 +190,23 @@ namespace ClientService.Core.Services
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
         {
             if (clientId <= 0)
-            {
-                throw new ArgumentException("Invalid client ID provided", nameof(clientId));
+            {         
+                return Result<List<AvoirResult>>.Failure($"Invalid client ID: {clientId}");
             }
 
             var result = await _clientRepository.GetAvoirData(clientId);
-
-            if (!result.IsSuccess)
+            if (result.IsFailure)
             {
-                return Result<List<AvoirResult>>.Failure("An Error occured while returning Avoirs" + result.Error);
+                return Result<List<AvoirResult>>.Failure($"Failed to retrieve avoir data: {result.Error}");
             }
+
+
+            if (result.Value.Count == 0)
+            {
+                //return Result<List<AvoirResult>>.Success(result.Value);
+                return Result<List<AvoirResult>>.Failure($"No avoir data found for client {clientId}");
+            }
+
             return Result<List<AvoirResult>>.Success(result.Value);
         }
     }
