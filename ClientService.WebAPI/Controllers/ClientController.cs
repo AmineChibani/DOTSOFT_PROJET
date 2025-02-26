@@ -225,7 +225,9 @@ namespace ClientService.WebAPI.Controllers
             var result = await _clientService.GetAvoirData(idClient);
             if (!result.IsSuccess)
             {
-                return BadRequest(result.Error);
+                return result.Error!.Contains("not found") ?
+                                  NotFound(result.Error) :
+                                  BadRequest(result.Error);
             }
             return Ok(result.Value);
         }

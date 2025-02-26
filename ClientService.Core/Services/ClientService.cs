@@ -159,7 +159,13 @@ namespace ClientService.Core.Services
 
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
         {
+            if (clientId <= 0)
+            {
+                throw new ArgumentException("Invalid client ID provided", nameof(clientId));
+            }
+
             var result = await _clientRepository.GetAvoirData(clientId);
+
             if (!result.IsSuccess)
             {
                 return Result<List<AvoirResult>>.Failure("An Error occured while returning Avoirs" + result.Error);

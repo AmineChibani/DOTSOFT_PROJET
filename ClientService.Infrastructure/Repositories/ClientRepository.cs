@@ -393,6 +393,11 @@ namespace ClientService.Infrastructure.Repositories
         {
             try
             {
+                if (clientId <= 0)
+                {
+                    return Result<List<AvoirResult>>.Failure("Invalid client ID provided");
+                }
+
                 var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
                 {
                     Value = clientId,
@@ -410,6 +415,11 @@ namespace ClientService.Infrastructure.Repositories
                     .FromSqlRaw("BEGIN DOTSOFT.GetAvoir(:ClientId, :result); END;", clientIdParam, resultParam)
                     .ToListAsync();
 
+                if (resultList == null || resultList.Count == 0)
+                {
+                    return Result<List<AvoirResult>>.Failure("Client ID not found in the database");
+                }
+
                 return Result<List<AvoirResult>>.Success(resultList);
             }
             catch (OracleException ex)
@@ -421,9 +431,5 @@ namespace ClientService.Infrastructure.Repositories
                 return Result<List<AvoirResult>>.Failure($"Error: {ex.Message}");
             }
         }
-
-
-
     }
-
 }
