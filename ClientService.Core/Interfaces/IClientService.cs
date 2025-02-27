@@ -10,6 +10,7 @@ using ClientService.Core.Entities;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos.ClientService.Core.Dtos;
+using ClientService.Infrastructure.Dtos;
 
 namespace ClientService.Core.Interfaces
 {
@@ -17,7 +18,7 @@ namespace ClientService.Core.Interfaces
     {
         Task<Result<DbClient>> GetClientById(int id);
         Task<Result<List<DbClient>>> GetClientsAsync();
-        Task<DbClient> AddClient(DbClient client);
+        Task<int> Create(ClientRequest clientRequest);
 
         Task<Result<List<DbParamPays>>> GetAllPays();
         Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request);

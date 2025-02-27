@@ -10,6 +10,7 @@ using ClientService.Core.Dtos.ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Core.Mappers;
+using ClientService.Infrastructure.Dtos;
 using Microsoft.Extensions.Logging;
 
 namespace ClientService.Core.Services
@@ -41,10 +42,7 @@ namespace ClientService.Core.Services
             return Result<DbClient>.Success(result.Value);
         }
 
-        public Task<DbClient> AddClient(DbClient client)
-        {
-            return _clientRepository.AddClient(client);
-        }
+       
 
         public async Task<Result<List<DbClient>>> GetClientsAsync()
         {
@@ -208,6 +206,25 @@ namespace ClientService.Core.Services
             }
 
             return Result<List<AvoirResult>>.Success(result.Value);
+        }
+
+        public async Task<int> Create(ClientRequest clientRequest)
+        {
+            ValidateClientRequest(clientRequest);
+
+            return await _clientRepository.Create(clientRequest);
+        }
+        public void ValidateClientRequest(ClientRequest clientRequest)
+        {
+            if (clientRequest == null)
+                throw new ArgumentNullException(nameof(clientRequest), "Client request cannot be null.");
+
+            if (string.IsNullOrWhiteSpace(clientRequest.FirstName))
+                throw new ArgumentException("First name is required.", nameof(clientRequest.FirstName));
+
+            if (string.IsNullOrWhiteSpace(clientRequest.LastName))
+                throw new ArgumentException("Last name is required.", nameof(clientRequest.LastName));
+
         }
     }
 }

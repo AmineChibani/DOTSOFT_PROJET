@@ -11,6 +11,7 @@ using ClientService.Core.Dtos;
 using ClientService.Core.Specifications.Clients;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos.ClientService.Core.Dtos;
+using ClientService.Infrastructure.Dtos;
 
 namespace ClientService.Core.Interfaces
 {
@@ -19,7 +20,7 @@ namespace ClientService.Core.Interfaces
         Task<Result<DbClient>> GetClientById(int IdClient);
         Task<Result<List<DbParamPays>>> GetAllPays();
         Task<Result<List<DbClient>>> GetClientsAsync();
-        Task<DbClient> AddClient(DbClient client);
+        Task<int> Create(ClientRequest clientRequest);
 
         Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request);
 
@@ -34,6 +35,7 @@ namespace ClientService.Core.Interfaces
 
         Task<Result<CommunicationPreferencesBaseDto>> GetClientCommunicationPreferencesAsync(int clientId, int idStructure);
         Task<Result<List<AvoirResult>>> GetAvoirData(int clientId);
+        Task<List<HistoVentesResult>> GetHistoVentes(int clientId);
     }
 
 }
