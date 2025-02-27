@@ -10,13 +10,15 @@ using ClientService.Core.Entities;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos.ClientService.Core.Dtos;
+using ClientService.Core.Specifications.Clients;
+using ClientService.Core.Common.Pagination;
 
 namespace ClientService.Core.Interfaces
 {
     public interface IClientService
     {
         Task<Result<DbClient>> GetClientById(int id);
-        Task<Result<List<DbClient>>> GetClientsAsync();
+        Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter);
         Task<DbClient> AddClient(DbClient client);
 
         Task<Result<List<DbParamPays>>> GetAllPays();

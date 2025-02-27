@@ -6,7 +6,7 @@
 
         public int PageNumber { get; set; }
 
-        public string ColumnsSearchText { get; set; }
+        public string? ColumnsSearchText { get; set; }
 
         public int OrderByColumn { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace ClientService.Core.Dtos
 {
-    public class Client
+    public class ClientDto
     {
         public string FirstName { get; set; }
 
@@ -54,7 +54,7 @@ namespace ClientService.Core.Dtos
 
         public int? WebType { get; set; }
 
-        public List<DbClientAdresse> ClientAdresses { get; set; }
+        public List<ClientAdressesDto> ClientAdresses { get; set; }
 
         public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; }
 

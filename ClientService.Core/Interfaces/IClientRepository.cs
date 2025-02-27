@@ -11,6 +11,7 @@ using ClientService.Core.Dtos;
 using ClientService.Core.Specifications.Clients;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos.ClientService.Core.Dtos;
+using ClientService.Core.Common.Pagination;
 
 namespace ClientService.Core.Interfaces
 {
@@ -18,7 +19,7 @@ namespace ClientService.Core.Interfaces
     {
         Task<Result<DbClient>> GetClientById(int IdClient);
         Task<Result<List<DbParamPays>>> GetAllPays();
-        Task<Result<List<DbClient>>> GetClientsAsync();
+        Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter);
         Task<DbClient> AddClient(DbClient client);
 
         Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request);

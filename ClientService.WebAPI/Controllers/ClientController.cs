@@ -3,6 +3,7 @@ using ClientService.Core.Common;
 using ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
+using ClientService.Core.Specifications.Clients;
 using ClientService.Infrastructure.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -48,9 +49,9 @@ namespace ClientService.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClients()
+        public async Task<IActionResult> GetClients([FromQuery] ClientFilter filter)
         {
-            var result = await _clientService.GetClientsAsync();
+            var result = await _clientService.GetClientsAsync(filter);
             return Ok(result.Value);
         }
 
