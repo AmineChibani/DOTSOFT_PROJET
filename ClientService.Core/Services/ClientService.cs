@@ -11,11 +11,9 @@ using ClientService.Core.Dtos.ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Core.Mappers;
-<<<<<<< HEAD
-using ClientService.Infrastructure.Dtos;
-=======
 using ClientService.Core.Specifications.Clients;
->>>>>>> 6b67c5c829ce6dc5de4cfbf5a5cd3b7f749299b0
+using ClientService.Infrastructure.Dtos;
+using ClientService.Core.Specifications.Clients;
 using Microsoft.Extensions.Logging;
 
 namespace ClientService.Core.Services
