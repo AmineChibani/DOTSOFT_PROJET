@@ -56,17 +56,17 @@ namespace ClientService.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ClientRequest newClient) 
-        { 
+        public async Task<IActionResult> Create([FromBody] ClientRequest newClient)
+        {
             int clientId = await _clientService.Create(newClient);
             return CreatedAtAction(
-                          nameof(GetClientById),  // The action name to get the client by ID
-                          new { id = clientId },  // The route parameters required by the action
-                          new { ClientId = clientId }  // The body of the response, typically the client data or an ID
+                          nameof(GetClientById),
+                          new { id = clientId },
+                          new { ClientId = clientId }
                       );
         }
 
-    [HttpGet("clients/addresses/{clientId}")]
+        [HttpGet("clients/addresses/{clientId}")]
         public async Task<IActionResult> GetClientAddresses(int clientId)
         {
             var result = await _clientService.GetAddressesByClientId(clientId);
@@ -127,7 +127,7 @@ namespace ClientService.WebAPI.Controllers
         public async Task<IActionResult> GetVentesNational([FromQuery] VenteRequest request)
         {
             var result = await _clientService.GetVentesNationalesAsync(request);
-            if(!result.IsSuccess)
+            if (!result.IsSuccess)
             {
                 return BadRequest(result.Error);
             }
@@ -162,8 +162,8 @@ namespace ClientService.WebAPI.Controllers
 
         [HttpGet("CommunicationPreferences/{idClient}/{idStructure}")]
         public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient, [FromRoute] int idStructure)
-        { 
-            var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient,idStructure);
+        {
+            var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient, idStructure);
             if (!result.IsSuccess)
             {
                 return result.Error!.Contains("not found") ?
@@ -187,6 +187,19 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
+        [HttpGet("GetHistoVentes/{clientId}")]
+        public async Task<IActionResult> GetHistoVentes(int clientId)
+        {
+            try
+            {
+                var salesHistory = await _clientService.GetHistoVentes(clientId);
+                return Ok(salesHistory);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while processing your request.", details = ex.Message });
+            }
+        }
 
     }
 }
