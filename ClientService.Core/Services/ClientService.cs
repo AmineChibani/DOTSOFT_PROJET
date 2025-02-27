@@ -5,12 +5,17 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
+using ClientService.Core.Common.Pagination;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos.ClientService.Core.Dtos;
 using ClientService.Core.Entities;
 using ClientService.Core.Interfaces;
 using ClientService.Core.Mappers;
+<<<<<<< HEAD
 using ClientService.Infrastructure.Dtos;
+=======
+using ClientService.Core.Specifications.Clients;
+>>>>>>> 6b67c5c829ce6dc5de4cfbf5a5cd3b7f749299b0
 using Microsoft.Extensions.Logging;
 
 namespace ClientService.Core.Services
@@ -44,14 +49,15 @@ namespace ClientService.Core.Services
 
        
 
-        public async Task<Result<List<DbClient>>> GetClientsAsync()
+        public async Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter)
         {
-            var result = await _clientRepository.GetClientsAsync();
-            if (result.Value.Count == 0)
-            {
-                return Result<List<DbClient>>.Success(result.Value);
-            }
-            return Result<List<DbClient>>.Success(result.Value);
+            var result = await _clientRepository.GetClientsAsync(filter);
+            return result;
+            //if (result.Value.Count == 0)
+            //{
+            //    return Result<List<DbClient>>.Success(result.Value);
+            //}
+            //return Result<List<DbClient>>.Success(result.Value);
         }
 
         public async Task<Result<List<DbParamPays>>> GetAllPays()

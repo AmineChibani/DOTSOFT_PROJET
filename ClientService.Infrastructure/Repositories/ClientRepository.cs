@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
+using ClientService.Core.Common.Pagination;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos.ClientService.Core.Dtos;
 using ClientService.Core.Entities;
@@ -68,17 +69,58 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<List<DbClient>>> GetClientsAsync()
+        public async Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter)
         {
+            if (filter == null)
+                return Result<PagedResult<ClientDto>>.Failure("Filter cannot be null.");
+
             try
             {
-                var allClients = await _appcontext.Clients.ToListAsync();
-                return Result<List<DbClient>>.Success(allClients);
+                var query = _appcontext.Clients.AsNoTracking();
+
+                // Apply filters
+                foreach (var clause in filter.ToWhereClauses())
+                {
+                    query = query.Where(clause);
+                }
+
+                // Apply sorting
+                query = filter.ApplySorting(query, filter.OrderByColumn, filter.SortDirection);
+
+                // Get total count before pagination
+                int totalCount = await query.CountAsync();
+
+                // Apply pagination and projection
+                var clients = await query
+                 .Skip((filter.PageNumber - 1) * filter.PageSize)
+                 .Take(filter.PageSize)
+                 .Select(client => new ClientDto
+                 {
+                     ClientId = client.ClientId,
+                     Email = client.Mail,
+                     FirstName = client.Prenom,
+                     LastName = client.Nom,
+                     ClientAdresses = client.ClientAdresses.Select(addr => new ClientAdressesDto
+                     {
+                         Address = addr.Adresse1,
+                         City = addr.ParamCodePostal.Commune,
+                         PostalCode = addr.ParamCodePostal.CP,
+                         Country = addr.Pays.Libelle
+                     }).ToList()
+                 })
+                 .ToListAsync();
+
+
+                var pagedResult = new PagedResult<ClientDto>(filter.PageNumber, filter.PageSize, totalCount, totalCount)
+                {
+                    Results = clients
+                };
+
+                return Result<PagedResult<ClientDto>>.Success(pagedResult);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving all clients from the database");
-                return Result<List<DbClient>>.Failure("Error retrieving all clients from the database");
+                return Result<PagedResult<ClientDto>>.Failure($"An error occurred: {ex.Message}");
             }
         }
 

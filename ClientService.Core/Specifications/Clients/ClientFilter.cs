@@ -12,18 +12,18 @@ namespace ClientService.Core.Specifications.Clients
 {
     public class ClientFilter : PagedFilter
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string City { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? City { get; set; }
         public int? ClientId { get; set; }
-        public string Phone { get; set; }
-        public string Postal { get; set; }
+        public string? Phone { get; set; }
+        public string? Postal { get; set; }
         public int? Pays { get; set; }
         public int? Region { get; set; }
         public int? StructureId { get; set; }
         public int? EmployeId { get; set; }
 
-        internal List<Expression<Func<DbClient, bool>>> ToWhereClauses()
+        public List<Expression<Func<DbClient, bool>>> ToWhereClauses()
         {
             var whereClauses = new List<Expression<Func<DbClient, bool>>>();
 
@@ -57,7 +57,7 @@ namespace ClientService.Core.Specifications.Clients
             return whereClauses;
         }
 
-        internal IQueryable<DbClient> ApplySorting(IQueryable<DbClient> query, int sortColumn, SortDirection sortDirection)
+        public IQueryable<DbClient> ApplySorting(IQueryable<DbClient> query, int sortColumn, SortDirection sortDirection)
         {
             bool ascending = sortDirection == SortDirection.Ascending;
 
