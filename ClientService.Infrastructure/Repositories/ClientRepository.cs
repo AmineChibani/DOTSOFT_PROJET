@@ -375,7 +375,7 @@ namespace ClientService.Infrastructure.Repositories
 
         }
 
-        public async Task<Result<CommunicationPreferencesBaseDto>> GetClientCommunicationPreferencesAsync(int clientId, int idStructure)
+        public async Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure)
         {
             try
             {
@@ -385,7 +385,7 @@ namespace ClientService.Infrastructure.Repositories
 
                 if (client == null)
                 {
-                    return Result<CommunicationPreferencesBaseDto>.Failure("Client not found");
+                    return Result<GetOptinBaseDto>.Failure("Client not found");
                 }
 
                 // Get the address
@@ -393,7 +393,7 @@ namespace ClientService.Infrastructure.Repositories
                     .FirstOrDefaultAsync(a => a.ClientId == clientId && a.AdresseTypeId == 1);
                 if (Adresse == null)
                 {
-                    return Result<CommunicationPreferencesBaseDto>.Failure("Adress not found");
+                    return Result<GetOptinBaseDto>.Failure("Adress not found");
                 }
 
                 // Check for affiliation
@@ -413,14 +413,14 @@ namespace ClientService.Infrastructure.Repositories
                 }
                 catch (Exception ex)
                 {
-                    return Result<CommunicationPreferencesBaseDto>.Failure("An error occured while getting affiliations preferences: " + ex.Message);
+                    return Result<GetOptinBaseDto>.Failure("An error occured while getting affiliations preferences: " + ex.Message);
                 }
 
-                return Result<CommunicationPreferencesBaseDto>.Success(client.ToClientCommunicationPreferencesDto(Adresse, Affiliation));
+                return Result<GetOptinBaseDto>.Success(client.ToClientOptinDto(Adresse, Affiliation));
             }
             catch (Exception ex)
             {
-                return Result<CommunicationPreferencesBaseDto>.Failure("An error occured while getting communication preferences: " + ex.Message);
+                return Result<GetOptinBaseDto>.Failure("An error occured while getting communication preferences: " + ex.Message);
             }
         }
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)

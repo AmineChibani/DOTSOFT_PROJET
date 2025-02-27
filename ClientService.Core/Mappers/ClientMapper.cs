@@ -10,11 +10,11 @@ namespace ClientService.Core.Mappers
 {
     public static class ClientMapper
     {
-        public static CommunicationPreferencesBaseDto ToClientCommunicationPreferencesDto(
+        public static GetOptinBaseDto ToClientOptinDto(
             this DbClient client, DbClientAdresseComplement adresse, bool affiliate)
         {
 
-            var baseDto = new CommunicationPreferencesBaseDto
+            var baseDto = new GetOptinBaseDto
             {
                 OkPourMailing = client.OkPourMailing != 0,
                 OkPourMailingPartner = client.OkPourMailingPartner != 0,
@@ -27,7 +27,7 @@ namespace ClientService.Core.Mappers
             if (!affiliate) return baseDto;
 
             // Use explicit conversion to FullDto
-            return new CommunicationPreferencesFullDto(baseDto)
+            return new GetOptinFullDto(baseDto)
             {
                 OkPourMailingAff = client.OkPourMailingAff != 0,
                 OkPourSmsAff = client.OkPourSmsAff != 0,

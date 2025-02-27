@@ -50,12 +50,12 @@ namespace ClientService.Core.Services
         public async Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter)
         {
             var result = await _clientRepository.GetClientsAsync(filter);
-            return result;
-            //if (result.Value.Count == 0)
-            //{
-            //    return Result<List<DbClient>>.Success(result.Value);
-            //}
-            //return Result<List<DbClient>>.Success(result.Value);
+            if (!result.IsSuccess)
+            {
+                return Result<PagedResult<ClientDto>>.Failure("No clients found.");
+            }
+
+            return Result<PagedResult<ClientDto>>.Success(result.Value);
         }
 
         public async Task<Result<List<DbParamPays>>> GetAllPays()
@@ -179,14 +179,14 @@ namespace ClientService.Core.Services
             return Result<bool>.Success(result.Value);
         }
 
-        public async Task<Result<CommunicationPreferencesBaseDto>> GetClientCommunicationPreferencesAsync(int clientId, int idStructure)
+        public async Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure)
         {
-            var result = await _clientRepository.GetClientCommunicationPreferencesAsync(clientId,idStructure);
+            var result = await _clientRepository.GetOptin(clientId,idStructure);
             if (!result.IsSuccess)
             {
-                return Result<CommunicationPreferencesBaseDto>.Failure(result.Error!);
+                return Result<GetOptinBaseDto>.Failure(result.Error!);
             }
-            return Result<CommunicationPreferencesBaseDto>.Success(result.Value!);
+            return Result<GetOptinBaseDto>.Success(result.Value!);
         }
 
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
