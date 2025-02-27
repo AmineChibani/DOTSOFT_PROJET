@@ -11,6 +11,7 @@ using ClientService.Core.Dtos;
 using ClientService.Core.Specifications.Clients;
 using ClientService.Core.Dtos;
 using ClientService.Core.Dtos.ClientService.Core.Dtos;
+using ClientService.Infrastructure.Dtos;
 using ClientService.Core.Common.Pagination;
 
 namespace ClientService.Core.Interfaces
@@ -20,8 +21,7 @@ namespace ClientService.Core.Interfaces
         Task<Result<DbClient>> GetClientById(int IdClient);
         Task<Result<List<DbParamPays>>> GetAllPays();
         Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter);
-        Task<DbClient> AddClient(DbClient client);
-
+        Task<int> Create(ClientRequest clientRequest);
         Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request);
 
         Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
@@ -35,6 +35,7 @@ namespace ClientService.Core.Interfaces
 
         Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure);
         Task<Result<List<AvoirResult>>> GetAvoirData(int clientId);
+        Task<List<HistoVentesResult>> GetHistoVentes(int clientId);
     }
 
 }

@@ -14,6 +14,7 @@ using ClientService.Core.Interfaces;
 using ClientService.Core.Mappers;
 using ClientService.Core.Specifications.Clients;
 using ClientService.Infrastructure.Data;
+using ClientService.Infrastructure.Dtos;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -34,20 +35,7 @@ namespace ClientService.Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<DbClient> AddClient(DbClient client)
-        {
-            try
-            {
-                await _appcontext.Clients.AddAsync(client);
-                await _appcontext.SaveChangesAsync();
-                return client;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error adding client to the database");
-                throw;
-            }
-        }
+        
         public async Task<Result<List<DbParamPays>>> GetAllPays()
         {
             try
@@ -466,6 +454,106 @@ namespace ClientService.Infrastructure.Repositories
             {
                 return Result<List<AvoirResult>>.Failure($"Error: {ex.Message}");
             }
+        }
+
+        public async Task<int> Create(ClientRequest clientRequest)
+        {
+            if (clientRequest == null)
+                throw new ArgumentNullException(nameof(clientRequest));
+
+            string code = string.Empty;
+            int value =  _appcontext.GetNextSequenceValue(); 
+
+            DbClient client = new DbClient()
+            {
+                ClientId = value,
+                Prenom = clientRequest.FirstName,
+                Nom = clientRequest.LastName,
+                Nom2 = clientRequest.LastName2,
+                EmployeId = clientRequest.EmployeId != 0 ? clientRequest.EmployeId : (int?)null,
+                OkPourSms = clientRequest.OkPourSms ? (int?)1 : (int?)0,
+                Eticket = clientRequest.Eticket ? (int?)1 : (int?)0,
+                OkPourMailing = clientRequest.OkPourMailing ? (int?)1 : (int?)0,
+                OkPourMailingAff = clientRequest.OkPourMailingAff ? (int?)1 : (int?)0,
+                StructureOriginId = clientRequest.StructureId,
+                OkPourSmsPartner = clientRequest.OkPourSmsPartner ? (int?)1 : (int?)0,
+                Particulier = clientRequest.Particulier ? (int?)1 : (int?)0,
+                OkPourSmsAff = clientRequest.OkPourSmsAff ? (int?)1 : (int?)0,
+                RaisonSociale = clientRequest.RaisonSociale
+            };
+
+            if (clientRequest.TypeVoie.HasValue)
+            {
+                code = await this._appcontext.ParamTypeVoie
+                    .Where(x => x.IdTypeVoie == clientRequest.TypeVoie)
+                    .Select(x => x.Code)
+                    .FirstOrDefaultAsync();
+            }
+
+            if (clientRequest.ClientAdressesRequest != null)
+            {
+                foreach (var clientAdresse in clientRequest.ClientAdressesRequest)
+                {
+                    this._appcontext.ClientAdresses.Add(new DbClientAdresse()
+                    {
+                        Client = client,
+                        AdresseTypeId = clientAdresse.AdresseTypeId,
+                        Adresse1 = clientAdresse.Adresse1,
+                        CpId = clientAdresse.CpId,
+                        PaysId = clientAdresse.PaysId,
+                        CpEtranger = clientAdresse.CpEtranger,
+                        Btqc = clientAdresse.Btqc,
+                        PhoneNumber = clientAdresse.PhoneNumber,
+                        CellPhone = clientAdresse.CellPhone,
+                        Fax = clientAdresse.Fax,
+                        Batesc = clientAdresse.Batesc,
+                        VilleEtranger = clientAdresse.VilleEtranger,
+                        TypeVoie = code
+                    });
+                }
+            }
+
+            if (clientRequest.ClientAdresseComplementRequest != null)
+            {
+                foreach (var clientAdresseComplement in clientRequest.ClientAdresseComplementRequest)
+                {
+                    this._appcontext.ClientAdresseComplement.Add(new DbClientAdresseComplement()
+                    {
+                        Client = client,
+                        AdresseTypeId = clientAdresseComplement.AdresseTypeId,
+                        OkPourEnvoiPostal = clientAdresseComplement.OkPourEnvoiPostal ? (int?) 1 : (int?) 0,
+                        OkPourEnvoiPostalAff = clientAdresseComplement.OkPourEnvoiPostalAff ? (int?) 1 : (int?) 0,
+                        OkPourEnvoiPostalPartner = clientAdresseComplement.OkPourEnvoiPostalPartner ? (int?)1 : (int?) 0 
+                    });
+                }
+            }
+
+            if (clientRequest.ClientOptinRequest != null)
+            {
+                this._appcontext.ClientOptin.Add(new DbClientOptin()
+                {
+                    ClientId = client.ClientId,
+                    DateAffOptinEmail = clientRequest.ClientOptinRequest.DateAffOptinEmail,
+                    DateAffOptinPostal = clientRequest.ClientOptinRequest.DateAffOptinPostal,
+                    DateAffOptinSms = clientRequest.ClientOptinRequest.DateAffOptinSms,
+                    DateOptinEmail = clientRequest.ClientOptinRequest.DateOptinEmail,
+                    DateOptinPostal = clientRequest.ClientOptinRequest.DateOptinPostal,
+                    DateOptinSms = clientRequest.ClientOptinRequest.DateOptinSms,
+                    DatePartnerOptinEmail = clientRequest.ClientOptinRequest.DatePartnerOptinEmail,
+                    DatePartnerOptinPostal = clientRequest.ClientOptinRequest.DatePartnerOptinPostal,
+                    DatePartnerOptinSms = clientRequest.ClientOptinRequest.DatePartnerOptinSms
+                });
+            }
+
+            _appcontext.Clients.Add(client);
+            await _appcontext.SaveChangesAsync();
+
+            return client.ClientId;
+        }
+
+        public Task<List<HistoVentesResult>> GetHistoVentes(int clientId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

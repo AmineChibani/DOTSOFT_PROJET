@@ -55,52 +55,18 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddClient([FromBody] AddClientDto newClientDto)
-        //{
-        //    if (!ModelState.IsValid) return BadRequest(ModelState);
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ClientRequest newClient) 
+        { 
+            int clientId = await _clientService.Create(newClient);
+            return CreatedAtAction(
+                          nameof(GetClientById),  // The action name to get the client by ID
+                          new { id = clientId },  // The route parameters required by the action
+                          new { ClientId = clientId }  // The body of the response, typically the client data or an ID
+                      );
+        }
 
-        //    //Mapp Dto to  DbClient entity
-        //    DbClient newClient = new DbClient
-        //    {
-        //        Prenom = newClientDto.Prenom,
-        //        Nom = newClientDto.Nom,
-        //        Nom2 = newClientDto.Nom2,
-        //        TitreId = newClientDto.TitreId,
-        //        BirthdayDate = newClientDto.BirthdayDate,
-        //        Mail = newClientDto.Mail,
-        //        Fdate = newClientDto.Fdate,
-        //        PointsNumber = newClientDto.PointsNumber,
-        //        IdTypeClient = newClientDto.IdTypeClient,
-        //        Particulier = newClientDto.Particulier,
-        //        StructureId = newClientDto.StructureId,
-        //        PourMailing = newClientDto.PourMailing,
-        //        Mailing = newClientDto.Mailing,
-        //        OkPourMailing = newClientDto.OkPourMailing,
-        //        PremierAchatPlus = newClientDto.PremierAchatPlus,
-        //        EmployeId = newClientDto.EmployeId,
-        //        EmployeIdModification = newClientDto.EmployeIdModification,
-        //        FDateModification = newClientDto.FDateModification,
-        //        Commentaire = newClientDto.Commentaire,
-        //        Interets = newClientDto.Interets,
-        //        CodeExterne = newClientDto.CodeExterne,
-        //        NumClient = newClientDto.NumClient,
-        //        OkPourSms = newClientDto.OkPourSms,
-        //        OkPourSmsAff = newClientDto.OkPourSmsAff,
-        //        OkPourMailingPartner = newClientDto.OkPourSmsAff,
-        //        OkPourSmsPartner = newClientDto.OkPourSmsAff,
-        //        OkPourMailingAff = newClientDto.OkPourSmsAff,
-        //        Eticket = newClientDto.Eticket,
-        //        WebType = newClientDto.WebType,
-        //        RaisonSociale = newClientDto.RaisonSociale,
-        //        LivrRaisonSociale = newClientDto.LivrRaisonSociale
-        //    };
-
-        //    var Client = await _clientService.AddClient(newClient);
-        //    return CreatedAtAction(nameof(GetClientById), new { id = newClient.Nom }, newClient);
-        //}
-
-        [HttpGet("clients/addresses/{clientId}")]
+    [HttpGet("clients/addresses/{clientId}")]
         public async Task<IActionResult> GetClientAddresses(int clientId)
         {
             var result = await _clientService.GetAddressesByClientId(clientId);
