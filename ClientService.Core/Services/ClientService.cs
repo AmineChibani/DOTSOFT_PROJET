@@ -180,14 +180,14 @@ namespace ClientService.Core.Services
             return Result<bool>.Success(result.Value);
         }
 
-        public async Task<Result<CommunicationPreferencesBaseDto>> GetClientCommunicationPreferencesAsync(int clientId, int idStructure)
+        public async Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure)
         {
-            var result = await _clientRepository.GetClientCommunicationPreferencesAsync(clientId,idStructure);
+            var result = await _clientRepository.GetOptin(clientId,idStructure);
             if (!result.IsSuccess)
             {
-                return Result<CommunicationPreferencesBaseDto>.Failure(result.Error!);
+                return Result<GetOptinBaseDto>.Failure(result.Error!);
             }
-            return Result<CommunicationPreferencesBaseDto>.Success(result.Value!);
+            return Result<GetOptinBaseDto>.Success(result.Value!);
         }
 
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)

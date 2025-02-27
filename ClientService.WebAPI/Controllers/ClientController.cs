@@ -194,10 +194,10 @@ namespace ClientService.WebAPI.Controllers
         }
 
 
-        [HttpGet("CommunicationPreferences/{idClient}/{idStructure}")]
-        public async Task<IActionResult> GetClientCommunicationPreferences([FromRoute] int idClient, [FromRoute] int idStructure)
+        [HttpGet("GetOptin/{idClient}/{idStructure}")]
+        public async Task<IActionResult> GetOptin([FromRoute] int idClient, [FromRoute] int idStructure)
         { 
-            var result = await _clientService.GetClientCommunicationPreferencesAsync(idClient,idStructure);
+            var result = await _clientService.GetOptin(idClient,idStructure);
             if (!result.IsSuccess)
             {
                 return result.Error!.Contains("not found") ?

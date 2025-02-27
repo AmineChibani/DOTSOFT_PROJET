@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClientService.Core.Dtos
 {
-    public class CommunicationPreferencesBaseDto
+    public class GetOptinBaseDto
     {
         public bool OkPourMailing { get; set; }
         public bool OkPourMailingPartner { get; set; }
@@ -15,8 +15,8 @@ namespace ClientService.Core.Dtos
         public bool OkPourEnvoiPostal { get; set; }
         public bool OkPourEnvoiPostalPartner { get; set; }
 
-        public CommunicationPreferencesBaseDto() { }
-        public CommunicationPreferencesBaseDto(CommunicationPreferencesBaseDto baseDto)
+        public GetOptinBaseDto() { }
+        public GetOptinBaseDto(GetOptinBaseDto baseDto)
         {
             OkPourMailing = baseDto.OkPourMailing;
             OkPourMailingPartner = baseDto.OkPourMailingPartner;
@@ -27,14 +27,14 @@ namespace ClientService.Core.Dtos
         }
     }
 
-    public class CommunicationPreferencesFullDto : CommunicationPreferencesBaseDto
+    public class GetOptinFullDto : GetOptinBaseDto
     {
         public bool OkPourMailingAff { get; set; }
         public bool OkPourSmsAff { get; set; }
         public bool OkPourEnvoiPostalAff { get; set; }
 
-        public CommunicationPreferencesFullDto() { }
-        public CommunicationPreferencesFullDto(CommunicationPreferencesBaseDto baseDto)
+        public GetOptinFullDto() { }
+        public GetOptinFullDto(GetOptinBaseDto baseDto)
             : base(baseDto) { }
     }
 
