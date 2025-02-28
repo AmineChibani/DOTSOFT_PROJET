@@ -37,7 +37,7 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet("{clientId}")]
+        [HttpGet("GetClientById/{clientId}")]
         public async Task<IActionResult> GetClientById([FromRoute] int clientId)
         {
             var client = await _clientService.GetClientById(clientId);
@@ -48,7 +48,7 @@ namespace ClientService.WebAPI.Controllers
             return Ok(client.Value);
         }
 
-        [HttpGet]
+        [HttpGet("GetClients")]
         public async Task<IActionResult> GetClients([FromQuery] ClientFilter filter)
         {
             var result = await _clientService.GetClientsAsync(filter);
@@ -66,10 +66,10 @@ namespace ClientService.WebAPI.Controllers
                       );
         }
 
-    [HttpGet("clients/addresses/{clientId}")]
-        public async Task<IActionResult> GetClientAddresses(int clientId)
+    [HttpGet("clients/GetAddresses/{clientId}/{codelibelle}")]
+        public async Task<IActionResult> GetClientAddresses([FromRoute]int clientId, [FromRoute] int codelibelle)
         {
-            var result = await _clientService.GetAddressesByClientId(clientId);
+            var result = await _clientService.GetAddressesByClientId(clientId, codelibelle);
             if (!result.IsSuccess)
             {
                 return result.Error!.Contains("not found") ?

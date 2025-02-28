@@ -25,7 +25,7 @@ namespace ClientService.Core.Interfaces
         Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter);
         Task<Result<List<DbParamPays>>> GetAllPays();
         Task<Result<List<VenteResult>>> GetVentesNationalesAsync(VenteRequest request);
-        Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId);
+        Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId, int libelleCode);
         Task<Result<int>> Duplicate(int clientId, int adressTypeId);
         Task<Result<IEnumerable<CAResult>>> GetCAAsync(CARequest request);
         Task<Result<List<CspDto>>> GetCSPs();

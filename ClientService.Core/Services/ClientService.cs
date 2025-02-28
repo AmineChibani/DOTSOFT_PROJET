@@ -68,14 +68,14 @@ namespace ClientService.Core.Services
             return Result<List<DbParamPays>>.Success(result.Value);
         }
 
-        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
+        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId, int libelleCode)
         {
             if (clientId <= 0)
             {
                 return Result<List<ClientAddressDetailsDto>>.Failure("Invalid client ID provided");
             }
 
-            var result = await _clientRepository.GetAddressesByClientId(clientId);
+            var result = await _clientRepository.GetAddressesByClientId(clientId, libelleCode);
             if (!result.IsSuccess)
             {
                 return Result<List<ClientAddressDetailsDto>>.Failure(result.Error);

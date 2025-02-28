@@ -45,7 +45,7 @@ namespace ClientService.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error fetching pays", ex.Message);
+                _logger.LogError("Error fetching pays"+ ex.Message);
                 return Result<List<DbParamPays>>.Failure(ex.Message);
             }
         }
@@ -124,7 +124,7 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId)
+        public async Task<Result<List<ClientAddressDetailsDto>>> GetAddressesByClientId(int clientId, int libelleCode)
         {
             try
             {
@@ -134,21 +134,28 @@ namespace ClientService.Infrastructure.Repositories
                     Direction = ParameterDirection.Input,
                     Value = clientId
                 };
+
+                var libelleCodeParam = new OracleParameter("LibelleCode", OracleDbType.Int32)
+                {
+                    Direction = ParameterDirection.Input,
+                    Value = libelleCode
+                };
+
                 var resultParam = new OracleParameter("ResultCursor", OracleDbType.RefCursor)
                 {
                     Direction = ParameterDirection.Output
                 };
 
                 var result = await _appcontext.Set<ClientAddressDetailsDto>()
-                    .FromSqlRaw("BEGIN DOTSOFT.GetClientAddresses(:ClientId, :ResultCursor); END;",
-                        clientIdParam, resultParam)
+                    .FromSqlRaw("BEGIN DOTSOFT.GetClientAddresses(:ClientId, :LibelleCode, :ResultCursor); END;",
+                        clientIdParam, libelleCodeParam, resultParam)
                     .ToListAsync();
 
                 return Result<List<ClientAddressDetailsDto>>.Success(result);
             }
             catch (Exception ex)
             {
-                return Result<List<ClientAddressDetailsDto>>.Failure("Error occured while trying to get Client's adress: " + ex.Message);
+                return Result<List<ClientAddressDetailsDto>>.Failure("Error occurred while trying to get Client's address: " + ex.Message);
             }
         }
 

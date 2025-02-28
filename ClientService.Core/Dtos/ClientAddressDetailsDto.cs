@@ -30,5 +30,7 @@ namespace ClientService.Core.Dtos
         public string? bureau { get; set; }
         public bool eticket { get; set; }
         public bool NPAI { get; set; }
+
+        public string libelle { get; set; }
     }
 }
