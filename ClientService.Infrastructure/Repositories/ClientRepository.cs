@@ -558,9 +558,17 @@ namespace ClientService.Infrastructure.Repositories
             return client.ClientId;
         }
 
-        public Task<List<HistoVentesResult>> GetHistoVentes(int clientId)
+        public async Task<List<HistoVentesResult>> GetHistoVentes(int clientId)
         {
-            throw new NotImplementedException();
+            var clientIdParam = new OracleParameter("p_ClientId", clientId);
+            var refCursorParam = new OracleParameter("p_ResultCursor", OracleDbType.RefCursor);
+            refCursorParam.Direction = System.Data.ParameterDirection.Output;
+
+            var result = await _appcontext.Set<HistoVentesResult>()
+                                           .FromSqlRaw("EXEC DOTSOFT.GET_HISTOVENTES :p_ClientId, :p_ResultCursor", clientIdParam, refCursorParam)
+                                           .ToListAsync();
+
+            return result;
         }
     }
 }

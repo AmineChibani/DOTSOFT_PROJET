@@ -95,6 +95,7 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbProduitFamille> DProduitFamille { get; set; }
         public DbSet<DbCritereBoutiqueStructure> CritereBoutiqueStructure { get; set; }
         public DbSet<AvoirResult> AvoirResults { get; set; }
+        public DbSet<HistoVentesResult> HistoVentes { get; set; }
 
         // Utilise DbUpdateException.Entries pour récupérer les entités en erreur.
         // Valide manuellement les champs obligatoires avant d'enregistrer (SaveChanges()).
@@ -149,6 +150,7 @@ namespace ClientService.Infrastructure.Data
             modelBuilder.Entity<EnCours>().HasNoKey();
             //modelBuilder.Entity<>.HasNoKey();
             modelBuilder.Entity<AvoirResult>().HasNoKey();         
+            modelBuilder.Entity<HistoVentesResult>().HasNoKey();
             //modelBuilder.Entity<DbClient>()
             //.ToTable("CLIENT", "DOTSOFT");
             //modelBuilder.Entity<DbClient>()

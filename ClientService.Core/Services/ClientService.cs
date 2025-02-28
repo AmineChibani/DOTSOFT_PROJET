@@ -230,5 +230,19 @@ namespace ClientService.Core.Services
                 throw new ArgumentException("Last name is required.", nameof(clientRequest.LastName));
 
         }
+
+        public async Task<List<HistoVentesResult>> GetHistoVentes(int clientId)
+        {
+            try
+            {
+          
+                var result = await _clientRepository.GetHistoVentes(clientId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while fetching the sales history.", ex);
+            }
+        }
     }
 }

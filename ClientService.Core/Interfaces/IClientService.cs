@@ -31,7 +31,8 @@ namespace ClientService.Core.Interfaces
         Task<Result<List<CspDto>>> GetCSPs();
         Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);
         Task<Result<bool>> DeleteClient(int idClient);
-        Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure);
         Task<Result<List<AvoirResult>>> GetAvoirData(int clientId);
+        Task<List<HistoVentesResult>> GetHistoVentes(int clientId);
+        Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure);
     }
 }
