@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClientService.Core.Entities
 {
-    [Table("CLIENT_ADRESSE_COMPLEMENT", Schema = "DOTSOFT")]
+    [Table("CLIENT_ADRESSE_COMPLEMENT")]
     public class DbClientAdresseComplement
     {
         [Key]

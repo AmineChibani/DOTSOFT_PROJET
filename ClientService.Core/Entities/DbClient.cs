@@ -12,7 +12,7 @@ namespace ClientService.Core.Entities
 
         [Column("ID_STRUCTURE_ORIGINE")]
         public int? StructureOriginId { get; set; }
-
+        
         [Column("NOM")]
         public string? Nom { get; set; }
 
@@ -121,6 +121,7 @@ namespace ClientService.Core.Entities
         public List<DbClientAdresse> ClientAdresses { get; set; } = new List<DbClientAdresse>();
 
         public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; } = new List<DbClientAdresseComplement>();
+        public List<DbClientOperation> ClientOperation { get; set; } = new List<DbClientOperation>();
 
         public virtual DbClientOptin? ClientOptin { get; set; }
         [ForeignKey("IdTypeClient")]

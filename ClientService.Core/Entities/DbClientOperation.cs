@@ -18,7 +18,7 @@ namespace ClientService.Core.Entities
         public int? IdTypeReglement { get; set; }
 
         [Column("ID_CLIENT")]
-        public int? IdClient { get; set; }
+        public int IdClient { get; set; }
 
         [Column("ID_STRUCTURE")]
         public int? IdStructure { get; set; }
@@ -29,6 +29,10 @@ namespace ClientService.Core.Entities
         [Column("TYPE_DOCUMENT")]
         public string TypeDocument { get; set; }
 
+        
         public virtual DbFactureTypeReglement FactureTypeReglement { get; set; }
+
+        public DbClient Client { get; set; }
+
     }
 }

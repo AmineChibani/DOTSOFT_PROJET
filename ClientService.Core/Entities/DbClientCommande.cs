@@ -25,6 +25,8 @@ namespace ClientService.Core.Entities
         [Column("ID_CLIENT")]
         public long IdClient { get; set; }
 
+        public DbClient Client { get; set; }
+
         [Column("ID_STRUCTURE")]
         public int? IdStructure { get; set; }
 

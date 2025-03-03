@@ -9,6 +9,7 @@ namespace ClientService.Core.Entities
     {
         [Key]
         [Column("ID_CLIENT")]
+        
         [Required]
         public int ClientId { get; set; }
 
