@@ -92,7 +92,7 @@ namespace ClientService.Infrastructure.Data
         public DbSet<DbClientCommandeLigne> ClientCommandeLigne { get; set; }
         public DbSet<DbPlanning> Planning { get; set; }
         public DbSet<DbParamModeEnlevement> ParamModeEnlevement { get; set; }
-        public DbSet<DbProduitFamille> DProduitFamille { get; set; }
+        public DbSet<DbProduitFamille> ProduitFamille { get; set; }
         public DbSet<DbCritereBoutiqueStructure> CritereBoutiqueStructure { get; set; }
         public DbSet<AvoirResult> AvoirResults { get; set; }
         public DbSet<HistoVentesResult> HistoVentes { get; set; }
