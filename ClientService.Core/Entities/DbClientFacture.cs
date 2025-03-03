@@ -15,6 +15,7 @@ namespace ClientService.Core.Entities
         public int IdCommandeC { get; set; }
 
         [Column("ID_CLIENT")]
+        
         public int IdClient { get; set; }
 
         [Column("NUM_FACTURE")]
@@ -46,5 +47,7 @@ namespace ClientService.Core.Entities
         public int? IdStructure { get; set; }
 
         public List<DbClientFactureLigne> ClientFactureLignes { get; set; }
+
+        public DbClient Client { get; set; }
     }
 }

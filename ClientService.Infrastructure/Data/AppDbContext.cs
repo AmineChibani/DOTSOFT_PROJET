@@ -165,12 +165,28 @@ namespace ClientService.Infrastructure.Data
 
             modelBuilder.Entity<ClientAddressDetailsDto>().HasNoKey();
             modelBuilder.Entity<DbDroitsSpeciaux>().HasNoKey();
-            modelBuilder.Entity<DbClient>().HasMany<DbClientAdresse>((Expression<Func<DbClient, IEnumerable<DbClientAdresse>>>)(x => x.ClientAdresses)).WithOne((Expression<Func<DbClientAdresse, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresse, object>>)(x => (object)x.ClientId));
-            modelBuilder.Entity<DbClientFacture>().HasMany<DbClientFactureLigne>((Expression<Func<DbClientFacture, IEnumerable<DbClientFactureLigne>>>)(x => x.ClientFactureLignes)).WithOne((Expression<Func<DbClientFactureLigne, DbClientFacture>>)(x => x.ClientFacture)).HasForeignKey((Expression<Func<DbClientFactureLigne, object>>)(x => (object)x.IdFactureC));
+            modelBuilder.Entity<DbClient>()
+                .HasMany<DbClientAdresse>(x => x.ClientAdresses)
+                .WithOne(x => x.Client)
+                .HasForeignKey(x => x.ClientId)
+                .OnDelete(DeleteBehavior.Cascade); modelBuilder.Entity<DbClientFacture>().HasMany<DbClientFactureLigne>((Expression<Func<DbClientFacture, IEnumerable<DbClientFactureLigne>>>)(x => x.ClientFactureLignes)).WithOne((Expression<Func<DbClientFactureLigne, DbClientFacture>>)(x => x.ClientFacture)).HasForeignKey((Expression<Func<DbClientFactureLigne, object>>)(x => (object)x.IdFactureC));
             modelBuilder.Entity<DbFactureTypeReglement>().HasMany<DbClientOperation>((Expression<Func<DbFactureTypeReglement, IEnumerable<DbClientOperation>>>)(x => x.ClientOperations)).WithOne((Expression<Func<DbClientOperation, DbFactureTypeReglement>>)(x => x.FactureTypeReglement)).HasForeignKey((Expression<Func<DbClientOperation, object>>)(x => (object)x.IdTypeReglement));
-            modelBuilder.Entity<DbClient>().HasOne<DbClientOptin>((Expression<Func<DbClient, DbClientOptin>>)(a => a.ClientOptin)).WithOne((Expression<Func<DbClientOptin, DbClient>>)(b => b.Client)).HasForeignKey<DbClientOptin>((Expression<Func<DbClientOptin, object>>)(x => (object)x.ClientId));
+            modelBuilder.Entity<DbClient>()
+                .HasOne<DbClientOptin>((Expression<Func<DbClient, DbClientOptin>>)(a => a.ClientOptin))
+                .WithOne((Expression<Func<DbClientOptin, DbClient>>)(b => b.Client))
+                .HasForeignKey<DbClientOptin>((Expression<Func<DbClientOptin, object>>)(x => (object)x.ClientId))
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<DbLanguageParamCategSocioProf>().HasMany<DbParamCategSocioProf>((Expression<Func<DbLanguageParamCategSocioProf, IEnumerable<DbParamCategSocioProf>>>)(x => x.DbParamCategSocioProfs)).WithOne((Expression<Func<DbParamCategSocioProf, DbLanguageParamCategSocioProf>>)(x => x.LanguageParamCategSocioPro)).HasForeignKey((Expression<Func<DbParamCategSocioProf, object>>)(x => (object)x.IdCsp));
-            modelBuilder.Entity<DbClient>().HasMany<DbClientAdresseComplement>((Expression<Func<DbClient, IEnumerable<DbClientAdresseComplement>>>)(x => x.ClientAdresseComplement)).WithOne((Expression<Func<DbClientAdresseComplement, DbClient>>)(x => x.Client)).HasForeignKey((Expression<Func<DbClientAdresseComplement, object>>)(x => (object)x.ClientId));
+            modelBuilder.Entity<DbClient>()
+                .HasMany<DbClientAdresseComplement>(x => x.ClientAdresseComplement)
+                .WithOne(x => x.Client)
+                .HasForeignKey(x => x.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<DbClient>()
+            .HasMany<DbClientOperation>(x => x.ClientOperation)
+            .WithOne(x => x.Client)
+            .HasForeignKey(x => x.IdClient)
+            .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<DbClientAdresse>().HasKey((Expression<Func<DbClientAdresse, object>>)(pc => new
             {
                 ClientId = pc.ClientId,
