@@ -244,5 +244,23 @@ namespace ClientService.Core.Services
                 throw new Exception("An error occurred while fetching the sales history.", ex);
             }
         }
+
+        public async Task<List<DbParamRegion>> GetRegions(int? paysId)
+        {
+            if (paysId == null)
+            {
+                _logger.LogWarning("GetRegions called with null paysId.");
+                return new List<DbParamRegion>();
+            }
+
+            var regions = await _clientRepository.GetRegions(paysId);
+
+            if (!regions.Any())
+            {
+                _logger.LogInformation($"No regions found for paysId: {paysId}");
+            }
+
+            return regions;
+        }
     }
 }

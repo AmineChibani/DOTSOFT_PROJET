@@ -648,5 +648,14 @@ namespace ClientService.Infrastructure.Repositories
                 return new List<HistoVentesResult>();
             }
         }
+
+        public async Task<List<DbParamRegion>> GetRegions(int? paysId)
+        {
+            var result = await _appcontext.Regions
+                        .Where(r => r.PaysId == paysId)
+                        .ToListAsync();
+
+            return result;
+        }
     }
 }

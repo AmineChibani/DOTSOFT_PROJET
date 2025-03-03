@@ -201,5 +201,12 @@ namespace ClientService.WebAPI.Controllers
             }
 
         }
+
+        [HttpGet("regions")]
+        public async Task<IActionResult> GetRegions([FromQuery] int? paysId)
+        {
+            var regions = await _clientService.GetRegions(paysId);
+            return Ok(regions);
+        }
     }
 }
