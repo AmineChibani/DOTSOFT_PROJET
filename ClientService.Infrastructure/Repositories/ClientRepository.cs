@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ClientService.Core.Common;
@@ -657,5 +658,32 @@ namespace ClientService.Infrastructure.Repositories
 
             return result;
         }
+
+        public async Task<decimal?> GetMontantCredit(int clientId, int structureId)
+        {
+            // Query MontantCredits: select MontantCredit for the given client and structure.
+            var montantCredits = _appcontext.MontantCredits
+                .Where(p => p.IdStructure == structureId && p.IdClient == clientId)
+                .Select(p => (decimal?)p.MontantCredit);
+
+            // Query ClientOperations: select CompteClient for matching records.
+            var clientOperations = _appcontext.ClientOperations
+                .Where(x => x.IdClient == clientId
+                            && x.IdStructure == structureId
+                            && x.FactureTypeReglement.Comptant == 0
+                            // Note: if your data are historical, consider using <= DateTime.Now.
+                            && x.Fdate > DateTime.Now
+                            && (x.TypeDocument == "S" || x.TypeDocument == "F" ||
+                                x.TypeDocument == "R" || x.TypeDocument == "D" ||
+                                x.TypeDocument == "C"))
+                .Select(x => (decimal?)x.CompteClient);
+
+            var unionQuery = montantCredits.Union(clientOperations);
+            var result = await unionQuery.SumAsync();
+
+            return result;
+        }
+
+
     }
 }

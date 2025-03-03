@@ -32,9 +32,9 @@ namespace ClientService.Core.Services
 
         public async Task<Result<DbClient>> GetClientById(int id)
         {
-            if(id <= 0)
+            if (id <= 0)
             {
-              return Result<DbClient>.Failure("Invalid client ID provided");
+                return Result<DbClient>.Failure("Invalid client ID provided");
 
             }
             var result = await _clientRepository.GetClientById(id);
@@ -45,7 +45,7 @@ namespace ClientService.Core.Services
             return Result<DbClient>.Success(result.Value);
         }
 
-       
+
 
         public async Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter)
         {
@@ -106,7 +106,7 @@ namespace ClientService.Core.Services
             var result = await _clientRepository.GetCSPs();
             if (!result.IsSuccess)
             {
-                return Result<List<CspDto>>.Failure(result.Error); 
+                return Result<List<CspDto>>.Failure(result.Error);
             }
             return Result<List<CspDto>>.Success(result.Value.Select(x => x.toCspDto()).ToList());
         }
@@ -153,7 +153,7 @@ namespace ClientService.Core.Services
 
             if (result.Value.Count == 0)
             {
-                 return Result<List<VenteResult>>.Failure($"No ventes nationales found for the provided criteria");
+                return Result<List<VenteResult>>.Failure($"No ventes nationales found for the provided criteria");
             }
 
             return Result<List<VenteResult>>.Success(result.Value);
@@ -181,7 +181,7 @@ namespace ClientService.Core.Services
 
         public async Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure)
         {
-            var result = await _clientRepository.GetOptin(clientId,idStructure);
+            var result = await _clientRepository.GetOptin(clientId, idStructure);
             if (!result.IsSuccess)
             {
                 return Result<GetOptinBaseDto>.Failure(result.Error!);
@@ -192,7 +192,7 @@ namespace ClientService.Core.Services
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
         {
             if (clientId <= 0)
-            {         
+            {
                 return Result<List<AvoirResult>>.Failure($"Invalid client ID: {clientId}");
             }
 
@@ -261,6 +261,23 @@ namespace ClientService.Core.Services
             }
 
             return regions;
+        }
+
+        public async Task<decimal?> GetMontantCredit(int clientId, int structureId)
+        {
+            if (clientId <= 0 || structureId <= 0)
+            {
+                _logger.LogWarning("Invalid clientId or structureId provided to GetMontantCredit.");
+                return null;
+            }
+
+            var montantCredit = await _clientRepository.GetMontantCredit(clientId, structureId);
+            if (montantCredit == null || montantCredit == 0)
+            {
+                _logger.LogInformation($"No credit records found for clientId: {clientId} and structureId: {structureId}.");
+            }
+
+            return montantCredit;
         }
     }
 }
