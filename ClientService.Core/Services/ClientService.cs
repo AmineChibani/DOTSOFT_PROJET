@@ -261,23 +261,6 @@ namespace ClientService.Core.Services
             }
 
             return regions;
-        }
-
-        public async Task<decimal?> GetMontantCredit(int clientId, int structureId)
-        {
-            if (clientId <= 0 || structureId <= 0)
-            {
-                _logger.LogWarning("Invalid clientId or structureId provided to GetMontantCredit.");
-                return null;
-            }
-
-            var montantCredit = await _clientRepository.GetMontantCredit(clientId, structureId);
-            if (montantCredit == null || montantCredit == 0)
-            {
-                _logger.LogInformation($"No credit records found for clientId: {clientId} and structureId: {structureId}.");
-            }
-
-            return montantCredit;
-        }
+        }  
     }
 }

@@ -132,7 +132,7 @@ namespace ClientService.Infrastructure.Data
             DbConnection dbConnection = this.Database.GetDbConnection();
             using (DbCommand command = dbConnection.CreateCommand())
             {
-                command.CommandText = "select s_client.nextval as id_client from dual";
+                command.CommandText = "SELECT DOTSOFT.S_CLIENT.NEXTVAL FROM DUAL";
                 if (dbConnection.State.Equals((object)ConnectionState.Closed))
                     dbConnection.Open();
                 nextSequenceValue = Convert.ToInt32(command.ExecuteScalar());

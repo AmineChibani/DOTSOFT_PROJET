@@ -59,11 +59,7 @@ namespace ClientService.WebAPI.Controllers
         public async Task<IActionResult> Create([FromBody] ClientRequest newClient)
         {
             int clientId = await _clientService.Create(newClient);
-            return CreatedAtAction(
-                          nameof(GetClientById),
-                          new { id = clientId },
-                          new { ClientId = clientId }
-                      );
+            return StatusCode(201, newClient);
         }
 
         [HttpGet("clients/GetAddresses/{clientId}/{codelibelle}")]
@@ -199,7 +195,6 @@ namespace ClientService.WebAPI.Controllers
             {
                 return StatusCode(500, new { message = "An error occurred while processing your request.", details = ex.Message });
             }
-
         }
 
         [HttpGet("regions")]
