@@ -35,7 +35,7 @@ namespace ClientService.Infrastructure.Repositories
             _logger = logger;
         }
 
-        
+
         public async Task<Result<List<DbParamPays>>> GetAllPays()
         {
             try
@@ -45,7 +45,7 @@ namespace ClientService.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error fetching pays"+ ex.Message);
+                _logger.LogError("Error fetching pays" + ex.Message);
                 return Result<List<DbParamPays>>.Failure(ex.Message);
             }
         }
@@ -433,7 +433,7 @@ namespace ClientService.Infrastructure.Repositories
         public async Task<Result<List<AvoirResult>>> GetAvoirData(int clientId)
         {
             try
-            {          
+            {
                 var clientIdParam = new OracleParameter("ClientId", OracleDbType.Int32)
                 {
                     Value = clientId,
@@ -469,7 +469,7 @@ namespace ClientService.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(clientRequest));
 
             string code = string.Empty;
-            int value =  _appcontext.GetNextSequenceValue(); 
+            int value = _appcontext.GetNextSequenceValue();
 
             DbClient client = new DbClient()
             {
@@ -528,9 +528,9 @@ namespace ClientService.Infrastructure.Repositories
                     {
                         Client = client,
                         AdresseTypeId = clientAdresseComplement.AdresseTypeId,
-                        OkPourEnvoiPostal = clientAdresseComplement.OkPourEnvoiPostal ? (int?) 1 : (int?) 0,
-                        OkPourEnvoiPostalAff = clientAdresseComplement.OkPourEnvoiPostalAff ? (int?) 1 : (int?) 0,
-                        OkPourEnvoiPostalPartner = clientAdresseComplement.OkPourEnvoiPostalPartner ? (int?)1 : (int?) 0 
+                        OkPourEnvoiPostal = clientAdresseComplement.OkPourEnvoiPostal ? (int?)1 : (int?)0,
+                        OkPourEnvoiPostalAff = clientAdresseComplement.OkPourEnvoiPostalAff ? (int?)1 : (int?)0,
+                        OkPourEnvoiPostalPartner = clientAdresseComplement.OkPourEnvoiPostalPartner ? (int?)1 : (int?)0
                     });
                 }
             }
@@ -558,17 +558,95 @@ namespace ClientService.Infrastructure.Repositories
             return client.ClientId;
         }
 
-        public async Task<List<HistoVentesResult>> GetHistoVentes(int clientId)
+        // Service method
+        public async Task<List<HistoVentesResult>> GetHistoVentes(int p_ClientId)
         {
-            var clientIdParam = new OracleParameter("p_ClientId", clientId);
-            var refCursorParam = new OracleParameter("p_ResultCursor", OracleDbType.RefCursor);
-            refCursorParam.Direction = System.Data.ParameterDirection.Output;
+            try
+            {
+                var results = new List<HistoVentesResult>();
 
-            var result = await _appcontext.Set<HistoVentesResult>()
-                                           .FromSqlRaw("EXEC DOTSOFT.GET_HISTOVENTES :p_ClientId, :p_ResultCursor", clientIdParam, refCursorParam)
-                                           .ToListAsync();
+                // Get the connection from your DbContext
+                var connection = _appcontext.Database.GetDbConnection();
+                if (connection.State != ConnectionState.Open)
+                {
+                    await connection.OpenAsync();
+                }
 
-            return result;
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "DOTSOFT.GET_HISTOVENTES";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Add input parameter
+                    var clientIdParam = new OracleParameter("p_ClientId", OracleDbType.Int32);
+                    clientIdParam.Value = p_ClientId;
+                    clientIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(clientIdParam);
+
+                    // Add output cursor parameter
+                    var resultCursorParam = new OracleParameter("p_ResultCursor", OracleDbType.RefCursor);
+                    resultCursorParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(resultCursorParam);
+
+                    // Execute the command and read the results
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            results.Add(new HistoVentesResult
+                            {
+                                IdMessage = reader["id_message"] != DBNull.Value ? Convert.ToInt64(reader["id_message"]) : null,
+                                IdCommandec = reader["id_commandec"] != DBNull.Value ? Convert.ToInt64(reader["id_commandec"]) : null,
+                                NumCommande = reader["num_commande"] as string,
+                                DateCmd = reader["date_cmd"] != DBNull.Value ? Convert.ToDateTime(reader["date_cmd"]) : null,
+                                NumFacture = reader["num_facture"] as string,
+                                TypeAvoir = reader["type_avoir"] != DBNull.Value ? Convert.ToInt32(reader["type_avoir"]) : null,
+                                Avoir = reader["avoir"] != DBNull.Value ? Convert.ToInt32(reader["avoir"]) : null,
+                                IdFacture = reader["id_facture"] != DBNull.Value ? Convert.ToInt64(reader["id_facture"]) : null,
+                                Fdate = reader["fdate"] != DBNull.Value ? Convert.ToDateTime(reader["fdate"]) : null,
+                                MontantFacture = reader["montant_facture"] != DBNull.Value ? Convert.ToDecimal(reader["montant_facture"]) : null,
+                                SerieFacture = reader["serie_facture"] as string,
+                                Quantite = reader["quantite"] != DBNull.Value ? Convert.ToInt32(reader["quantite"]) : null,
+                                MontantProduit = reader["montant_produit"] != DBNull.Value ? Convert.ToDecimal(reader["montant_produit"]) : null,
+                                MontantTotal = reader["montant_total"] != DBNull.Value ? Convert.ToDecimal(reader["montant_total"]) : null,
+                                NomProduit = reader["nom_produit"] as string,
+                                IdFournisseur = reader["id_fournisseur"] != DBNull.Value ? Convert.ToInt64(reader["id_fournisseur"]) : null,
+                                IdBordereau = reader["id_bordereau"] != DBNull.Value ? Convert.ToInt64(reader["id_bordereau"]) : null,
+                                MontantAchat = reader["montant_achat"] != DBNull.Value ? Convert.ToDecimal(reader["montant_achat"]) : null,
+                                MontantTva = reader["montant_tva"] != DBNull.Value ? Convert.ToDecimal(reader["montant_tva"]) : null,
+                                IdClient = reader["id_client"] != DBNull.Value ? Convert.ToInt64(reader["id_client"]) : null,
+                                IdProduit = reader["id_produit"] != DBNull.Value ? Convert.ToInt64(reader["id_produit"]) : null,
+                                CodeReference = reader["code_reference"] as string,
+                                SansMarge = reader["sans_marge"] != DBNull.Value ? Convert.ToInt32(reader["sans_marge"]) : null,
+                                TypeFacture = reader["type_facture"] as string,
+                                Marque = reader["marque"] as string,
+                                IdMarque = reader["id_marque"] != DBNull.Value ? Convert.ToInt64(reader["id_marque"]) : null,
+                                Rayon = reader["rayon"] as string,
+                                Famille = reader["famille"] as string,
+                                IdCouleur = reader["id_couleur"] != DBNull.Value ? Convert.ToInt64(reader["id_couleur"]) : null,
+                                IdTypeProduit = reader["id_type_produit"] != DBNull.Value ? Convert.ToInt64(reader["id_type_produit"]) : null,
+                                NumFactureOrigine = reader["num_facture_origine"] as string,
+                                Sfamille = reader["sfamille"] as string,
+                                IdFamille = reader["id_famille"] != DBNull.Value ? Convert.ToInt64(reader["id_famille"]) : null,
+                                DossierSav = reader["dossier_sav"] != DBNull.Value ? Convert.ToInt32(reader["dossier_sav"]) : null,
+                                ProdSav = reader["prod_sav"] != DBNull.Value ? Convert.ToInt64(reader["prod_sav"]) : null,
+                                IdDossier = reader["id_dossier"] != DBNull.Value ? Convert.ToInt64(reader["id_dossier"]) : null,
+                                TrocAxe1 = reader["troc_axe1"] as string,
+                                TrocAxe2 = reader["troc_axe2"] as string,
+                                CreationPossible = reader["creation_possible"] != DBNull.Value ? Convert.ToInt32(reader["creation_possible"]) : null,
+                                IdDevise = reader["id_devise"] != DBNull.Value ? Convert.ToInt64(reader["id_devise"]) : null
+                            });
+                        }
+                    }
+                }
+
+                return results;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving HistoVentes.");
+                return new List<HistoVentesResult>();
+            }
         }
     }
 }

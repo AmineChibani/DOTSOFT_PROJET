@@ -66,8 +66,8 @@ namespace ClientService.WebAPI.Controllers
                       );
         }
 
-    [HttpGet("clients/GetAddresses/{clientId}/{codelibelle}")]
-        public async Task<IActionResult> GetClientAddresses([FromRoute]int clientId, [FromRoute] int codelibelle)
+        [HttpGet("clients/GetAddresses/{clientId}/{codelibelle}")]
+        public async Task<IActionResult> GetClientAddresses([FromRoute] int clientId, [FromRoute] int codelibelle)
         {
             var result = await _clientService.GetAddressesByClientId(clientId, codelibelle);
             if (!result.IsSuccess)
@@ -159,11 +159,11 @@ namespace ClientService.WebAPI.Controllers
             return Ok(result.Value);
         }
 
-       
+
         [HttpGet("GetOptin/{idClient}/{idStructure}")]
         public async Task<IActionResult> GetOptin([FromRoute] int idClient, [FromRoute] int idStructure)
-        { 
-            var result = await _clientService.GetOptin(idClient,idStructure);
+        {
+            var result = await _clientService.GetOptin(idClient, idStructure);
             if (!result.IsSuccess)
             {
                 return result.Error!.Contains("not found") ?
@@ -199,7 +199,7 @@ namespace ClientService.WebAPI.Controllers
             {
                 return StatusCode(500, new { message = "An error occurred while processing your request.", details = ex.Message });
             }
-        }
 
+        }
     }
 }

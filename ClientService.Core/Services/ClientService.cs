@@ -235,12 +235,12 @@ namespace ClientService.Core.Services
         {
             try
             {
-          
                 var result = await _clientRepository.GetHistoVentes(clientId);
                 return result;
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error getting sales history for client {ClientId}", clientId);
                 throw new Exception("An error occurred while fetching the sales history.", ex);
             }
         }
