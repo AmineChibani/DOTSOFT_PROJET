@@ -35,8 +35,11 @@ namespace ClientService.Core.Interfaces
         Task<List<HistoVentesResult>> GetHistoVentes(int clientId);
         Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure);
         Task<List<DbParamRegion>> GetRegions(int? paysId);
+<<<<<<< HEAD
         Task<Decimal?> GetMontantCredit(int clientId, int structureId);
         Task<bool> UpdateClientAsync(int clientId, ClientRequest request);
 
+=======
+>>>>>>> 3ccff25421474e8d8fef1c39f0943561688fd900
     }
 }

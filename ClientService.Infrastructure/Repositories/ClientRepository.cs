@@ -658,7 +658,6 @@ namespace ClientService.Infrastructure.Repositories
 
             return result;
         }
-
         public async Task<decimal?> GetMontantCredit(int clientId, int structureId)
         {
             // Query MontantCredits: select MontantCredit for the given client and structure.

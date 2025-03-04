@@ -355,5 +355,6 @@ namespace ClientService.Core.Services
             await _clientRepository.UpdateAsync(client);
             return true;
         }
-    }
+        } 
+    
 }
