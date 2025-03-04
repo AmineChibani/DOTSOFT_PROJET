@@ -102,6 +102,8 @@ namespace ClientService.Core.Entities
 
         [Column("ETICKET")]
         public int? Eticket { get; set; }
+        [Column("ID_ATTRIBUTION")]
+        public int? ID_ATTRIBUTION { get; set; }
 
         [Column("WEBTYPE")]
         public int? WebType { get; set; }
