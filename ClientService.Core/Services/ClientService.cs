@@ -15,6 +15,7 @@ using ClientService.Core.Specifications.Clients;
 using ClientService.Infrastructure.Dtos;
 using ClientService.Core.Specifications.Clients;
 using Microsoft.Extensions.Logging;
+using Azure.Core;
 
 namespace ClientService.Core.Services
 {
@@ -278,6 +279,81 @@ namespace ClientService.Core.Services
             }
 
             return montantCredit;
+        }
+
+        public async Task<bool> UpdateClientAsync(int clientId, ClientRequest request)
+        {
+            var client = await _clientRepository.GetClientByIdAsync(clientId);
+            if (client == null)
+            {
+                return false; // Client not found
+            }
+
+            // Update basic client fields
+            client.Prenom = request.FirstName ?? client.Prenom;
+            client.Nom = request.LastName ?? client.Nom;
+            client.Nom2 = request.LastName2 ?? client.Nom2;
+            client.EmployeId = request.EmployeId ?? client.EmployeId;
+            client.RaisonSociale = request.RaisonSociale ?? client.RaisonSociale;
+            client.StructureId = request.StructureId;
+            client.OkPourSms = request.OkPourSms == true ? 1 : 0;
+            client.OkPourMailing = request.OkPourMailing == true ? 1 : 0;
+            client.OkPourMailingAff = request.OkPourMailingAff == true ? 1 : 0;
+            client.OkPourSmsPartner = request.OkPourSmsPartner == true ? 1 : 0;
+            client.OkPourSmsAff = request.OkPourSmsAff == true ? 1 : 0;
+            client.Eticket = request.Eticket == true ? 1 : 0;
+            client.Particulier = request.Particulier == true ? 1 : 0;
+
+            // Update addresses
+            if (request.ClientAdressesRequest != null && request.ClientAdressesRequest.Any())
+            {
+                client.ClientAdresses = request.ClientAdressesRequest.Select(a => new DbClientAdresse
+                {
+                    AdresseTypeId = a.AdresseTypeId,
+                    Adresse1 = a.Adresse1,
+                    CpId = a.CpId,
+                    PaysId = a.PaysId,
+                    CpEtranger = a.CpEtranger,
+                    VilleEtranger = a.VilleEtranger,
+                    Btqc = a.Btqc,
+                    Batesc = a.Batesc,
+                    PhoneNumber = a.PhoneNumber,
+                    CellPhone = a.CellPhone,
+                    Fax = a.Fax
+                }).ToList();
+            }
+
+            // Update address complements
+            if (request.ClientAdresseComplementRequest != null && request.ClientAdresseComplementRequest.Any())
+            {
+                client.ClientAdresseComplement = request.ClientAdresseComplementRequest.Select(c => new DbClientAdresseComplement
+                {
+                    AdresseTypeId = c.AdresseTypeId,
+                    OkPourEnvoiPostal = c.OkPourEnvoiPostal == true ? 1 : 0,
+                    OkPourEnvoiPostalAff = c.OkPourEnvoiPostalAff == true ? 1 : 0,
+                    OkPourEnvoiPostalPartner = c.OkPourEnvoiPostalPartner == true ? 1 : 0
+                }).ToList();
+            }
+
+            // Update client opt-in data
+            if (request.ClientOptinRequest != null)
+            {
+                client.ClientOptin = new DbClientOptin
+                {
+                    DateOptinEmail = request.ClientOptinRequest.DateOptinEmail,
+                    DateOptinPostal = request.ClientOptinRequest.DateOptinPostal,
+                    DateOptinSms = request.ClientOptinRequest.DateOptinSms,
+                    DateAffOptinEmail = request.ClientOptinRequest.DateAffOptinEmail,
+                    DateAffOptinPostal = request.ClientOptinRequest.DateAffOptinPostal,
+                    DateAffOptinSms = request.ClientOptinRequest.DateAffOptinSms,
+                    DatePartnerOptinEmail = request.ClientOptinRequest.DatePartnerOptinEmail,
+                    DatePartnerOptinPostal = request.ClientOptinRequest.DatePartnerOptinPostal,
+                    DatePartnerOptinSms = request.ClientOptinRequest.DatePartnerOptinSms
+                };
+            }
+
+            await _clientRepository.UpdateAsync(client);
+            return true;
         }
     }
 }

@@ -101,13 +101,13 @@ namespace ClientService.Infrastructure.Repositories
                      Email = client.Mail,
                      FirstName = client.Prenom,
                      LastName = client.Nom,
-                     ClientAdresses = client.ClientAdresses.Select(addr => new ClientAdressesDto
-                     {
-                         Address = addr.Adresse1,
-                         City = addr.ParamCodePostal.Commune,
-                         PostalCode = addr.ParamCodePostal.CP,
-                         Country = addr.Pays.Libelle
-                     }).ToList()
+                     //ClientAdresses = client.ClientAdresses.Select(addr => new ClientAdressesDto
+                     //{
+                     //    Address = addr.Adresse1,
+                     //    City = addr.ParamCodePostal.Commune,
+                     //    PostalCode = addr.ParamCodePostal.CP,
+                     //    Country = addr.Pays.Libelle
+                     //}).ToList()
                  })
                  .ToListAsync();
 
@@ -684,6 +684,21 @@ namespace ClientService.Infrastructure.Repositories
             return result;
         }
 
+
+        public async Task<DbClient?> GetClientByIdAsync(int clientId)
+        {
+            return await _appcontext.Clients
+                .Include(c => c.ClientAdresses)
+                .Include(c => c.ClientAdresseComplement)
+                .Include(c => c.ClientOptin)
+                .FirstOrDefaultAsync(c => c.ClientId == clientId);
+        }
+
+        public async Task UpdateAsync(DbClient client)
+        {
+            _appcontext.Clients.Update(client);
+            await _appcontext.SaveChangesAsync();
+        }
 
     }
 }

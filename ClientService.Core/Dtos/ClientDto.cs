@@ -54,10 +54,10 @@ namespace ClientService.Core.Dtos
 
         public int? WebType { get; set; }
 
-        public List<ClientAdressesDto> ClientAdresses { get; set; }
+        //public List<ClientAdressesDto> ClientAdresses { get; set; }
 
-        public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; }
+        //public List<DbClientAdresseComplement> ClientAdresseComplement { get; set; }
 
-        public DbClientOptin ClientOptin { get; set; }
+        //public DbClientOptin ClientOptin { get; set; }
     }
 }
