@@ -684,19 +684,39 @@ namespace ClientService.Infrastructure.Repositories
         }
 
 
-        public async Task<DbClient?> GetClientByIdAsync(int clientId)
+        public async Task<Result<DbClient?>> GetClientByIdAsync(int clientId)
         {
-            return await _appcontext.Clients
+            try
+            {
+                var client = await _appcontext.Clients
                 .Include(c => c.ClientAdresses)
                 .Include(c => c.ClientAdresseComplement)
                 .Include(c => c.ClientOptin)
                 .FirstOrDefaultAsync(c => c.ClientId == clientId);
+                if (client == null)
+                {
+                    return Result<DbClient?>.Failure("Client not found");
+                }
+                return Result<DbClient?>.Success(client);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving client with ID {clientId}");
+                return Result<DbClient?>.Failure("Error retrieving client");
+            }
         }
 
         public async Task UpdateAsync(DbClient client)
         {
-            _appcontext.Clients.Update(client);
-            await _appcontext.SaveChangesAsync();
+            try
+            {
+                _appcontext.Clients.Update(client);
+                await _appcontext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("error updating the client" + ex.Message);
+            }
         }
 
     }

@@ -281,13 +281,15 @@ namespace ClientService.Core.Services
             return montantCredit;
         }
 
-        public async Task<bool> UpdateClientAsync(int clientId, ClientRequest request)
+        public async Task<Result<bool>> UpdateClientAsync(int clientId, ClientRequest request)
         {
-            var client = await _clientRepository.GetClientByIdAsync(clientId);
-            if (client == null)
+            var result = await _clientRepository.GetClientByIdAsync(clientId);
+            if (!result.IsSuccess)
             {
-                return false; // Client not found
+                return Result<bool>.Failure(result.Error!);
             }
+
+            var client = result.Value;
 
             // Update basic client fields
             client.Prenom = request.FirstName ?? client.Prenom;
@@ -353,7 +355,7 @@ namespace ClientService.Core.Services
             }
 
             await _clientRepository.UpdateAsync(client);
-            return true;
+            return Result<bool>.Success(true);
         }
         } 
     

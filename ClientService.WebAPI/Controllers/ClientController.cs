@@ -206,12 +206,14 @@ namespace ClientService.WebAPI.Controllers
         [HttpPut("{clientId}")]
         public async Task<IActionResult> UpdateClient(int clientId, [FromBody] ClientRequest request)
         {
-            var updated = await _clientService.UpdateClientAsync(clientId, request);
-            if (!updated)
+            var result = await _clientService.UpdateClientAsync(clientId, request);
+            if (!result.IsSuccess)
             {
-                return NotFound(new { Message = "Client not found" });
+                return result.Error!.Contains("not found") ?
+                                  NotFound(result.Error) :
+                                  BadRequest(result.Error);
             }
-            return NoContent();
+            return Ok(result.Value);
         }
     }
 }
