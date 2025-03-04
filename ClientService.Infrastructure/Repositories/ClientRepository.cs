@@ -472,6 +472,7 @@ namespace ClientService.Infrastructure.Repositories
             string code = string.Empty;
             int value = _appcontext.GetNextSequenceValue();
 
+            // Create the client entity
             DbClient client = new DbClient()
             {
                 ClientId = value,
@@ -479,32 +480,33 @@ namespace ClientService.Infrastructure.Repositories
                 Nom = clientRequest.LastName,
                 Nom2 = clientRequest.LastName2,
                 EmployeId = clientRequest.EmployeId != 0 ? clientRequest.EmployeId : (int?)null,
-                OkPourSms = clientRequest.OkPourSms ? (int?)1 : (int?)0,
-                Eticket = clientRequest.Eticket ? (int?)1 : (int?)0,
-                OkPourMailing = clientRequest.OkPourMailing ? (int?)1 : (int?)0,
-                OkPourMailingAff = clientRequest.OkPourMailingAff ? (int?)1 : (int?)0,
+                OkPourSms = clientRequest.OkPourSms ? 1 : 0,
+                Eticket = clientRequest.Eticket ? 1 : 0,
+                OkPourMailing = clientRequest.OkPourMailing ? 1 : 0,
+                OkPourMailingAff = clientRequest.OkPourMailingAff ? 1 : 0,
+                StructureId = clientRequest.StructureId,
                 StructureOriginId = clientRequest.StructureId,
-                OkPourSmsPartner = clientRequest.OkPourSmsPartner ? (int?)1 : (int?)0,
-                Particulier = clientRequest.Particulier ? (int?)1 : (int?)0,
-                OkPourSmsAff = clientRequest.OkPourSmsAff ? (int?)1 : (int?)0,
-                RaisonSociale = clientRequest.RaisonSociale
+                OkPourSmsPartner = clientRequest.OkPourSmsPartner ? 1 : 0,
+                OkPourSmsAff = clientRequest.OkPourSmsAff ? 1 : 0,
+                Particulier = clientRequest.Particulier ? 1 : 0,
+                RaisonSociale = clientRequest.RaisonSociale,
+                ID_ATTRIBUTION = clientRequest.ID_ATTRIBUTION,
+                Fdate = DateTime.Now,
+                FDateModification = DateTime.Now
             };
 
-            if (clientRequest.TypeVoie.HasValue)
-            {
-                code = await this._appcontext.ParamTypeVoie
-                    .Where(x => x.IdTypeVoie == clientRequest.TypeVoie)
-                    .Select(x => x.Code)
-                    .FirstOrDefaultAsync();
-            }
+            // First add and save the client to get a valid ClientId
+            _appcontext.Clients.Add(client);
+            await _appcontext.SaveChangesAsync();
 
-            if (clientRequest.ClientAdressesRequest != null)
+            // Add client addresses if provided
+            if (clientRequest.ClientAdressesRequest != null && clientRequest.ClientAdressesRequest.Count > 0)
             {
                 foreach (var clientAdresse in clientRequest.ClientAdressesRequest)
                 {
-                    this._appcontext.ClientAdresses.Add(new DbClientAdresse()
+                    var address = new DbClientAdresse()
                     {
-                        Client = client,
+                        ClientId = client.ClientId,
                         AdresseTypeId = clientAdresse.AdresseTypeId,
                         Adresse1 = clientAdresse.Adresse1,
                         CpId = clientAdresse.CpId,
@@ -517,28 +519,32 @@ namespace ClientService.Infrastructure.Repositories
                         Batesc = clientAdresse.Batesc,
                         VilleEtranger = clientAdresse.VilleEtranger,
                         TypeVoie = code
-                    });
+                    };
+                    _appcontext.ClientAdresses.Add(address);
                 }
             }
 
-            if (clientRequest.ClientAdresseComplementRequest != null)
+            // Add client address complements if provided
+            if (clientRequest.ClientAdresseComplementRequest != null && clientRequest.ClientAdresseComplementRequest.Count > 0)
             {
                 foreach (var clientAdresseComplement in clientRequest.ClientAdresseComplementRequest)
                 {
-                    this._appcontext.ClientAdresseComplement.Add(new DbClientAdresseComplement()
+                    var complement = new DbClientAdresseComplement()
                     {
-                        Client = client,
+                        ClientId = client.ClientId,
                         AdresseTypeId = clientAdresseComplement.AdresseTypeId,
-                        OkPourEnvoiPostal = clientAdresseComplement.OkPourEnvoiPostal ? (int?)1 : (int?)0,
-                        OkPourEnvoiPostalAff = clientAdresseComplement.OkPourEnvoiPostalAff ? (int?)1 : (int?)0,
-                        OkPourEnvoiPostalPartner = clientAdresseComplement.OkPourEnvoiPostalPartner ? (int?)1 : (int?)0
-                    });
+                        OkPourEnvoiPostal = clientAdresseComplement.OkPourEnvoiPostal ? 1 : 0,
+                        OkPourEnvoiPostalAff = clientAdresseComplement.OkPourEnvoiPostalAff ? 1 : 0,
+                        OkPourEnvoiPostalPartner = clientAdresseComplement.OkPourEnvoiPostalPartner ? 1 : 0
+                    };
+                    _appcontext.ClientAdresseComplement.Add(complement);
                 }
             }
 
+            // Add client optin if provided
             if (clientRequest.ClientOptinRequest != null)
             {
-                this._appcontext.ClientOptin.Add(new DbClientOptin()
+                var optin = new DbClientOptin()
                 {
                     ClientId = client.ClientId,
                     DateAffOptinEmail = clientRequest.ClientOptinRequest.DateAffOptinEmail,
@@ -550,14 +556,23 @@ namespace ClientService.Infrastructure.Repositories
                     DatePartnerOptinEmail = clientRequest.ClientOptinRequest.DatePartnerOptinEmail,
                     DatePartnerOptinPostal = clientRequest.ClientOptinRequest.DatePartnerOptinPostal,
                     DatePartnerOptinSms = clientRequest.ClientOptinRequest.DatePartnerOptinSms
-                });
+                };
+                _appcontext.ClientOptin.Add(optin);
             }
 
-            _appcontext.Clients.Add(client);
-            await _appcontext.SaveChangesAsync();
+            try
+            {
+                await _appcontext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving related entities: {ex.Message}");
+                throw;
+            }
 
             return client.ClientId;
         }
+
 
         // Service method
         public async Task<List<HistoVentesResult>> GetHistoVentes(int p_ClientId)
