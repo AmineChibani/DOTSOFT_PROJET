@@ -101,13 +101,13 @@ namespace ClientService.Infrastructure.Repositories
                      Email = client.Mail,
                      FirstName = client.Prenom,
                      LastName = client.Nom,
-                     ClientAdresses = client.ClientAdresses.Select(addr => new ClientAdressesDto
-                     {
-                         Address = addr.Adresse1,
-                         City = addr.ParamCodePostal.Commune,
-                         PostalCode = addr.ParamCodePostal.CP,
-                         Country = addr.Pays.Libelle
-                     }).ToList()
+                     //ClientAdresses = client.ClientAdresses.Select(addr => new ClientAdressesDto
+                     //{
+                     //    Address = addr.Adresse1,
+                     //    City = addr.ParamCodePostal.Commune,
+                     //    PostalCode = addr.ParamCodePostal.CP,
+                     //    Country = addr.Pays.Libelle
+                     //}).ToList()
                  })
                  .ToListAsync();
 
@@ -673,5 +673,66 @@ namespace ClientService.Infrastructure.Repositories
 
             return result;
         }
+        public async Task<decimal?> GetMontantCredit(int clientId, int structureId)
+        {
+            // Query MontantCredits: select MontantCredit for the given client and structure.
+            var montantCredits = _appcontext.MontantCredits
+                .Where(p => p.IdStructure == structureId && p.IdClient == clientId)
+                .Select(p => (decimal?)p.MontantCredit);
+
+            // Query ClientOperations: select CompteClient for matching records.
+            var clientOperations = _appcontext.ClientOperations
+                .Where(x => x.IdClient == clientId
+                            && x.IdStructure == structureId
+                            && x.FactureTypeReglement.Comptant == 0
+                            // Note: if your data are historical, consider using <= DateTime.Now.
+                            && x.Fdate > DateTime.Now
+                            && (x.TypeDocument == "S" || x.TypeDocument == "F" ||
+                                x.TypeDocument == "R" || x.TypeDocument == "D" ||
+                                x.TypeDocument == "C"))
+                .Select(x => (decimal?)x.CompteClient);
+
+            var unionQuery = montantCredits.Union(clientOperations);
+            var result = await unionQuery.SumAsync();
+
+            return result;
+        }
+
+
+        public async Task<Result<DbClient?>> GetClientByIdAsync(int clientId)
+        {
+            try
+            {
+                var client = await _appcontext.Clients
+                .Include(c => c.ClientAdresses)
+                .Include(c => c.ClientAdresseComplement)
+                .Include(c => c.ClientOptin)
+                .FirstOrDefaultAsync(c => c.ClientId == clientId);
+                if (client == null)
+                {
+                    return Result<DbClient?>.Failure("Client not found");
+                }
+                return Result<DbClient?>.Success(client);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving client with ID {clientId}");
+                return Result<DbClient?>.Failure("Error retrieving client");
+            }
+        }
+
+        public async Task UpdateAsync(DbClient client)
+        {
+            try
+            {
+                _appcontext.Clients.Update(client);
+                await _appcontext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("error updating the client" + ex.Message);
+            }
+        }
+
     }
 }

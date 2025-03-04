@@ -22,7 +22,6 @@ namespace ClientService.WebAPI.Controllers
         {
             _clientService = clientService;
             _logger = logger;   
-
         }
 
 
@@ -202,6 +201,19 @@ namespace ClientService.WebAPI.Controllers
         {
             var regions = await _clientService.GetRegions(paysId);
             return Ok(regions);
+        }
+
+        [HttpPut("{clientId}")]
+        public async Task<IActionResult> UpdateClient(int clientId, [FromBody] ClientRequest request)
+        {
+            var result = await _clientService.UpdateClientAsync(clientId, request);
+            if (!result.IsSuccess)
+            {
+                return result.Error!.Contains("not found") ?
+                                  NotFound(result.Error) :
+                                  BadRequest(result.Error);
+            }
+            return Ok(result.Value);
         }
     }
 }
