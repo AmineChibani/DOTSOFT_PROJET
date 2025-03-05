@@ -51,25 +51,6 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
-
-        public async Task<Result<DbClient>> GetClientById(int id)
-        {
-            try
-            {
-                var client = await _appcontext.Clients.FindAsync(id);
-                if (client == null)
-                {
-                    return Result<DbClient>.Failure("Client not found");
-                }
-                return Result<DbClient>.Success(client);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error retrieving client with ID {id}");
-                return Result<DbClient>.Failure("Error retrieving client");
-            }
-        }
-
         public async Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter)
         {
             if (filter == null)
@@ -693,6 +674,7 @@ namespace ClientService.Infrastructure.Repositories
                 .Include(c => c.ClientAdresseComplement)
                 .Include(c => c.ClientOptin)
                 .FirstOrDefaultAsync(c => c.ClientId == clientId);
+                Console.WriteLine("This is the client: " + client);
                 if (client == null)
                 {
                     return Result<DbClient?>.Failure("Client not found");
@@ -715,7 +697,7 @@ namespace ClientService.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("error updating the client" + ex.Message);
+                throw new Exception("error updating the client" + ex);
             }
         }
 

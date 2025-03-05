@@ -18,7 +18,6 @@ namespace ClientService.Core.Interfaces
 {
     public interface IClientRepository
     {
-        Task<Result<DbClient>> GetClientById(int IdClient);
         Task<Result<List<DbParamPays>>> GetAllPays();
         Task<Result<PagedResult<ClientDto>>> GetClientsAsync(ClientFilter filter);
         Task<int> Create(ClientRequest clientRequest);
