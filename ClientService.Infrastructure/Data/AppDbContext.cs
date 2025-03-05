@@ -145,12 +145,14 @@ namespace ClientService.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("DOTSOFT");
             modelBuilder.Entity<VenteResult>().HasNoKey();
             modelBuilder.Entity<CAResult>().HasNoKey();
             modelBuilder.Entity<EnCours>().HasNoKey();
             //modelBuilder.Entity<>.HasNoKey();
             modelBuilder.Entity<AvoirResult>().HasNoKey();         
             modelBuilder.Entity<HistoVentesResult>().HasNoKey();
+
             //modelBuilder.Entity<DbClient>()
             //.ToTable("CLIENT", "DOTSOFT");
             //modelBuilder.Entity<DbClient>()

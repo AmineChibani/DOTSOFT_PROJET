@@ -9,10 +9,7 @@ namespace ClientService.Infrastructure.Dtos
         public string? LastName2 { get; set; }
         public int? EmployeId { get; set; }
         public string? RaisonSociale { get; set; }
-
         public int StructureId { get; set; }
-        public int? TypeVoie { get; set; }
-
         public bool OkPourSms { get; set; }
         public bool OkPourMailing { get; set; }
         public bool OkPourMailingAff { get; set; }
@@ -20,11 +17,13 @@ namespace ClientService.Infrastructure.Dtos
         public bool OkPourSmsAff { get; set; }
         public bool Eticket { get; set; }
         public bool Particulier { get; set; }
+        public int? ID_ATTRIBUTION { get; set; }
 
         public List<ClientAdresse> ClientAdressesRequest { get; set; }
         public List<ClientAdresseComplement> ClientAdresseComplementRequest { get; set; }
         public ClientOptinRequest ClientOptinRequest { get; set; }
     }
+
 
     public class ClientAdresse
     {
