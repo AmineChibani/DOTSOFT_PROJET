@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 
 namespace ClientService.Core.Entities
@@ -66,6 +67,7 @@ namespace ClientService.Core.Entities
 
         public virtual DbParamPays Pays { get; set; }
 
+        [JsonIgnore]
         public virtual DbClient Client { get; set; }
 
         public virtual DbParamCodePostal ParamCodePostal { get; set; }

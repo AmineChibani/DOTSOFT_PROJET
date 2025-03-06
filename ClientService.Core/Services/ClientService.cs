@@ -31,19 +31,19 @@ namespace ClientService.Core.Services
             _logger = logger;
         }
 
-        public async Task<Result<DbClient>> GetClientById(int id)
+        public async Task<Result<ClientRequest>> GetClientById(int id)
         {
             if (id <= 0)
             {
-                return Result<DbClient>.Failure("Invalid client ID provided");
+                return Result<ClientRequest>.Failure("Invalid client ID provided");
 
             }
-            var result = await _clientRepository.GetClientById(id);
-            if (!result.IsSuccess)
+            var result = await _clientRepository.GetClientByIdAsync(id);
+            if (!result.IsSuccess || result.Value == null)
             {
-                return Result<DbClient>.Failure("Error finding the client");
+                return Result<ClientRequest>.Failure("Error finding the client");
             }
-            return Result<DbClient>.Success(result.Value);
+            return Result<ClientRequest>.Success(result.Value.ToClientRequest());
         }
 
 
