@@ -644,6 +644,8 @@ namespace ClientService.Infrastructure.Repositories
                 _logger.LogError(ex, "An error occurred while retrieving HistoVentes.");
                 return new List<HistoVentesResult>();
             }
+
+
         }
 
         public async Task<List<DbParamRegion>> GetRegions(int? paysId)

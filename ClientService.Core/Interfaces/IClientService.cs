@@ -32,7 +32,7 @@ namespace ClientService.Core.Interfaces
         Task<Result<List<EnCours>>> GetEnCoursAsync(int idClient, int idStructure);
         Task<Result<bool>> DeleteClient(int idClient);
         Task<Result<List<AvoirResult>>> GetAvoirData(int clientId);
-        Task<List<HistoVentesResult>> GetHistoVentes(int clientId);
+        Task<List<HistoVentesResult>> GetHistoVentes(int p_ClientId);
         Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure);
         Task<List<DbParamRegion>> GetRegions(int? paysId);
 

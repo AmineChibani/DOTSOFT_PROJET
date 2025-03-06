@@ -4,7 +4,7 @@
     {
         public long? IdMessage { get; set; }
         public long? IdCommandec { get; set; }
-        public string? NumCommande { get; set; } 
+        public string? NumCommande { get; set; }
         public DateTime? DateCmd { get; set; }
         public string? NumFacture { get; set; }
         public int? TypeAvoir { get; set; }
@@ -24,7 +24,7 @@
         public decimal? MontantTva { get; set; }
         public long? IdClient { get; set; }
         public long? IdProduit { get; set; }
-        public int? SansMarge { get; set; } 
+        public int? SansMarge { get; set; }
         public string? TypeFacture { get; set; }
         public string? Marque { get; set; }
         public long? IdMarque { get; set; }
@@ -43,4 +43,5 @@
         public int? CreationPossible { get; set; }
         public long? IdDevise { get; set; }
     }
+
 }

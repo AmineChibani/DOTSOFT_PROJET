@@ -33,7 +33,7 @@ namespace ClientService.Core.Interfaces
         Task<Result<bool>> DeleteClient(int idClient);
         Task<Result<GetOptinBaseDto>> GetOptin(int clientId, int idStructure);
         Task<Result<List<AvoirResult>>> GetAvoirData(int clientId);
-        Task<List<HistoVentesResult>> GetHistoVentes(int clientId);
+        Task<List<HistoVentesResult>> GetHistoVentes(int p_ClientId);
         Task<List<DbParamRegion>> GetRegions(int? paysId);
         Task<Result<DbClient?>> GetClientByIdAsync(int clientId);
         Task UpdateAsync(DbClient client);
