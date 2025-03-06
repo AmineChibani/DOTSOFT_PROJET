@@ -690,5 +690,23 @@ namespace ClientService.Infrastructure.Repositories
             }
         }
 
+        public async Task<Result<List<LoyaltyCardDto>>> GetLoyaltyCardInfoAsync(long idCarte)
+        {
+        
+            var result = await _appcontext.Fidilite
+                    .FromSqlRaw(
+                        "BEGIN DOTSOFT.get_loyalty_card_info(:p_id_carte, :p_loyalty_card_cursor); END;",
+                        new OracleParameter("p_id_carte", idCarte),
+                        new OracleParameter
+                        {
+                            ParameterName = "p_loyalty_card_cursor",
+                            Direction = ParameterDirection.Output,
+                            OracleDbType = Oracle.ManagedDataAccess.Client.OracleDbType.RefCursor
+                        })
+                    .ToListAsync();               
+
+            return Result<List<LoyaltyCardDto>>.Success(result);
+        }
+
     }
 }
