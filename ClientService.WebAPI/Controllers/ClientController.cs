@@ -215,5 +215,19 @@ namespace ClientService.WebAPI.Controllers
             }
             return Ok(result.Value);
         }
+
+        [HttpGet("loyalty-card/{idCarte:long}")]
+        public async Task<IActionResult> GetLoyaltyCardInfo(long idCarte)
+        {
+            var result = await _clientService.GetLoyaltyCardInfoAsync(idCarte);
+
+            if (!result.IsSuccess)
+            {
+                return result.Error!.Contains("not found") ?
+                                  NotFound(result.Error) :
+                                  BadRequest(result.Error);
+            }
+            return Ok(result.Value);
+        }
     }
 }

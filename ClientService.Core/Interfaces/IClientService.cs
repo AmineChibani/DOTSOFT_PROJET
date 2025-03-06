@@ -37,6 +37,6 @@ namespace ClientService.Core.Interfaces
         Task<List<DbParamRegion>> GetRegions(int? paysId);
 
         Task<Result<bool>> UpdateClientAsync(int clientId, ClientRequest request);
-
+        Task<Result<List<LoyaltyCardDto>>> GetLoyaltyCardInfoAsync(long idCarte);
     }
 }

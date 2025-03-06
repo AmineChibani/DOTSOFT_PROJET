@@ -339,6 +339,24 @@ namespace ClientService.Core.Services
             await _clientRepository.UpdateAsync(client);
             return Result<bool>.Success(true);
         }
-        } 
-    
+
+        public async Task<Result<List<LoyaltyCardDto>>> GetLoyaltyCardInfoAsync(long idCarte)
+        {
+            try
+            {
+                var result = await _clientRepository.GetLoyaltyCardInfoAsync(idCarte);
+
+                if (!result.IsSuccess || result.Value == null || result.Value.Count == 0)
+                    return Result<List<LoyaltyCardDto>>.Failure($"No loyalty card found with ID: {idCarte}");
+
+                return Result<List<LoyaltyCardDto>>.Success(result.Value);
+            }
+            catch (Exception ex)
+            {
+                return Result<List<LoyaltyCardDto>>.Failure($"Failed to retrieve loyalty card: {ex.Message}");
+            }
+        }
+
+    }
+
 }
